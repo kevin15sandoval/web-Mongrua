@@ -1,0 +1,35 @@
+# WordPress
+app/public/wp-config.php
+app/public/.htaccess
+
+# WordPress core files
+app/public/wp-admin/
+app/public/wp-includes/
+app/public/wp-content/uploads/
+app/public/wp-content/upgrade/
+app/public/wp-content/cache/
+
+# Logs
+logs/
+*.log
+
+# Local environment
+local-xdebuginfo.php
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Dependencies
+node_modules/
+vendor/
+
+# Temporary files
+*.tmp
+*.bak
+*.swp
+*~
