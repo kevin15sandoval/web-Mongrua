@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0"
+    xmlns:excerpt="http://wordpress.org/export/1.2/excerpt/"
+    xmlns:content="http://purl.org/rss/1.0/modules/content/"
+    xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+    xmlns:dc="http://purl.org/dc/elements/1.1/"
+    xmlns:wp="http://wordpress.org/export/1.2/">
+  <channel>
+    <title>Mongruas Formación</title>
+    <link>https://mongruas.local</link>
+    <description>Import base for Mongruas Formación</description>
+    <pubDate>2025-10-09</pubDate>
+    <language>es-ES</language>
+    <wp:wxr_version>1.2</wp:wxr_version>
+    <wp:base_site_url>https://mongruas.local</wp:base_site_url>
+    <wp:base_blog_url>https://mongruas.local</wp:base_blog_url>
+
+    <wp:category>
+      <wp:term_id>1001</wp:term_id>
+      <wp:category_nicename>anuncios</wp:category_nicename>
+      <wp:cat_name><![CDATA[Anuncios]]></wp:cat_name>
+      <wp:category_parent></wp:category_parent>
+      <wp:category_description><![CDATA[Publicaciones y novedades de Mongruas Formación]]></wp:category_description>
+    </wp:category>
+
+    <item>
+      <title>Inicio</title>
+      <link>https://mongruas.local/inicio</link>
+      <pubDate>2025-10-09</pubDate>
+      <dc:creator><![CDATA[admin]]></dc:creator>
+      <guid isPermaLink="false">https://mongruas.local/?page_id=10001</guid>
+      <description></description>
+      <content:encoded><![CDATA[
+<h1 style="margin-top:0">Mongruas Formación</h1>
+<p>Formación profesional y maquinaria industrial en Talavera.</p>
+<p>
+<a href="/anuncios" class="button">Ver Anuncios</a>
+&nbsp;&nbsp;
+<a href="/publicar-anuncio" class="button">Publicar Anuncio</a>
+</p>
+<h2>Nuestros cursos</h2>
+<ul>
+<li>Carretillas elevadoras</li>
+<li>Puente grúa</li>
+<li>CAP / ADR</li>
+<li>PRL</li>
+</ul>
+<h2>Contacto rápido</h2>
+<p>Teléfono / WhatsApp: <strong>Tu número aquí</strong></p>
+]]></content:encoded>
+      <excerpt:encoded><![CDATA[Formación profesional y maquinaria industrial.]]></excerpt:encoded>
+      <wp:post_id>10001</wp:post_id>
+      <wp:post_date>2025-10-09 00:00:00</wp:post_date>
+      <wp:post_date_gmt>2025-10-09 00:00:00</wp:post_date_gmt>
+      <wp:comment_status>closed</wp:comment_status>
+      <wp:ping_status>closed</wp:ping_status>
+      <wp:post_name>inicio</wp:post_name>
+      <wp:status>publish</wp:status>
+      <wp:post_parent>0</wp:post_parent>
+      <wp:menu_order>0</wp:menu_order>
+      <wp:post_type>page</wp:post_type>
+      <wp:post_password></wp:post_password>
+      <wp:is_sticky>0</wp:is_sticky>
+    </item>
+
+    <item>
+      <title>Anuncios</title>
+      <link>https://mongruas.local/anuncios</link>
+      <pubDate>2025-10-09</pubDate>
+      <dc:creator><![CDATA[admin]]></dc:creator>
+      <guid isPermaLink="false">https://mongruas.local/?page_id=10002</guid>
+      <description></description>
+      <content:encoded><![CDATA[
+<h1>Anuncios y Novedades</h1>
+<p>Últimas publicaciones del equipo de Mongruas Formación.</p>
+]]></content:encoded>
+      <excerpt:encoded><![CDATA[Blog de anuncios y novedades.]]></excerpt:encoded>
+      <wp:post_id>10002</wp:post_id>
+      <wp:post_date>2025-10-09 00:00:00</wp:post_date>
+      <wp:post_date_gmt>2025-10-09 00:00:00</wp:post_date_gmt>
+      <wp:comment_status>closed</wp:comment_status>
+      <wp:ping_status>closed</wp:ping_status>
+      <wp:post_name>anuncios</wp:post_name>
+      <wp:status>publish</wp:status>
+      <wp:post_parent>0</wp:post_parent>
+      <wp:menu_order>0</wp:menu_order>
+      <wp:post_type>page</wp:post_type>
+      <wp:is_sticky>0</wp:is_sticky>
+    </item>
+
+    <item>
+      <title>Publicar Anuncio</title>
+      <link>https://mongruas.local/publicar-anuncio</link>
+      <pubDate>2025-10-09</pubDate>
+      <dc:creator><![CDATA[admin]]></dc:creator>
+      <guid isPermaLink="false">https://mongruas.local/?page_id=10003</guid>
+      <description></description>
+      <content:encoded><![CDATA[
+<h1>Publicar anuncio</h1>
+<p>Sube una foto y añade una descripción. Tu anuncio se publicará directamente.</p>
+[wpuf_form id="1"]
+]]></content:encoded>
+      <excerpt:encoded><![CDATA[Formulario para publicar anuncios con imagen y descripción.]]></excerpt:encoded>
+      <wp:post_id>10003</wp:post_id>
+      <wp:post_date>2025-10-09 00:00:00</wp:post_date>
+      <wp:post_date_gmt>2025-10-09 00:00:00</wp:post_date_gmt>
+      <wp:comment_status>closed</wp:comment_status>
+      <wp:ping_status>closed</wp:ping_status>
+      <wp:post_name>publicar-anuncio</wp:post_name>
+      <wp:status>publish</wp:status>
+      <wp:post_parent>0</wp:post_parent>
+      <wp:menu_order>0</wp:menu_order>
+      <wp:post_type>page</wp:post_type>
+      <wp:is_sticky>0</wp:is_sticky>
+    </item>
+
+    <item>
+      <title>Contacto</title>
+      <link>https://mongruas.local/contacto</link>
+      <pubDate>2025-10-09</pubDate>
+      <dc:creator><![CDATA[admin]]></dc:creator>
+      <guid isPermaLink="false">https://mongruas.local/?page_id=10004</guid>
+      <description></description>
+      <content:encoded><![CDATA[
+<h1>Contacto</h1>
+<p>Escríbenos para información o matrículas.</p>
+[wpforms id="1" title="false" description="false"]
+]]></content:encoded>
+      <excerpt:encoded><![CDATA[Formulario de contacto.]]></excerpt:encoded>
+      <wp:post_id>10004</wp:post_id>
+      <wp:post_date>2025-10-09 00:00:00</wp:post_date>
+      <wp:post_date_gmt>2025-10-09 00:00:00</wp:post_date_gmt>
+      <wp:comment_status>closed</wp:comment_status>
+      <wp:ping_status>closed</wp:ping_status>
+      <wp:post_name>contacto</wp:post_name>
+      <wp:status>publish</wp:status>
+      <wp:post_parent>0</wp:post_parent>
+      <wp:menu_order>0</wp:menu_order>
+      <wp:post_type>page</wp:post_type>
+      <wp:is_sticky>0</wp:is_sticky>
+    </item>
+
+  </channel>
+</rss>
