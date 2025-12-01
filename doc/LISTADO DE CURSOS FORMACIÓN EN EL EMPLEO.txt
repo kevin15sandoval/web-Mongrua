@@ -1,0 +1,47 @@
+INCLUIR LISTADO DE CURSOS EN WEB. BOTON DE CAMPUS VIRTUAL.
+TIENE QUE APARECER UN ACCESO CON EL CAMPUS VIRTUAL Y QUE TE LLEVE A LA PÁGINA www.plataformateleformacion.com QUE TIENE NUESTROS LOGOS… YO NO TENGO NI IDEA…
+EN ESTE CASO, SI TIENES DUDAS MEJOR LLAMA A LAS CHICAS DE LA PLATAFORMA 954 502 550 O ME DICES LO QUE TENGO QUE PEDIR, QUE YO ES QUE NO TENGO NI IDEA.. JEJE.
+DAS LAS SIGUIENTES CLAVES Y DICES QUE ERES DE MOGRUAS. 
+45FORMACION
+600MOGRUAS.
+
+FORMACIÓN EN EL EMPLEO. FORMACIÓN BONIFICADA
+www.gruposytem.com
+arriba, zona privada
+entra con claves: usuario: 45formacion contraseña: 600mogruas
+en el punto 4 aparece un enlace pone incluir en su web. 
+
+Copio y pego lo que aparece
+
+1 INFORMACIÓN GENERAL DIRECTORIO
+NOTICIAS
+PUBLICIDAD
+SERVICIOS
+2 PEDIDO LIBROS Solucionarios cuestionarios finales
+3 FORMACIÓN CONTINUA Funcionamiento
+Partes Traseras de Certificados
+4 DPTO I+D Incluir en su web
+Vídeos formativosINCLUIR EN SU WEB 
+ Puntos fundamentales de www.gruposystem.com que usted puede incluir en su web.   1. Acceso a la plataforma desde su web.
+Descargue el siguiente archivo que contiene un documento .html con el código necesario para incluir el formulario de solicitud de usuario y contraseña en su web. La persona o entidad encargada de administrar su web podrá acceder al código HTML del documento descargado, cortarlo y colocarlo en cualquier parte de su web (donde desee que se visualice el formulario de acceso). También puede personalizar el formulario con su imagen corporativa modificando tipos de letra, añadiendo imágenes, etc. Funcionará correctamente siempre y cuando no se modifique el nombre de las variables y la dirección de destino.
+Descargar documento HTML
+
+Otra forma sería incluir en su web un enlace a la siguiente URL: https://www.plataformateleformacion.com
+
+IMPORTANTE: Cualquier otra técnica para la configuración de un acceso desde URL externa está desaconsejado, especialmente el uso de "frame" e "iframe", cuyo uso es incompatible con algunos navegadores y herramientas de plataforma.   2. Listado de cursos en su web 
+Tiene a su disposición enlaces donde se incluye el listado de cursos elearning sin ningún tipo de personalización. Podrá aprovechar estos listados neutros para enlazar su web con el listado de cursos elearning y a distancia de la forma que crea más conveniente.
+Listado cursos elearning:
+https://www.plataformateleformacion.com/lcursos/cursos_elearning.php
+
+Listado cursos elearning de competencias profesionales:
+https://www.plataformateleformacion.com/lcursos/cursos_certificados.php
+
+Listado de libros:
+https://www.plataformateleformacion.com/lcursos/libros.php   3. Descargar listado de cursos 
+Dispone de enlaces que le permiten descargar el listado de cursos de gruposystem.com para facilitar el desarrollo personal de catálogos, listados web, etc.
+Listado cursos elearning: 
+Cursos generales en plataforma teleformación: Listado para copiar y pegar en formato excel o similar - Formato XML
+Cursos generales en tutorfreelance: Listado para copiar y pegar en formato excel o similar - Formato XML
+Competencias profesionales en plataforma teleformación: Listado para copiar y pegar en formato excel o similar - Formato XML
+Competencias profesionales en tutorfreelance: Listado para copiar y pegar en formato excel o similar - Formato XML 
+IMPORTANTE: La oferta formativa sufre continuas modificaciones (cursos nuevos, actualización de temarios, etc). Los listados están actualizados en el momento de su descarga pero cualquier desarrollo externo basado en dichos listados deberá ser periódicamente actualizado por sus desarrolladores para garantizar la vigencia de todos los contenidos.
