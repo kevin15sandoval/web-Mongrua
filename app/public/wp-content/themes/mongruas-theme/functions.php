@@ -126,3 +126,68 @@ if (function_exists('acf_add_options_page')) {
 if (!current_user_can('administrator') && !is_admin()) {
     show_admin_bar(false);
 }
+
+
+/**
+ * Handle Contact Form Submission
+ */
+function mongruas_handle_contact_form() {
+    // Verify nonce
+    if (!isset($_POST['contact_form_nonce']) || !wp_verify_nonce($_POST['contact_form_nonce'], 'mongruas_contact_form')) {
+        wp_send_json_error(array('message' => 'Security check failed'));
+        return;
+    }
+
+    // Sanitize and validate inputs
+    $name = sanitize_text_field($_POST['contact_name']);
+    $email = sanitize_email($_POST['contact_email']);
+    $phone = sanitize_text_field($_POST['contact_phone']);
+    $consultation_type = sanitize_text_field($_POST['consultation_type']);
+    $company = isset($_POST['contact_company']) ? sanitize_text_field($_POST['contact_company']) : '';
+    $message = sanitize_textarea_field($_POST['contact_message']);
+
+    // Validate required fields
+    if (empty($name) || empty($email) || empty($phone) || empty($consultation_type)) {
+        wp_send_json_error(array('message' => 'Please fill all required fields'));
+        return;
+    }
+
+    // Validate email
+    if (!is_email($email)) {
+        wp_send_json_error(array('message' => 'Invalid email address'));
+        return;
+    }
+
+    // Prepare email
+    $to = get_option('admin_email');
+    $subject = 'Nueva solicitud de información - ' . get_bloginfo('name');
+    
+    $email_message = "Nueva solicitud de información:\n\n";
+    $email_message .= "Nombre: $name\n";
+    $email_message .= "Email: $email\n";
+    $email_message .= "Teléfono: $phone\n";
+    $email_message .= "Tipo de consulta: $consultation_type\n";
+    if (!empty($company)) {
+        $email_message .= "Empresa: $company\n";
+    }
+    if (!empty($message)) {
+        $email_message .= "\nMensaje:\n$message\n";
+    }
+
+    $headers = array(
+        'Content-Type: text/plain; charset=UTF-8',
+        'From: ' . get_bloginfo('name') . ' <' . get_option('admin_email') . '>',
+        'Reply-To: ' . $name . ' <' . $email . '>'
+    );
+
+    // Send email
+    $sent = wp_mail($to, $subject, $email_message, $headers);
+
+    if ($sent) {
+        wp_send_json_success(array('message' => 'Form submitted successfully'));
+    } else {
+        wp_send_json_error(array('message' => 'Failed to send email'));
+    }
+}
+add_action('wp_ajax_mongruas_submit_form', 'mongruas_handle_contact_form');
+add_action('wp_ajax_nopriv_mongruas_submit_form', 'mongruas_handle_contact_form');

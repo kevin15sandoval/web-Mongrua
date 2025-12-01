@@ -17,9 +17,13 @@
   - Test theme registration and activation
 
 
+
   - Test script and style enqueuing
   - Test ACF field group registration
   - _Requirements: 7.1_
+
+
+
 
 - [ ] 2. Create landing page template and basic structure
   - Create page-templates/landing-page.php template file
@@ -28,16 +32,19 @@
   - Set up template parts directory structure
   - _Requirements: 1.1, 2.1, 3.1_
 
+
 - [ ] 3. Implement hero section component
 - [ ] 3.1 Create hero section template part
   - Build hero-section.php with HTML structure
   - Implement ACF fields for hero content (headline, subheadline, background, CTAs)
   - Add background image/video support with overlay
+
   - Implement responsive typography
   - _Requirements: 1.1, 1.2, 1.3, 1.4_
 
 - [ ] 3.2 Add hero section styling
   - Write CSS for full-viewport hero layout
+
   - Implement background image/video styling with overlay
   - Style CTA buttons with hover effects
   - Add responsive breakpoints for mobile/tablet

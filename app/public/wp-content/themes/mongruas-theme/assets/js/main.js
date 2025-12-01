@@ -209,3 +209,76 @@
     });
 
 })(jQuery);
+
+
+    /**
+     * Testimonials Carousel
+     */
+    function initTestimonialsCarousel() {
+        const carousel = $('.testimonials-carousel');
+        if (!carousel.length) return;
+
+        const items = carousel.find('.testimonial-item');
+        const dotsContainer = carousel.find('.carousel-dots');
+        let currentIndex = 0;
+        let autoplayInterval;
+
+        // Create dots
+        items.each(function(index) {
+            const dot = $('<button>')
+                .addClass('carousel-dot')
+                .attr('aria-label', 'Go to testimonial ' + (index + 1))
+                .on('click', function() {
+                    showTestimonial(index);
+                });
+            if (index === 0) dot.addClass('active');
+            dotsContainer.append(dot);
+        });
+
+        function showTestimonial(index) {
+            items.hide().eq(index).fadeIn(300);
+            $('.carousel-dot').removeClass('active').eq(index).addClass('active');
+            currentIndex = index;
+        }
+
+        // Navigation buttons
+        carousel.find('.carousel-nav.prev').on('click', function() {
+            const newIndex = (currentIndex - 1 + items.length) % items.length;
+            showTestimonial(newIndex);
+            resetAutoplay();
+        });
+
+        carousel.find('.carousel-nav.next').on('click', function() {
+            const newIndex = (currentIndex + 1) % items.length;
+            showTestimonial(newIndex);
+            resetAutoplay();
+        });
+
+        // Autoplay
+        function startAutoplay() {
+            autoplayInterval = setInterval(function() {
+                const newIndex = (currentIndex + 1) % items.length;
+                showTestimonial(newIndex);
+            }, 5000);
+        }
+
+        function resetAutoplay() {
+            clearInterval(autoplayInterval);
+            startAutoplay();
+        }
+
+        startAutoplay();
+
+        // Pause on hover
+        carousel.on('mouseenter', function() {
+            clearInterval(autoplayInterval);
+        }).on('mouseleave', function() {
+            startAutoplay();
+        });
+    }
+
+    // Add to document ready
+    $(document).ready(function() {
+        // ... existing code ...
+        initTestimonialsCarousel();
+    });
