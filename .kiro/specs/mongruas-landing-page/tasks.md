@@ -3,6 +3,7 @@
 - [x] 1. Set up WordPress theme structure and dependencies
 
 
+
   - Create custom theme directory structure with all necessary files
   - Set up functions.php with theme support and enqueue scripts
   - Install and configure Advanced Custom Fields (ACF) Pro
@@ -14,6 +15,8 @@
 
 - [ ] 1.1 Write unit tests for theme setup functions
   - Test theme registration and activation
+
+
   - Test script and style enqueuing
   - Test ACF field group registration
   - _Requirements: 7.1_
