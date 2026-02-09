@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Carrusel Debug</title>
+    <script>
+        // Esperar a que la página cargue
+        window.addEventListener('load', function() {
+            console.log('=== DIAGNÓSTICO DEL CARRUSEL ===');
+            
+            // Buscar elementos
+            const track = document.getElementById('modernCarouselTrack');
+            const prevBtn = document.getElementById('modernPrevBtn');
+            const nextBtn = document.getElementById('modernNextBtn');
+            const dots = document.getElementById('modernCarouselDots');
+            
+            console.log('Track encontrado:', !!track);
+            console.log('Prev button encontrado:', !!prevBtn);
+            console.log('Next button encontrado:', !!nextBtn);
+            console.log('Dots encontrado:', !!dots);
+            
+            if (track) {
+                const cards = track.querySelectorAll('.modern-course-card');
+                console.log('Número de tarjetas:', cards.length);
+            }
+            
+            if (prevBtn) {
+                console.log('Prev button disabled:', prevBtn.disabled);
+                console.log('Prev button onclick:', prevBtn.onclick);
+                
+                // Intentar hacer clic manualmente
+                prevBtn.addEventListener('click', function() {
+                    console.log('PREV BUTTON CLICKED!');
+                });
+            }
+            
+            if (nextBtn) {
+                console.log('Next button disabled:', nextBtn.disabled);
+                console.log('Next button onclick:', nextBtn.onclick);
+                
+                // Intentar hacer clic manualmente
+                nextBtn.addEventListener('click', function() {
+                    console.log('NEXT BUTTON CLICKED!');
+                });
+            }
+            
+            console.log('=== FIN DIAGNÓSTICO ===');
+        });
+    </script>
+</head>
+<body>
+    <h1>Abre la consola (F12) y luego ve a /anuncios/</h1>
+    <p>Este script te ayudará a diagnosticar el problema del carrusel.</p>
+    <p>Copia este código y pégalo en la consola del navegador cuando estés en /anuncios/:</p>
+    <pre style="background: #f5f5f5; padding: 20px; border-radius: 5px;">
+// Test manual del carrusel
+const nextBtn = document.getElementById('modernNextBtn');
+const prevBtn = document.getElementById('modernPrevBtn');
+
+console.log('Next button:', nextBtn);
+console.log('Prev button:', prevBtn);
+console.log('Next disabled:', nextBtn?.disabled);
+console.log('Prev disabled:', prevBtn?.disabled);
+
+// Forzar clic
+if (nextBtn) {
+    nextBtn.click();
+    console.log('Click en NEXT ejecutado');
+}
+    </pre>
+</body>
+</html>

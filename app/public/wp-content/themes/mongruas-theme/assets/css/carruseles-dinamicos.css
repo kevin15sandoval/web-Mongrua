@@ -1,0 +1,445 @@
+/**
+ * Estilos para Carruseles Dinámicos WordPress
+ * Sistema completamente integrado y responsive
+ */
+
+/* CARRUSEL DE FOTOS */
+.mongruas-photo-carousel {
+    position: relative;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+    background: #f8f9fa;
+}
+
+.mongruas-photo-carousel .carousel-wrapper {
+    position: relative;
+    overflow: hidden;
+}
+
+.mongruas-photo-carousel .carousel-track {
+    position: relative;
+    width: 100%;
+    height: 450px;
+}
+
+.mongruas-photo-carousel .carousel-slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mongruas-photo-carousel .carousel-slide.active {
+    opacity: 1;
+}
+
+.mongruas-photo-carousel .carousel-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.mongruas-photo-carousel .carousel-caption {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+    color: white;
+    padding: 20px;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.mongruas-photo-carousel .carousel-placeholder {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #e9ecef 0%, #f8f9fa 100%);
+    padding: 40px;
+    text-align: center;
+}
+
+.mongruas-photo-carousel .placeholder-icon {
+    font-size: 60px;
+    margin-bottom: 15px;
+    opacity: 0.5;
+}
+
+.mongruas-photo-carousel .carousel-placeholder h3 {
+    font-size: 22px;
+    font-weight: 700;
+    color: #495057;
+    margin-bottom: 8px;
+}
+
+.mongruas-photo-carousel .carousel-placeholder p {
+    font-size: 14px;
+    color: #6c757d;
+    margin: 0;
+}
+
+.mongruas-photo-carousel .carousel-control {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: white;
+    border: none;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    z-index: 10;
+    color: var(--color-primary, #0066cc);
+}
+
+.mongruas-photo-carousel .carousel-control:hover {
+    background: var(--color-primary, #0066cc);
+    color: white;
+    transform: translateY(-50%) scale(1.1);
+}
+
+.mongruas-photo-carousel .carousel-control.prev {
+    left: 15px;
+}
+
+.mongruas-photo-carousel .carousel-control.next {
+    right: 15px;
+}
+
+.mongruas-photo-carousel .carousel-indicators {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    padding: 15px;
+    background: rgba(0, 0, 0, 0.3);
+}
+
+.mongruas-photo-carousel .carousel-indicator {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.5);
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    padding: 0;
+}
+
+.mongruas-photo-carousel .carousel-indicator:hover {
+    background: rgba(255, 255, 255, 0.8);
+}
+
+.mongruas-photo-carousel .carousel-indicator.active {
+    background: white;
+    width: 24px;
+    border-radius: 5px;
+}
+
+/* CARRUSEL DE CURSOS */
+.mongruas-courses-carousel {
+    position: relative;
+    background: white;
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.mongruas-courses-carousel .courses-wrapper {
+    overflow: hidden;
+}
+
+.mongruas-courses-carousel .courses-track {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    min-height: 450px;
+}
+
+.mongruas-courses-carousel[data-columns="2"] .courses-track {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.mongruas-courses-carousel[data-columns="4"] .courses-track {
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.mongruas-courses-carousel .course-slide {
+    display: none;
+    transition: all 0.5s ease;
+}
+
+.mongruas-courses-carousel .course-slide.visible {
+    display: block;
+    animation: slideInUp 0.5s ease-in-out;
+}
+
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.mongruas-courses-carousel .course-card {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 15px;
+    padding: 25px;
+    color: white;
+    text-align: center;
+    transition: all 0.3s ease;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+}
+
+.mongruas-courses-carousel .course-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+}
+
+.mongruas-courses-carousel .course-image {
+    height: 150px;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 15px;
+}
+
+.mongruas-courses-carousel .course-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.mongruas-courses-carousel .course-image-placeholder {
+    height: 150px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 15px;
+}
+
+.mongruas-courses-carousel .course-icon {
+    font-size: 60px;
+    opacity: 0.7;
+}
+
+.mongruas-courses-carousel .course-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.mongruas-courses-carousel .course-title {
+    font-size: 1.4rem;
+    font-weight: bold;
+    margin-bottom: 15px;
+    line-height: 1.3;
+}
+
+.mongruas-courses-carousel .course-description {
+    font-size: 0.95rem;
+    margin-bottom: 20px;
+    opacity: 0.9;
+    line-height: 1.5;
+    flex: 1;
+}
+
+.mongruas-courses-carousel .course-details {
+    margin-bottom: 20px;
+}
+
+.mongruas-courses-carousel .course-detail {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+}
+
+.mongruas-courses-carousel .detail-label {
+    font-weight: 600;
+    opacity: 0.8;
+}
+
+.mongruas-courses-carousel .detail-value {
+    font-weight: 700;
+}
+
+.mongruas-courses-carousel .course-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: auto;
+}
+
+.mongruas-courses-carousel .btn {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 25px;
+    font-weight: 600;
+    text-decoration: none;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 14px;
+    display: inline-block;
+}
+
+.mongruas-courses-carousel .btn-primary {
+    background: white;
+    color: #667eea;
+}
+
+.mongruas-courses-carousel .btn-primary:hover {
+    background: #f8f9fa;
+    transform: scale(1.05);
+    color: #667eea;
+    text-decoration: none;
+}
+
+.mongruas-courses-carousel .btn-outline {
+    background: transparent;
+    color: white;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+}
+
+.mongruas-courses-carousel .btn-outline:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: white;
+    color: white;
+    text-decoration: none;
+}
+
+.mongruas-courses-carousel .courses-control {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: white;
+    border: none;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+    z-index: 10;
+    color: #667eea;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.mongruas-courses-carousel .courses-control:hover {
+    background: #667eea;
+    color: white;
+    transform: translateY(-50%) scale(1.1);
+}
+
+.mongruas-courses-carousel .courses-control.prev {
+    left: -30px;
+}
+
+.mongruas-courses-carousel .courses-control.next {
+    right: -30px;
+}
+
+.mongruas-courses-carousel .courses-indicators {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 30px;
+}
+
+.mongruas-courses-carousel .courses-indicator {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #dee2e6;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: none;
+    padding: 0;
+}
+
+.mongruas-courses-carousel .courses-indicator.active {
+    background: #667eea;
+    width: 30px;
+    border-radius: 6px;
+}
+
+/* RESPONSIVE */
+@media (max-width: 968px) {
+    .mongruas-photo-carousel .carousel-track {
+        height: 350px;
+    }
+    
+    .mongruas-courses-carousel .courses-track {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+    
+    .mongruas-courses-carousel[data-columns="4"] .courses-track {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .mongruas-courses-carousel .courses-control {
+        width: 50px;
+        height: 50px;
+        font-size: 1.2rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .mongruas-photo-carousel .carousel-track {
+        height: 300px;
+    }
+    
+    .mongruas-photo-carousel .carousel-control {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .mongruas-courses-carousel .courses-track {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    
+    .mongruas-courses-carousel .course-actions {
+        flex-direction: column;
+    }
+    
+    .mongruas-courses-carousel .courses-control.prev {
+        left: 10px;
+    }
+    
+    .mongruas-courses-carousel .courses-control.next {
+        right: 10px;
+    }
+}

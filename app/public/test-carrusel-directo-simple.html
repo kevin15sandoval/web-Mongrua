@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Carrusel - Diagnóstico</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 40px;
+            background: #f5f5f5;
+        }
+        .info-box {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        .success { color: #28a745; font-weight: bold; }
+        .error { color: #dc3545; font-weight: bold; }
+        .warning { color: #ffc107; font-weight: bold; }
+        h1 { color: #2c3e50; }
+        h2 { color: #0066cc; margin-top: 30px; }
+        code {
+            background: #f8f9fa;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+        }
+        .step {
+            background: #e3f2fd;
+            padding: 15px;
+            margin: 10px 0;
+            border-left: 4px solid #0066cc;
+            border-radius: 4px;
+        }
+        button {
+            background: #0066cc;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 10px 5px;
+        }
+        button:hover {
+            background: #0052a3;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔍 Diagnóstico del Carrusel</h1>
+    
+    <div class="info-box">
+        <h2>📋 Estado Actual</h2>
+        <p id="status">Verificando...</p>
+    </div>
+    
+    <div class="info-box">
+        <h2>🛠️ Solución Paso a Paso</h2>
+        
+        <div class="step">
+            <strong>PASO 1:</strong> Limpia la caché del navegador
+            <ul>
+                <li>Presiona <code>Ctrl + Shift + Delete</code></li>
+                <li>O presiona <code>Ctrl + F5</code> para forzar recarga</li>
+            </ul>
+        </div>
+        
+        <div class="step">
+            <strong>PASO 2:</strong> Abre la consola del navegador
+            <ul>
+                <li>Presiona <code>F12</code></li>
+                <li>Ve a la pestaña "Console"</li>
+                <li>Busca errores en rojo</li>
+            </ul>
+        </div>
+        
+        <div class="step">
+            <strong>PASO 3:</strong> Ve a la página principal
+            <ul>
+                <li><button onclick="window.open('http://mongruasformacion.local', '_blank')">🏠 Abrir Página Principal</button></li>
+                <li>Busca la sección "Nuestras Instalaciones"</li>
+                <li>Deberías ver las flechas ‹ y › a los lados</li>
+            </ul>
+        </div>
+        
+        <div class="step">
+            <strong>PASO 4:</strong> Si no ves las flechas, verifica:
+            <ul>
+                <li>¿Hay errores en la consola (F12)?</li>
+                <li>¿Se cargó el JavaScript? (busca "✅ Carrusel inicializado" en la consola)</li>
+                <li>¿Las imágenes se están cargando?</li>
+            </ul>
+        </div>
+    </div>
+    
+    <div class="info-box">
+        <h2>🎯 Acciones Rápidas</h2>
+        <button onclick="window.open('http://mongruasformacion.local', '_blank')">🏠 Ir a Página Principal</button>
+        <button onclick="window.open('http://mongruasformacion.local/CARRUSEL-SIMPLE-FUNCIONAL.html', '_blank')">✅ Ver Carrusel de Prueba (que funciona)</button>
+        <button onclick="location.reload()">🔄 Recargar Esta Página</button>
+    </div>
+    
+    <div class="info-box">
+        <h2>📸 ¿Qué deberías ver?</h2>
+        <p>En la sección "Nuestras Instalaciones" deberías ver:</p>
+        <ul>
+            <li>✅ Una foto grande del centro</li>
+            <li>✅ Dos botones circulares blancos con flechas ‹ y › a los lados</li>
+            <li>✅ Puntos indicadores en la parte inferior</li>
+            <li>✅ La foto cambia automáticamente cada 5 segundos</li>
+            <li>✅ Puedes hacer clic en las flechas para cambiar de foto</li>
+        </ul>
+    </div>
+    
+    <div class="info-box">
+        <h2>❓ ¿Qué ves tú ahora?</h2>
+        <p>Por favor, dime exactamente qué ves:</p>
+        <ul>
+            <li>¿Ves alguna foto?</li>
+            <li>¿Ves las flechas ‹ y ›?</li>
+            <li>¿Ves los puntos indicadores?</li>
+            <li>¿Hay algún error en la consola (F12)?</li>
+        </ul>
+    </div>
+    
+    <script>
+        // Verificar archivos
+        fetch('http://mongruasformacion.local/wp-content/themes/mongruas-theme/template-parts/about-section.php')
+            .then(response => {
+                if (response.ok) {
+                    document.getElementById('status').innerHTML = '<span class="success">✅ El archivo about-section.php existe y es accesible</span>';
+                } else {
+                    document.getElementById('status').innerHTML = '<span class="error">❌ No se puede acceder al archivo about-section.php</span>';
+                }
+            })
+            .catch(error => {
+                document.getElementById('status').innerHTML = '<span class="warning">⚠️ Error al verificar: ' + error.message + '</span>';
+            });
+    </script>
+</body>
+</html>

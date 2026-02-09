@@ -1,0 +1,266 @@
+/**
+ * Estilos para Landing Page Compacta (Anuncios)
+ * Diseño optimizado y profesional
+ * 
+ * @package Mongruas
+ * @since 1.0.0
+ */
+
+/* Espaciado entre secciones */
+.landing-page-compact .section {
+    padding: 70px 0;
+}
+
+/* Tamaños de títulos mejorados */
+.landing-page-compact h1 {
+    font-size: 48px;
+    font-weight: 800;
+    line-height: 1.2;
+}
+
+.landing-page-compact h2 {
+    font-size: 38px;
+    font-weight: 800;
+    line-height: 1.3;
+}
+
+.landing-page-compact h3 {
+    font-size: 26px;
+    font-weight: 700;
+    line-height: 1.3;
+}
+
+.landing-page-compact h4 {
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1.4;
+}
+
+/* Section headings */
+.landing-page-compact .section-heading {
+    margin-bottom: 50px;
+    text-align: center;
+}
+
+.landing-page-compact .section-heading h2 {
+    color: #1a1a1a !important;
+}
+
+.landing-page-compact .section-heading p {
+    font-size: 18px;
+    color: #495057 !important;
+    max-width: 700px;
+    margin: 15px auto 0;
+}
+
+.landing-page-compact .section-header h2,
+.landing-page-compact .section-title {
+    color: #1a1a1a !important;
+}
+
+.landing-page-compact .section-description {
+    color: #495057 !important;
+}
+
+/* Hero optimizado */
+.landing-page-compact .hero-section {
+    min-height: 65vh;
+    padding: 0;
+}
+
+.landing-page-compact .hero-headline {
+    font-size: 52px;
+    font-weight: 900;
+    margin-bottom: 20px;
+}
+
+.landing-page-compact .hero-subheadline {
+    font-size: 20px;
+    margin-bottom: 35px;
+}
+
+/* Social Proof Section */
+.landing-page-compact .social-proof-section {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+}
+
+.landing-page-compact .statistics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 30px;
+    margin-bottom: 60px;
+}
+
+.landing-page-compact .stat-item {
+    text-align: center;
+    padding: 35px 25px;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    transition: all 0.3s ease;
+}
+
+.landing-page-compact .stat-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+}
+
+.landing-page-compact .stat-number {
+    font-size: 48px;
+    font-weight: 900;
+    color: #0066cc;
+    line-height: 1;
+    margin-bottom: 10px;
+}
+
+.landing-page-compact .stat-label {
+    font-size: 16px;
+    color: #495057;
+    font-weight: 600;
+}
+
+/* CTA Section */
+.landing-page-compact .cta-section {
+    background: linear-gradient(135deg, #ff9900 0%, #cc7a00 100%);
+    color: white;
+}
+
+.landing-page-compact .cta-section .section-heading h2,
+.landing-page-compact .cta-section .section-heading p {
+    color: white;
+}
+
+.landing-page-compact .contact-form-wrapper {
+    max-width: 800px;
+    margin: 0 auto;
+    background: white;
+    padding: 50px 45px;
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+}
+
+.landing-page-compact .form-group label {
+    font-size: 15px;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin-bottom: 8px;
+}
+
+.landing-page-compact .form-group input,
+.landing-page-compact .form-group select,
+.landing-page-compact .form-group textarea {
+    font-size: 15px;
+    padding: 14px 18px;
+    border: 2px solid #e0e0e0;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+.landing-page-compact .form-group input:focus,
+.landing-page-compact .form-group select:focus,
+.landing-page-compact .form-group textarea:focus {
+    border-color: #0066cc;
+    box-shadow: 0 0 0 4px rgba(0, 102, 204, 0.1);
+}
+
+.landing-page-compact .btn-primary {
+    width: 100%;
+    padding: 18px;
+    font-size: 18px;
+    font-weight: 700;
+    background: linear-gradient(135deg, #0066cc, #004d99);
+    border: none;
+    border-radius: 50px;
+    box-shadow: 0 6px 20px rgba(0, 102, 204, 0.4);
+    transition: all 0.3s ease;
+}
+
+.landing-page-compact .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 102, 204, 0.5);
+}
+
+/* Responsive */
+@media (max-width: 968px) {
+    .landing-page-compact .section {
+        padding: 50px 0;
+    }
+    
+    .landing-page-compact h1 {
+        font-size: 38px;
+    }
+    
+    .landing-page-compact h2 {
+        font-size: 32px;
+    }
+    
+    .landing-page-compact .hero-headline {
+        font-size: 42px;
+    }
+    
+    .landing-page-compact .statistics-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    .landing-page-compact .section {
+        padding: 40px 0;
+    }
+    
+    .landing-page-compact h1 {
+        font-size: 32px;
+    }
+    
+    .landing-page-compact h2 {
+        font-size: 28px;
+    }
+    
+    .landing-page-compact h3 {
+        font-size: 22px;
+    }
+    
+    .landing-page-compact .hero-section {
+        min-height: 55vh;
+    }
+    
+    .landing-page-compact .hero-headline {
+        font-size: 32px;
+    }
+    
+    .landing-page-compact .hero-subheadline {
+        font-size: 17px;
+    }
+    
+    .landing-page-compact .statistics-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    
+    .landing-page-compact .stat-item {
+        padding: 25px 20px;
+    }
+    
+    .landing-page-compact .stat-number {
+        font-size: 38px;
+    }
+    
+    .landing-page-compact .contact-form-wrapper {
+        padding: 35px 25px;
+    }
+}
+
+
+/* Arreglar colores de texto en servicios */
+.landing-page-compact .service-card-compact .service-title {
+    color: #1a1a1a !important;
+}
+
+.landing-page-compact .service-card-compact .service-description {
+    color: #495057 !important;
+}
+
+.landing-page-compact .service-features-compact li {
+    color: #495057 !important;
+}

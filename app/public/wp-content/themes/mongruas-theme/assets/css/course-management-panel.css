@@ -1,0 +1,2058 @@
+/**
+ * Course Management Panel Styles
+ * 
+ * @package Mongruas
+ * @since 1.0.0
+ */
+
+/* ============================================
+   CSS VARIABLES - THEME INTEGRATION
+   ============================================ */
+:root {
+    /* Panel Colors - Exact theme match */
+    --panel-primary: var(--color-primary, #0066cc);
+    --panel-primary-dark: var(--color-primary-dark, #004d99);
+    --panel-secondary: var(--color-secondary, #ff9900);
+    --panel-secondary-dark: var(--color-secondary-dark, #cc7a00);
+    --panel-success: var(--color-success, #28a745);
+    --panel-success-dark: #229954;
+    --panel-danger: var(--color-danger, #dc3545);
+    --panel-danger-dark: #c0392b;
+    --panel-warning: var(--color-warning, #ffc107);
+    --panel-info: var(--color-info, #17a2b8);
+    --panel-info-dark: #138496;
+    
+    /* Neutral Colors - Theme integration */
+    --panel-white: var(--color-white, #ffffff);
+    --panel-light: var(--color-light, #f8f9fa);
+    --panel-gray-100: var(--color-gray-100, #e9ecef);
+    --panel-gray-200: var(--color-gray-200, #dee2e6);
+    --panel-gray-300: var(--color-gray-300, #ced4da);
+    --panel-gray-400: var(--color-gray-400, #adb5bd);
+    --panel-gray-500: var(--color-gray-500, #6c757d);
+    --panel-gray-600: var(--color-gray-600, #495057);
+    --panel-gray-700: var(--color-gray-700, #343a40);
+    --panel-gray-800: var(--color-gray-800, #212529);
+    --panel-dark: var(--color-dark, #2c3e50);
+    
+    /* Typography - Theme integration */
+    --panel-font-family: var(--font-primary, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif);
+    --panel-font-heading: var(--font-heading, 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif);
+    --panel-font-size-xs: var(--font-size-sm, 11px);
+    --panel-font-size-sm: var(--font-size-sm, 12px);
+    --panel-font-size-base: var(--font-size-base, 14px);
+    --panel-font-size-lg: var(--font-size-lg, 16px);
+    --panel-font-size-xl: var(--font-size-xl, 18px);
+    --panel-font-size-xxl: var(--font-size-h5, 20px);
+    
+    /* Spacing - Theme integration */
+    --panel-spacing-xs: var(--spacing-xs, 4px);
+    --panel-spacing-sm: var(--spacing-sm, 8px);
+    --panel-spacing-md: var(--spacing-md, 12px);
+    --panel-spacing-lg: var(--spacing-lg, 16px);
+    --panel-spacing-xl: var(--spacing-xl, 20px);
+    --panel-spacing-xxl: var(--spacing-xl, 24px);
+    --panel-spacing-xxxl: var(--spacing-xxl, 32px);
+    
+    /* Border Radius - Theme integration */
+    --panel-radius-sm: var(--border-radius-sm, 4px);
+    --panel-radius-md: var(--border-radius-md, 8px);
+    --panel-radius-lg: var(--border-radius-lg, 12px);
+    --panel-radius-xl: var(--border-radius-xl, 16px);
+    --panel-radius-round: 50%;
+    
+    /* Shadows - Theme integration */
+    --panel-shadow-sm: var(--shadow-sm, 0 2px 4px rgba(0, 0, 0, 0.1));
+    --panel-shadow-md: var(--shadow-md, 0 4px 8px rgba(0, 0, 0, 0.15));
+    --panel-shadow-lg: var(--shadow-lg, 0 8px 16px rgba(0, 0, 0, 0.2));
+    --panel-shadow-xl: var(--shadow-xl, 0 12px 24px rgba(0, 0, 0, 0.25));
+    
+    /* Transitions - Theme integration */
+    --panel-transition-fast: var(--transition-fast, 0.15s ease);
+    --panel-transition-base: var(--transition-base, 0.3s ease);
+    --panel-transition-slow: var(--transition-slow, 0.5s ease);
+    
+    /* Z-index layers - Coordinated with theme */
+    --panel-z-access-button: 9998;
+    --panel-z-modal: 9999;
+    --panel-z-dialog: 10000;
+    --panel-z-tooltip: 10001;
+}
+
+/* ============================================
+   THEME INTEGRATION OVERRIDES
+   ============================================ */
+
+/* Ensure panel doesn't conflict with existing theme elements */
+.mongruas-panel-modal {
+    font-family: var(--panel-font-family);
+    font-size: var(--panel-font-size-base);
+    line-height: 1.5;
+}
+
+/* Reset any theme styles that might interfere */
+.mongruas-panel-modal *,
+.mongruas-panel-modal *::before,
+.mongruas-panel-modal *::after {
+    box-sizing: border-box;
+}
+
+/* Ensure buttons match theme button styles */
+.mongruas-panel-modal .btn-primary {
+    font-family: var(--panel-font-family);
+    text-transform: none;
+    letter-spacing: normal;
+}
+
+/* Match theme form styles */
+.mongruas-panel-modal .form-group label {
+    font-family: var(--panel-font-family);
+    text-transform: none;
+}
+
+.mongruas-panel-modal .form-group input,
+.mongruas-panel-modal .form-group textarea,
+.mongruas-panel-modal .form-group select {
+    font-family: var(--panel-font-family);
+}
+
+/* Ensure headings match theme typography */
+.mongruas-panel-modal h1,
+.mongruas-panel-modal h2,
+.mongruas-panel-modal h3,
+.mongruas-panel-modal h4,
+.mongruas-panel-modal h5,
+.mongruas-panel-modal h6 {
+    font-family: var(--panel-font-heading);
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: var(--panel-spacing-md);
+}
+
+/* Match theme link styles within panel */
+.mongruas-panel-modal a:not(.btn):not(.course-item) {
+    color: var(--panel-primary);
+    text-decoration: none;
+    transition: color var(--panel-transition-fast);
+}
+
+.mongruas-panel-modal a:not(.btn):not(.course-item):hover {
+    color: var(--panel-primary-dark);
+    text-decoration: underline;
+}
+
+/* ============================================
+   PANEL ACCESS BUTTON - INTEGRADO CON BOTONES FLOTANTES
+   ============================================ */
+.mongruas-panel-access {
+    /* Se posiciona dentro del contenedor de botones flotantes */
+    z-index: var(--panel-z-access-button);
+}
+
+/* Integración con el contenedor de botones flotantes */
+.floating-buttons-container .mongruas-panel-access {
+    position: relative;
+    bottom: auto;
+    right: auto;
+}
+
+.mongruas-panel-trigger {
+    background: linear-gradient(135deg, var(--panel-primary), var(--panel-primary-dark));
+    color: var(--panel-white);
+    border: none;
+    border-radius: var(--panel-radius-round);
+    width: 60px;  /* Ligeramente más grande que WhatsApp para jerarquía */
+    height: 60px;
+    cursor: pointer;
+    box-shadow: var(--panel-shadow-lg);
+    transition: all var(--panel-transition-base);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--panel-font-size-xl);
+    position: relative;
+    overflow: hidden;
+}
+
+.mongruas-panel-trigger::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, var(--panel-secondary), var(--panel-secondary-dark));
+    opacity: 0;
+    transition: opacity var(--panel-transition-base);
+}
+
+.mongruas-panel-trigger:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: var(--panel-shadow-xl);
+}
+
+.mongruas-panel-trigger:hover::before {
+    opacity: 1;
+}
+
+.mongruas-panel-trigger:active {
+    transform: translateY(-1px) scale(1.02);
+}
+
+.mongruas-panel-trigger:focus {
+    outline: 3px solid var(--panel-info);
+    outline-offset: 2px;
+}
+
+/* Tooltip para el botón del panel */
+.mongruas-panel-trigger::after {
+    content: 'Gestionar Cursos';
+    position: absolute;
+    right: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 12px;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    margin-right: 10px;
+    pointer-events: none;
+    font-weight: 500;
+}
+
+.mongruas-panel-trigger:hover::after {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Responsive adjustments for button group */
+@media (max-width: 768px) {
+    .mongruas-panel-trigger {
+        width: 56px;
+        height: 56px;
+        font-size: var(--panel-font-size-lg);
+    }
+    
+    .mongruas-panel-trigger svg {
+        width: 20px;
+        height: 20px;
+    }
+    
+    .mongruas-panel-trigger::after {
+        display: none;
+    }
+}
+
+/* Animación sutil para el botón del panel */
+@keyframes panel-glow {
+    0% {
+        box-shadow: var(--panel-shadow-lg);
+    }
+    50% {
+        box-shadow: var(--panel-shadow-lg), 0 0 0 8px rgba(0, 102, 204, 0.1);
+    }
+    100% {
+        box-shadow: var(--panel-shadow-lg);
+    }
+}
+
+.mongruas-panel-trigger {
+    animation: panel-glow 4s infinite;
+}
+
+.mongruas-panel-trigger:hover {
+    animation: none;
+}
+
+.mongruas-panel-trigger > * {
+    position: relative;
+    z-index: 1;
+}
+
+/* ============================================
+   PANEL MODAL
+   ============================================ */
+.mongruas-panel-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: var(--panel-z-modal);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--panel-spacing-lg);
+    animation: modalFadeIn var(--panel-transition-base) ease-out;
+}
+
+.mongruas-panel-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+.mongruas-panel-container {
+    position: relative;
+    background: var(--panel-white);
+    border-radius: var(--panel-radius-xl);
+    box-shadow: var(--panel-shadow-xl);
+    max-width: 95vw;
+    max-height: 95vh;
+    width: 1200px;
+    height: 800px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    animation: modalSlideIn var(--panel-transition-base) ease-out;
+    border: 1px solid var(--panel-gray-200);
+}
+
+.mongruas-panel-header {
+    background: linear-gradient(135deg, var(--panel-dark), var(--panel-gray-700));
+    color: var(--panel-white);
+    padding: var(--panel-spacing-xl) var(--panel-spacing-xxl);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: var(--panel-radius-xl) var(--panel-radius-xl) 0 0;
+    box-shadow: var(--panel-shadow-sm);
+}
+
+.mongruas-panel-header h2 {
+    margin: 0;
+    font-size: var(--panel-font-size-xl);
+    font-weight: 700;
+    font-family: var(--panel-font-family);
+}
+
+.mongruas-panel-close {
+    background: none;
+    border: none;
+    color: var(--panel-white);
+    cursor: pointer;
+    padding: var(--panel-spacing-sm);
+    border-radius: var(--panel-radius-md);
+    transition: all var(--panel-transition-fast);
+    font-size: var(--panel-font-size-lg);
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mongruas-panel-close:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: scale(1.1);
+}
+
+.mongruas-panel-close:focus {
+    outline: 2px solid var(--panel-white);
+    outline-offset: 2px;
+}
+
+.mongruas-panel-close:active {
+    transform: scale(0.95);
+}
+
+/* Modal Animations */
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes modalSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-30px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* ============================================
+   LOGIN FORM
+   ============================================ */
+.mongruas-login-form {
+    padding: var(--panel-spacing-xxxl);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    background: linear-gradient(135deg, var(--panel-light) 0%, var(--panel-white) 100%);
+}
+
+.mongruas-login-form form {
+    width: 100%;
+    max-width: 420px;
+    background: var(--panel-white);
+    padding: var(--panel-spacing-xxxl);
+    border-radius: var(--panel-radius-lg);
+    box-shadow: var(--panel-shadow-md);
+    border: 1px solid var(--panel-gray-200);
+}
+
+.form-group {
+    margin-bottom: var(--panel-spacing-xl);
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: var(--panel-spacing-sm);
+    font-weight: 600;
+    color: var(--panel-dark);
+    font-size: var(--panel-font-size-base);
+    font-family: var(--panel-font-family);
+}
+
+.form-group input {
+    width: 100%;
+    padding: var(--panel-spacing-md) var(--panel-spacing-lg);
+    border: 2px solid var(--panel-gray-300);
+    border-radius: var(--panel-radius-md);
+    font-size: var(--panel-font-size-base);
+    font-family: var(--panel-font-family);
+    transition: all var(--panel-transition-fast);
+    box-sizing: border-box;
+    background: var(--panel-white);
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: var(--panel-primary);
+    box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
+    transform: translateY(-1px);
+}
+
+.form-group input:hover {
+    border-color: var(--panel-gray-400);
+}
+
+.form-actions {
+    margin-top: var(--panel-spacing-xxl);
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--panel-primary), var(--panel-primary-dark));
+    color: var(--panel-white);
+    border: none;
+    padding: var(--panel-spacing-lg) var(--panel-spacing-xxl);
+    border-radius: var(--panel-radius-md);
+    font-size: var(--panel-font-size-base);
+    font-weight: 600;
+    font-family: var(--panel-font-family);
+    cursor: pointer;
+    width: 100%;
+    transition: all var(--panel-transition-base);
+    position: relative;
+    overflow: hidden;
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-primary::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, var(--panel-secondary), var(--panel-secondary-dark));
+    opacity: 0;
+    transition: opacity var(--panel-transition-base);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--panel-shadow-lg);
+}
+
+.btn-primary:hover::before {
+    opacity: 1;
+}
+
+.btn-primary:active {
+    transform: translateY(0);
+}
+
+.btn-primary:disabled {
+    background: var(--panel-gray-400);
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.btn-primary:disabled::before {
+    display: none;
+}
+
+.btn-primary > * {
+    position: relative;
+    z-index: 1;
+}
+
+.btn-secondary {
+    background: var(--panel-gray-500);
+    color: var(--panel-white);
+    border: none;
+    padding: var(--panel-spacing-sm) var(--panel-spacing-lg);
+    border-radius: var(--panel-radius-md);
+    font-size: var(--panel-font-size-sm);
+    font-weight: 600;
+    font-family: var(--panel-font-family);
+    cursor: pointer;
+    transition: all var(--panel-transition-fast);
+    min-height: 36px;
+}
+
+.btn-secondary:hover {
+    background: var(--panel-gray-600);
+    transform: translateY(-1px);
+}
+
+.error-message {
+    background: linear-gradient(135deg, var(--panel-danger), var(--panel-danger-dark));
+    color: var(--panel-white);
+    padding: var(--panel-spacing-md) var(--panel-spacing-lg);
+    border-radius: var(--panel-radius-md);
+    margin-top: var(--panel-spacing-lg);
+    font-size: var(--panel-font-size-sm);
+    font-family: var(--panel-font-family);
+    box-shadow: var(--panel-shadow-sm);
+    border-left: 4px solid var(--panel-danger-dark);
+}
+
+.success-message {
+    background: linear-gradient(135deg, var(--panel-success), var(--panel-success-dark));
+    color: var(--panel-white);
+    padding: var(--panel-spacing-md) var(--panel-spacing-lg);
+    border-radius: var(--panel-radius-md);
+    margin-top: var(--panel-spacing-lg);
+    font-size: var(--panel-font-size-sm);
+    font-family: var(--panel-font-family);
+    box-shadow: var(--panel-shadow-sm);
+    border-left: 4px solid var(--panel-success-dark);
+}
+
+/* ============================================
+   MAIN PANEL LAYOUT
+   ============================================ */
+.mongruas-main-panel {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+}
+
+.panel-sidebar {
+    width: 300px;
+    background: #f8f9fa;
+    border-right: 1px solid #e1e8ed;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.panel-sidebar h3 {
+    margin: 0 0 20px 0;
+    color: #2c3e50;
+    font-size: 1.2rem;
+}
+
+.panel-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* ============================================
+   COURSES LIST
+   ============================================ */
+.courses-list {
+    margin-bottom: 20px;
+}
+
+.course-item {
+    background: white;
+    border: 2px solid #e1e8ed;
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.course-item:hover {
+    border-color: #3498db;
+    box-shadow: 0 2px 8px rgba(52, 152, 219, 0.1);
+}
+
+.course-item.active {
+    border-color: #3498db;
+    background: #f8fcff;
+}
+
+.course-item.empty {
+    border-style: dashed;
+    color: #7f8c8d;
+    text-align: center;
+    padding: 20px;
+    display: block;
+}
+
+.course-item-drag-handle {
+    color: #bdc3c7;
+    cursor: grab;
+    font-size: 16px;
+    line-height: 1;
+    padding: 4px 0;
+    user-select: none;
+}
+
+.course-item-drag-handle:hover {
+    color: #7f8c8d;
+}
+
+.course-item.dragging {
+    opacity: 0.5;
+    transform: rotate(2deg);
+}
+
+.course-item.drag-over {
+    border-color: #3498db;
+    background: #f8fcff;
+    transform: translateY(-2px);
+}
+
+.course-item-content {
+    flex: 1;
+}
+
+.course-item-title {
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 4px;
+}
+
+.course-item-meta {
+    font-size: 12px;
+    color: #7f8c8d;
+}
+
+.course-item-status {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    margin-top: 8px;
+}
+
+.course-item-status.active {
+    background: #d5f4e6;
+    color: #27ae60;
+}
+
+.course-item-status.inactive {
+    background: #ffeaa7;
+    color: #e17055;
+}
+
+/* ============================================
+   COURSE EDITOR
+   ============================================ */
+.course-editor {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    border-right: 1px solid #e1e8ed;
+}
+
+.course-editor h3 {
+    margin: 0 0 20px 0;
+    color: #2c3e50;
+}
+
+.save-indicator {
+    margin: -10px 0 20px 0;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.save-indicator .unsaved {
+    color: #e67e22;
+    animation: pulse 2s infinite;
+}
+
+.save-indicator .saved,
+.save-indicator .auto-saved {
+    color: #27ae60;
+}
+
+.save-indicator .typing {
+    color: #3498db;
+    animation: typing-dots 1.5s infinite;
+}
+
+.save-indicator .saving {
+    color: #f39c12;
+    animation: saving-spin 1s linear infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.6; }
+}
+
+@keyframes typing-dots {
+    0%, 20% { opacity: 0.2; }
+    50% { opacity: 1; }
+    80%, 100% { opacity: 0.2; }
+}
+
+@keyframes saving-spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+#course-form {
+    display: grid;
+    gap: 20px;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.form-field {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-field label {
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #2c3e50;
+}
+
+.form-field input,
+.form-field textarea,
+.form-field select {
+    padding: 12px 16px;
+    border: 2px solid #e1e8ed;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: border-color 0.2s ease;
+}
+
+.form-field input:focus,
+.form-field textarea:focus,
+.form-field select:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+}
+
+.form-field input.field-valid,
+.form-field textarea.field-valid {
+    border-color: #27ae60;
+}
+
+.form-field input.field-invalid,
+.form-field textarea.field-invalid {
+    border-color: #e74c3c;
+}
+
+.field-validation {
+    font-size: 12px;
+    margin-top: 4px;
+    min-height: 16px;
+}
+
+.field-validation.validation-success {
+    color: #27ae60;
+}
+
+.field-validation.validation-error {
+    color: #e74c3c;
+}
+
+.form-field textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+.image-upload-area {
+    border: 2px dashed #e1e8ed;
+    border-radius: 8px;
+    padding: 40px 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.image-upload-area:hover {
+    border-color: #3498db;
+    background: #f8fcff;
+}
+
+.image-upload-area.dragover {
+    border-color: #3498db;
+    background: #f8fcff;
+}
+
+.image-preview {
+    max-width: 200px;
+    max-height: 150px;
+    border-radius: 8px;
+    margin: 10px auto;
+    display: block;
+}
+
+.image-upload-progress {
+    padding: 20px;
+    text-align: center;
+}
+
+.upload-spinner {
+    width: 30px;
+    height: 30px;
+    border: 3px solid #e1e8ed;
+    border-top: 3px solid #3498db;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 16px;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 8px;
+    background: #e1e8ed;
+    border-radius: 4px;
+    overflow: hidden;
+    margin: 12px 0 8px;
+}
+
+.progress-fill {
+    height: 100%;
+    background: #3498db;
+    transition: width 0.3s ease;
+}
+
+.progress-text {
+    font-size: 12px;
+    color: #7f8c8d;
+    font-weight: 600;
+}
+
+.btn-remove-image {
+    background: #e74c3c;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 12px;
+    cursor: pointer;
+    margin-top: 8px;
+    transition: background-color 0.2s ease;
+}
+
+.btn-remove-image:hover {
+    background: #c0392b;
+}
+
+.form-actions {
+    display: flex;
+    gap: 12px;
+    padding-top: 20px;
+    border-top: 1px solid #e1e8ed;
+}
+
+/* ============================================
+   COURSE PREVIEW
+   ============================================ */
+.course-preview {
+    width: 400px;
+    background: #f8f9fa;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.course-preview h3 {
+    margin: 0 0 20px 0;
+    color: #2c3e50;
+}
+
+.preview-content {
+    background: white;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Empty State */
+.preview-empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: #7f8c8d;
+}
+
+.preview-empty-icon {
+    font-size: 48px;
+    margin-bottom: 16px;
+}
+
+.preview-empty-state h4 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 8px;
+}
+
+.preview-empty-state p {
+    font-size: 14px;
+    line-height: 1.5;
+    margin: 0;
+}
+
+/* Course Card Preview - Exact frontend replication */
+.preview-upcoming-course-card {
+    background: var(--panel-white);
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    transition: all var(--panel-transition-base);
+    position: relative;
+    font-family: var(--panel-font-family);
+}
+
+.preview-upcoming-course-card.preview-incomplete {
+    border: 2px dashed var(--panel-warning);
+}
+
+.preview-course-image {
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+    position: relative;
+}
+
+.preview-course-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--panel-transition-base);
+}
+
+.preview-no-image {
+    background: var(--panel-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.preview-image-placeholder {
+    text-align: center;
+    color: var(--panel-gray-500);
+}
+
+.preview-image-icon {
+    font-size: 48px;
+    margin-bottom: var(--panel-spacing-sm);
+    opacity: 0.6;
+}
+
+.preview-image-placeholder p {
+    font-size: var(--panel-font-size-sm);
+    margin: 0;
+    font-family: var(--panel-font-family);
+}
+
+.preview-course-content {
+    padding: 25px;
+}
+
+.preview-course-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.preview-course-badge {
+    background: linear-gradient(135deg, var(--panel-danger), var(--panel-danger-dark));
+    color: var(--panel-white);
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-family: var(--panel-font-family);
+}
+
+.preview-course-category {
+    background: linear-gradient(135deg, var(--panel-primary), var(--panel-primary-dark));
+    color: var(--panel-white);
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    font-family: var(--panel-font-family);
+}
+
+.preview-course-date {
+    display: flex;
+    align-items: center;
+    gap: var(--panel-spacing-sm);
+    margin-bottom: 15px;
+    color: var(--panel-danger);
+    font-weight: 600;
+    font-family: var(--panel-font-family);
+}
+
+.preview-date-icon {
+    font-size: 1.1rem;
+}
+
+.preview-date-text {
+    font-size: 0.95rem;
+}
+
+.preview-course-title {
+    font-size: 1.4rem;
+    color: var(--panel-dark);
+    margin-bottom: 15px;
+    font-weight: 700;
+    line-height: 1.3;
+    font-family: var(--panel-font-heading);
+}
+
+.preview-course-description {
+    color: var(--panel-gray-500);
+    line-height: 1.6;
+    margin-bottom: 20px;
+    font-size: 0.95rem;
+    font-family: var(--panel-font-family);
+}
+
+.preview-course-details {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.preview-detail-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--panel-gray-600);
+    font-size: 0.9rem;
+    font-weight: 500;
+    font-family: var(--panel-font-family);
+}
+
+.preview-detail-icon {
+    font-size: 1rem;
+}
+
+.preview-btn-reserve {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--panel-success), var(--panel-success-dark));
+    color: var(--panel-white);
+    padding: 12px 25px;
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: 600;
+    text-align: center;
+    transition: all var(--panel-transition-base);
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    font-size: 0.95rem;
+    font-family: var(--panel-font-family);
+}
+
+.preview-btn-reserve:hover {
+    background: linear-gradient(135deg, var(--panel-success-dark), #1e8449);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(39, 174, 96, 0.3);
+    color: var(--panel-white);
+    text-decoration: none;
+}
+
+/* Incomplete Course Indicator */
+.preview-incomplete-indicator {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: rgba(230, 126, 34, 0.95);
+    color: white;
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    max-width: calc(100% - 20px);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+.preview-incomplete-icon {
+    font-size: 14px;
+}
+
+.preview-incomplete-text strong {
+    display: block;
+    font-weight: 700;
+    margin-bottom: 2px;
+}
+
+.preview-incomplete-text p {
+    margin: 0;
+    font-size: 11px;
+    opacity: 0.9;
+}
+
+/* ============================================
+   LOADING STATES
+   ============================================ */
+.panel-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    color: #7f8c8d;
+}
+
+.loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid #e1e8ed;
+    border-top: 4px solid #3498db;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 16px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+
+/* Large Desktop (1200px+) */
+@media (min-width: 1200px) {
+    .mongruas-panel-container {
+        width: 1200px;
+        height: 850px;
+    }
+    
+    .panel-sidebar {
+        width: 320px;
+    }
+    
+    .course-preview {
+        width: 420px;
+    }
+}
+
+/* Desktop/Tablet (768px - 1199px) */
+@media (max-width: 1199px) {
+    .mongruas-panel-container {
+        width: 95vw;
+        height: 90vh;
+        max-width: 1000px;
+    }
+    
+    .panel-sidebar {
+        width: 280px;
+    }
+    
+    .course-preview {
+        width: 350px;
+    }
+    
+    .form-row {
+        grid-template-columns: 1fr;
+        gap: var(--panel-spacing-lg);
+    }
+    
+    .mongruas-panel-trigger {
+        width: 52px;
+        height: 52px;
+        bottom: var(--panel-spacing-lg);
+        right: var(--panel-spacing-lg);
+    }
+}
+
+/* Tablet Portrait (768px - 1024px) */
+@media (max-width: 1024px) and (min-width: 768px) {
+    .mongruas-panel-container {
+        height: 85vh;
+    }
+    
+    .course-editor {
+        padding: var(--panel-spacing-lg);
+    }
+    
+    .course-preview {
+        padding: var(--panel-spacing-lg);
+    }
+    
+    .panel-sidebar {
+        padding: var(--panel-spacing-lg);
+    }
+}
+
+/* Mobile Landscape & Small Tablet (481px - 767px) */
+@media (max-width: 767px) {
+    :root {
+        --panel-spacing-xl: 16px;
+        --panel-spacing-xxl: 20px;
+        --panel-spacing-xxxl: 24px;
+    }
+    
+    .mongruas-panel-modal {
+        padding: var(--panel-spacing-sm);
+    }
+    
+    .mongruas-panel-container {
+        width: 100vw;
+        height: 100vh;
+        border-radius: 0;
+        max-width: none;
+        max-height: none;
+    }
+    
+    .mongruas-panel-header {
+        border-radius: 0;
+        padding: var(--panel-spacing-lg) var(--panel-spacing-xl);
+    }
+    
+    .mongruas-panel-header h2 {
+        font-size: var(--panel-font-size-lg);
+    }
+    
+    .mongruas-main-panel {
+        flex-direction: column;
+    }
+    
+    .panel-sidebar {
+        width: 100%;
+        max-height: 180px;
+        border-right: none;
+        border-bottom: 1px solid var(--panel-gray-300);
+        padding: var(--panel-spacing-lg);
+    }
+    
+    .panel-main {
+        flex-direction: column;
+        flex: 1;
+    }
+    
+    .course-editor {
+        padding: var(--panel-spacing-lg);
+        border-right: none;
+        border-bottom: 1px solid var(--panel-gray-300);
+        max-height: 50vh;
+    }
+    
+    .course-preview {
+        width: 100%;
+        max-height: 40vh;
+        padding: var(--panel-spacing-lg);
+    }
+    
+    .mongruas-panel-trigger {
+        width: 48px;
+        height: 48px;
+        bottom: var(--panel-spacing-lg);
+        right: var(--panel-spacing-lg);
+    }
+    
+    .mongruas-login-form {
+        padding: var(--panel-spacing-xl);
+    }
+    
+    .mongruas-login-form form {
+        padding: var(--panel-spacing-xl);
+    }
+    
+    .courses-list {
+        margin-bottom: var(--panel-spacing-lg);
+    }
+    
+    .course-item {
+        padding: var(--panel-spacing-md);
+        margin-bottom: var(--panel-spacing-sm);
+    }
+    
+    .course-item-title {
+        font-size: var(--panel-font-size-sm);
+    }
+    
+    .course-item-meta {
+        font-size: var(--panel-font-size-xs);
+    }
+}
+
+/* Mobile Portrait (320px - 480px) */
+@media (max-width: 480px) {
+    :root {
+        --panel-spacing-lg: 12px;
+        --panel-spacing-xl: 14px;
+        --panel-spacing-xxl: 16px;
+        --panel-spacing-xxxl: 20px;
+    }
+    
+    .mongruas-panel-header {
+        padding: var(--panel-spacing-md) var(--panel-spacing-lg);
+    }
+    
+    .mongruas-panel-header h2 {
+        font-size: var(--panel-font-size-base);
+    }
+    
+    .mongruas-panel-close {
+        width: 32px;
+        height: 32px;
+        font-size: var(--panel-font-size-base);
+    }
+    
+    .panel-sidebar {
+        padding: var(--panel-spacing-md);
+        max-height: 160px;
+    }
+    
+    .course-editor,
+    .course-preview {
+        padding: var(--panel-spacing-md);
+    }
+    
+    .mongruas-panel-trigger {
+        width: 44px;
+        height: 44px;
+        bottom: var(--panel-spacing-md);
+        right: var(--panel-spacing-md);
+    }
+    
+    .mongruas-login-form {
+        padding: var(--panel-spacing-lg);
+    }
+    
+    .mongruas-login-form form {
+        padding: var(--panel-spacing-lg);
+    }
+    
+    .form-group input {
+        padding: var(--panel-spacing-sm) var(--panel-spacing-md);
+        font-size: var(--panel-font-size-lg); /* Prevent zoom on iOS */
+    }
+    
+    .btn-primary {
+        padding: var(--panel-spacing-md) var(--panel-spacing-lg);
+        font-size: var(--panel-font-size-lg); /* Prevent zoom on iOS */
+    }
+    
+    .course-item {
+        padding: var(--panel-spacing-sm);
+        flex-direction: column;
+        gap: var(--panel-spacing-sm);
+    }
+    
+    .course-item-drag-handle {
+        align-self: flex-start;
+    }
+    
+    .preview-course-content {
+        padding: var(--panel-spacing-lg);
+    }
+    
+    .preview-course-title {
+        font-size: var(--panel-font-size-lg);
+    }
+    
+    .preview-course-description {
+        font-size: var(--panel-font-size-sm);
+    }
+}
+
+/* High DPI / Retina Displays */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    .mongruas-panel-trigger {
+        box-shadow: var(--panel-shadow-lg);
+    }
+    
+    .mongruas-panel-container {
+        box-shadow: var(--panel-shadow-xl);
+    }
+}
+
+/* Landscape Orientation Adjustments */
+@media (max-height: 600px) and (orientation: landscape) {
+    .mongruas-panel-container {
+        height: 95vh;
+    }
+    
+    .panel-sidebar {
+        max-height: 120px;
+    }
+    
+    .course-editor {
+        max-height: 45vh;
+    }
+    
+    .course-preview {
+        max-height: 35vh;
+    }
+    
+    .mongruas-login-form {
+        padding: var(--panel-spacing-lg);
+    }
+    
+    .mongruas-login-form form {
+        padding: var(--panel-spacing-lg);
+    }
+}
+
+/* ============================================
+   CUSTOM DIALOGS
+   ============================================ */
+.custom-dialog-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.custom-dialog {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    max-width: 500px;
+    width: 100%;
+    max-height: 90vh;
+    overflow: hidden;
+    animation: dialogSlideIn 0.2s ease-out;
+}
+
+.custom-dialog.dialog-warning {
+    border-top: 4px solid #f39c12;
+}
+
+.custom-dialog.dialog-danger {
+    border-top: 4px solid #e74c3c;
+}
+
+.dialog-header {
+    background: #f8f9fa;
+    padding: 20px 24px 16px;
+    border-bottom: 1px solid #e1e8ed;
+}
+
+.dialog-title {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #2c3e50;
+}
+
+.dialog-body {
+    padding: 24px;
+}
+
+.dialog-message {
+    margin: 0;
+    line-height: 1.6;
+    color: #495057;
+    font-size: 1rem;
+}
+
+.dialog-footer {
+    background: #f8f9fa;
+    padding: 16px 24px 20px;
+    border-top: 1px solid #e1e8ed;
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+}
+
+.dialog-btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    min-width: 100px;
+}
+
+.dialog-btn.btn-primary {
+    background: #3498db;
+    color: white;
+}
+
+.dialog-btn.btn-primary:hover {
+    background: #2980b9;
+}
+
+.dialog-btn.btn-secondary {
+    background: #95a5a6;
+    color: white;
+}
+
+.dialog-btn.btn-secondary:hover {
+    background: #7f8c8d;
+}
+
+.dialog-btn.btn-danger {
+    background: #e74c3c;
+    color: white;
+}
+
+.dialog-btn.btn-danger:hover {
+    background: #c0392b;
+}
+
+.dialog-btn:focus {
+    outline: 2px solid #3498db;
+    outline-offset: 2px;
+}
+
+@keyframes dialogSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* ============================================
+   ACCESSIBILITY & WCAG 2.1 COMPLIANCE
+   ============================================ */
+
+/* Screen Reader Only Content */
+.sr-only,
+.screen-reader-text {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+}
+
+/* Skip Links */
+.skip-link {
+    position: absolute;
+    top: -40px;
+    left: 6px;
+    background: var(--panel-dark);
+    color: var(--panel-white);
+    padding: 8px 16px;
+    text-decoration: none;
+    border-radius: var(--panel-radius-md);
+    z-index: 100000;
+    font-weight: 600;
+    transition: top var(--panel-transition-fast);
+}
+
+.skip-link:focus {
+    top: 6px;
+}
+
+/* Enhanced Focus Styles - WCAG 2.1 AA Compliant */
+button:focus,
+input:focus,
+textarea:focus,
+select:focus,
+.course-item:focus,
+.mongruas-panel-trigger:focus,
+.mongruas-panel-close:focus {
+    outline: 3px solid var(--panel-primary);
+    outline-offset: 2px;
+    box-shadow: 0 0 0 1px var(--panel-white), 0 0 0 4px var(--panel-primary);
+}
+
+/* Focus visible for modern browsers */
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible,
+.course-item:focus-visible {
+    outline: 3px solid var(--panel-primary);
+    outline-offset: 2px;
+}
+
+/* Remove focus outline for mouse users */
+button:focus:not(:focus-visible),
+input:focus:not(:focus-visible),
+textarea:focus:not(:focus-visible),
+select:focus:not(:focus-visible) {
+    outline: none;
+    box-shadow: none;
+}
+
+/* Keyboard Navigation Indicators */
+.keyboard-navigation .course-item:focus {
+    background: var(--panel-light);
+    border-color: var(--panel-primary);
+}
+
+.keyboard-navigation .btn-primary:focus,
+.keyboard-navigation .btn-secondary:focus {
+    transform: translateY(-1px);
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+    .mongruas-panel-trigger {
+        border: 3px solid var(--panel-white);
+        background: var(--panel-dark);
+    }
+    
+    .course-item {
+        border-width: 3px;
+        border-color: var(--panel-dark);
+    }
+    
+    .course-item.active {
+        background: var(--panel-white);
+        border-color: var(--panel-dark);
+    }
+    
+    .form-field input,
+    .form-field textarea,
+    .form-field select {
+        border-width: 3px;
+        border-color: var(--panel-dark);
+    }
+    
+    .btn-primary,
+    .btn-secondary {
+        border: 2px solid var(--panel-dark);
+    }
+    
+    .mongruas-panel-container {
+        border: 3px solid var(--panel-dark);
+    }
+}
+
+/* Reduced Motion Support - WCAG 2.1 */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+    
+    .loading-spinner,
+    .upload-spinner {
+        animation: none;
+        border-top-color: transparent;
+    }
+    
+    .mongruas-panel-trigger:hover {
+        transform: none;
+    }
+    
+    .btn-primary:hover {
+        transform: none;
+    }
+    
+    .course-item:hover {
+        transform: none;
+    }
+    
+    .modalFadeIn,
+    .modalSlideIn {
+        animation: none;
+    }
+}
+
+/* Color Blind / Low Vision Support */
+.error-message,
+.field-validation.validation-error {
+    position: relative;
+}
+
+.error-message::before,
+.field-validation.validation-error::before {
+    content: '⚠';
+    margin-right: var(--panel-spacing-xs);
+    font-weight: bold;
+}
+
+.success-message,
+.field-validation.validation-success {
+    position: relative;
+}
+
+.success-message::before,
+.field-validation.validation-success::before {
+    content: '✓';
+    margin-right: var(--panel-spacing-xs);
+    font-weight: bold;
+}
+
+/* Touch Target Size - WCAG 2.1 AA (44x44px minimum) */
+@media (pointer: coarse) {
+    .mongruas-panel-trigger {
+        min-width: 44px;
+        min-height: 44px;
+    }
+    
+    .mongruas-panel-close {
+        min-width: 44px;
+        min-height: 44px;
+    }
+    
+    .btn-primary,
+    .btn-secondary {
+        min-height: 44px;
+        padding: var(--panel-spacing-md) var(--panel-spacing-lg);
+    }
+    
+    .course-item {
+        min-height: 44px;
+        padding: var(--panel-spacing-md);
+    }
+    
+    .course-item-drag-handle {
+        min-width: 44px;
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+    .mongruas-panel-container {
+        background: var(--panel-gray-800);
+        color: var(--panel-white);
+        border-color: var(--panel-gray-600);
+    }
+    
+    .panel-sidebar {
+        background: var(--panel-gray-700);
+        border-color: var(--panel-gray-600);
+    }
+    
+    .course-editor {
+        background: var(--panel-gray-800);
+        border-color: var(--panel-gray-600);
+    }
+    
+    .course-preview {
+        background: var(--panel-gray-700);
+    }
+    
+    .course-item {
+        background: var(--panel-gray-700);
+        border-color: var(--panel-gray-600);
+        color: var(--panel-white);
+    }
+    
+    .course-item:hover {
+        background: var(--panel-gray-600);
+    }
+    
+    .form-field input,
+    .form-field textarea,
+    .form-field select {
+        background: var(--panel-gray-700);
+        border-color: var(--panel-gray-600);
+        color: var(--panel-white);
+    }
+    
+    .form-field label {
+        color: var(--panel-white);
+    }
+    
+    .mongruas-login-form form {
+        background: var(--panel-gray-800);
+        border-color: var(--panel-gray-600);
+    }
+}
+
+/* Print Styles */
+@media print {
+    .mongruas-panel-access,
+    .mongruas-panel-modal {
+        display: none !important;
+    }
+}
+
+/* ============================================
+   CROSS-BROWSER COMPATIBILITY
+   ============================================ */
+
+/* Safari specific fixes */
+@supports (-webkit-appearance: none) {
+    .mongruas-panel-overlay {
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+    }
+    
+    .mongruas-panel-trigger {
+        -webkit-transform: translateZ(0);
+        transform: translateZ(0);
+    }
+    
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+        appearance: none;
+        -webkit-appearance: none;
+        border-radius: var(--panel-radius-md);
+        -webkit-border-radius: var(--panel-radius-md);
+    }
+}
+
+/* Firefox specific fixes */
+@-moz-document url-prefix() {
+    .mongruas-panel-container {
+        scrollbar-width: thin;
+        scrollbar-color: var(--panel-gray-400) var(--panel-gray-200);
+    }
+    
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+        appearance: none;
+        -moz-appearance: none;
+    }
+}
+
+/* Edge/IE specific fixes */
+@supports (-ms-ime-align: auto) {
+    .mongruas-panel-modal {
+        -ms-overflow-style: -ms-autohiding-scrollbar;
+    }
+}
+
+/* Chrome/Webkit scrollbar styling */
+.mongruas-panel-modal ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+.mongruas-panel-modal ::-webkit-scrollbar-track {
+    background: var(--panel-gray-200);
+    border-radius: var(--panel-radius-sm);
+}
+
+.mongruas-panel-modal ::-webkit-scrollbar-thumb {
+    background: var(--panel-gray-400);
+    border-radius: var(--panel-radius-sm);
+    transition: background var(--panel-transition-fast);
+}
+
+.mongruas-panel-modal ::-webkit-scrollbar-thumb:hover {
+    background: var(--panel-gray-500);
+}
+
+/* ============================================
+   THEME INTEGRATION FINAL TOUCHES
+   ============================================ */
+
+/* Ensure panel respects theme's container constraints */
+.mongruas-panel-modal .container {
+    max-width: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* Match theme's focus management */
+.mongruas-panel-modal [tabindex="-1"]:focus {
+    outline: none !important;
+}
+
+/* Ensure proper stacking with theme elements */
+.site-header {
+    z-index: 1000;
+}
+
+.mongruas-panel-access {
+    z-index: var(--panel-z-access-button);
+}
+
+.mongruas-panel-modal {
+    z-index: var(--panel-z-modal);
+}
+
+/* Theme color scheme integration */
+.mongruas-panel-modal {
+    color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+    .mongruas-panel-modal {
+        color-scheme: dark;
+    }
+}
+
+/* Ensure buttons inherit theme button base styles where appropriate */
+.mongruas-panel-modal .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    vertical-align: middle;
+    user-select: none;
+    border: 1px solid transparent;
+    line-height: 1.5;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all var(--panel-transition-fast);
+}
+
+.mongruas-panel-modal .btn:disabled {
+    pointer-events: none;
+    opacity: 0.65;
+}
+
+/* Ensure form elements match theme styling */
+.mongruas-panel-modal .form-control {
+    display: block;
+    width: 100%;
+    font-family: var(--panel-font-family);
+    font-size: var(--panel-font-size-base);
+    font-weight: 400;
+    line-height: 1.5;
+    color: var(--panel-gray-700);
+    background-color: var(--panel-white);
+    background-clip: padding-box;
+    border: 1px solid var(--panel-gray-300);
+    appearance: none;
+    border-radius: var(--panel-radius-md);
+    transition: border-color var(--panel-transition-fast), box-shadow var(--panel-transition-fast);
+}
+
+/* Integration with WordPress admin bar */
+.admin-bar .mongruas-panel-access {
+    bottom: calc(var(--panel-spacing-xl) + 32px);
+}
+
+@media screen and (max-width: 782px) {
+    .admin-bar .mongruas-panel-access {
+        bottom: calc(var(--panel-spacing-xl) + 46px);
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .admin-bar .mongruas-panel-access {
+        bottom: var(--panel-spacing-xl);
+    }
+}
+
+/* ARIA Live Regions Styling */
+[aria-live] {
+    position: relative;
+}
+
+.aria-live-polite,
+.aria-live-assertive {
+    position: absolute;
+    left: -10000px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+}
+
+/* Loading States with ARIA */
+.loading-state[aria-busy="true"] {
+    position: relative;
+    pointer-events: none;
+}
+
+.loading-state[aria-busy="true"]::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+/* Error States with ARIA */
+[aria-invalid="true"] {
+    border-color: var(--panel-danger) !important;
+    box-shadow: 0 0 0 2px rgba(231, 76, 60, 0.2) !important;
+}
+
+[role="alert"] {
+    padding: var(--panel-spacing-md);
+    border-radius: var(--panel-radius-md);
+    font-weight: 600;
+}
+
+/* Tooltip Accessibility */
+[role="tooltip"] {
+    position: absolute;
+    z-index: 1000;
+    background: var(--panel-dark);
+    color: var(--panel-white);
+    padding: var(--panel-spacing-xs) var(--panel-spacing-sm);
+    border-radius: var(--panel-radius-sm);
+    font-size: var(--panel-font-size-xs);
+    white-space: nowrap;
+    pointer-events: none;
+}

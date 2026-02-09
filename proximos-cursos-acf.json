@@ -1,0 +1,493 @@
+[
+    {
+        "key": "group_proximos_cursos",
+        "title": "Próximos Cursos",
+        "fields": [
+            {
+                "key": "field_course_1_name",
+                "label": "Nombre del Curso 1",
+                "name": "course_1_name",
+                "type": "text",
+                "instructions": "Título del primer curso próximo",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "",
+                "placeholder": "Ej: Curso de Marketing Digital",
+                "prepend": "",
+                "append": "",
+                "maxlength": ""
+            },
+            {
+                "key": "field_course_1_description",
+                "label": "Descripción del Curso 1",
+                "name": "course_1_description",
+                "type": "textarea",
+                "instructions": "Breve descripción del curso",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "",
+                "placeholder": "Describe brevemente el contenido del curso...",
+                "maxlength": "",
+                "rows": 3,
+                "new_lines": ""
+            },
+            {
+                "key": "field_course_1_date",
+                "label": "Fecha de Inicio del Curso 1",
+                "name": "course_1_date",
+                "type": "text",
+                "instructions": "Fecha en que comienza el curso",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "",
+                "placeholder": "Ej: 15 de Enero 2025",
+                "prepend": "",
+                "append": "",
+                "maxlength": ""
+            },
+            {
+                "key": "field_course_1_duration",
+                "label": "Duración del Curso 1",
+                "name": "course_1_duration",
+                "type": "text",
+                "instructions": "Duración del curso (opcional)",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "",
+                "placeholder": "Ej: 40 horas",
+                "prepend": "",
+                "append": "",
+                "maxlength": ""
+            },
+            {
+                "key": "field_course_1_modality",
+                "label": "Modalidad del Curso 1",
+                "name": "course_1_modality",
+                "type": "select",
+                "instructions": "Modalidad del curso",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "choices": {
+                    "Online": "Online",
+                    "Presencial": "Presencial",
+                    "Semipresencial": "Semipresencial"
+                },
+                "default_value": "Online",
+                "allow_null": 0,
+                "multiple": 0,
+                "ui": 0,
+                "return_format": "value",
+                "ajax": 0,
+                "placeholder": ""
+            },
+            {
+                "key": "field_course_1_category",
+                "label": "Categoría del Curso 1",
+                "name": "course_1_category",
+                "type": "select",
+                "instructions": "Categoría o área del curso",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "choices": {
+                    "Prevención de Riesgos Laborales": "Prevención de Riesgos Laborales",
+                    "Formación Profesional": "Formación Profesional",
+                    "Idiomas": "Idiomas",
+                    "Informática": "Informática",
+                    "Gestión Empresarial": "Gestión Empresarial",
+                    "Marketing": "Marketing",
+                    "Otros": "Otros"
+                },
+                "default_value": "Prevención de Riesgos Laborales",
+                "allow_null": 0,
+                "multiple": 0,
+                "ui": 0,
+                "return_format": "value",
+                "ajax": 0,
+                "placeholder": ""
+            },
+            {
+                "key": "field_course_1_image",
+                "label": "Imagen del Curso 1",
+                "name": "course_1_image",
+                "type": "image",
+                "instructions": "Imagen representativa del curso (opcional)",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "return_format": "array",
+                "preview_size": "medium",
+                "library": "all",
+                "min_width": "",
+                "min_height": "",
+                "min_size": "",
+                "max_width": "",
+                "max_height": "",
+                "max_size": "",
+                "mime_types": ""
+            },
+            {
+                "key": "field_course_2_name",
+                "label": "Nombre del Curso 2",
+                "name": "course_2_name",
+                "type": "text",
+                "instructions": "Título del segundo curso próximo (opcional)",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "",
+                "placeholder": "Ej: Curso de Gestión Empresarial",
+                "prepend": "",
+                "append": "",
+                "maxlength": ""
+            },
+            {
+                "key": "field_course_2_description",
+                "label": "Descripción del Curso 2",
+                "name": "course_2_description",
+                "type": "textarea",
+                "instructions": "Breve descripción del curso",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "",
+                "placeholder": "Describe brevemente el contenido del curso...",
+                "maxlength": "",
+                "rows": 3,
+                "new_lines": ""
+            },
+            {
+                "key": "field_course_2_date",
+                "label": "Fecha de Inicio del Curso 2",
+                "name": "course_2_date",
+                "type": "text",
+                "instructions": "Fecha en que comienza el curso",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "",
+                "placeholder": "Ej: 22 de Enero 2025",
+                "prepend": "",
+                "append": "",
+                "maxlength": ""
+            },
+            {
+                "key": "field_course_2_duration",
+                "label": "Duración del Curso 2",
+                "name": "course_2_duration",
+                "type": "text",
+                "instructions": "Duración del curso (opcional)",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "",
+                "placeholder": "Ej: 60 horas",
+                "prepend": "",
+                "append": "",
+                "maxlength": ""
+            },
+            {
+                "key": "field_course_2_modality",
+                "label": "Modalidad del Curso 2",
+                "name": "course_2_modality",
+                "type": "select",
+                "instructions": "Modalidad del curso",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "choices": {
+                    "Online": "Online",
+                    "Presencial": "Presencial",
+                    "Semipresencial": "Semipresencial"
+                },
+                "default_value": "Online",
+                "allow_null": 0,
+                "multiple": 0,
+                "ui": 0,
+                "return_format": "value",
+                "ajax": 0,
+                "placeholder": ""
+            },
+            {
+                "key": "field_course_2_category",
+                "label": "Categoría del Curso 2",
+                "name": "course_2_category",
+                "type": "select",
+                "instructions": "Categoría o área del curso",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "choices": {
+                    "Prevención de Riesgos Laborales": "Prevención de Riesgos Laborales",
+                    "Formación Profesional": "Formación Profesional",
+                    "Idiomas": "Idiomas",
+                    "Informática": "Informática",
+                    "Gestión Empresarial": "Gestión Empresarial",
+                    "Marketing": "Marketing",
+                    "Otros": "Otros"
+                },
+                "default_value": "Prevención de Riesgos Laborales",
+                "allow_null": 0,
+                "multiple": 0,
+                "ui": 0,
+                "return_format": "value",
+                "ajax": 0,
+                "placeholder": ""
+            },
+            {
+                "key": "field_course_2_image",
+                "label": "Imagen del Curso 2",
+                "name": "course_2_image",
+                "type": "image",
+                "instructions": "Imagen representativa del curso (opcional)",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "return_format": "array",
+                "preview_size": "medium",
+                "library": "all",
+                "min_width": "",
+                "min_height": "",
+                "min_size": "",
+                "max_width": "",
+                "max_height": "",
+                "max_size": "",
+                "mime_types": ""
+            },
+            {
+                "key": "field_course_3_name",
+                "label": "Nombre del Curso 3",
+                "name": "course_3_name",
+                "type": "text",
+                "instructions": "Título del tercer curso próximo (opcional)",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "",
+                "placeholder": "Ej: Curso de Idiomas",
+                "prepend": "",
+                "append": "",
+                "maxlength": ""
+            },
+            {
+                "key": "field_course_3_description",
+                "label": "Descripción del Curso 3",
+                "name": "course_3_description",
+                "type": "textarea",
+                "instructions": "Breve descripción del curso",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "",
+                "placeholder": "Describe brevemente el contenido del curso...",
+                "maxlength": "",
+                "rows": 3,
+                "new_lines": ""
+            },
+            {
+                "key": "field_course_3_date",
+                "label": "Fecha de Inicio del Curso 3",
+                "name": "course_3_date",
+                "type": "text",
+                "instructions": "Fecha en que comienza el curso",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "",
+                "placeholder": "Ej: 1 de Febrero 2025",
+                "prepend": "",
+                "append": "",
+                "maxlength": ""
+            },
+            {
+                "key": "field_course_3_duration",
+                "label": "Duración del Curso 3",
+                "name": "course_3_duration",
+                "type": "text",
+                "instructions": "Duración del curso (opcional)",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "",
+                "placeholder": "Ej: 30 horas",
+                "prepend": "",
+                "append": "",
+                "maxlength": ""
+            },
+            {
+                "key": "field_course_3_modality",
+                "label": "Modalidad del Curso 3",
+                "name": "course_3_modality",
+                "type": "select",
+                "instructions": "Modalidad del curso",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "choices": {
+                    "Online": "Online",
+                    "Presencial": "Presencial",
+                    "Semipresencial": "Semipresencial"
+                },
+                "default_value": "Online",
+                "allow_null": 0,
+                "multiple": 0,
+                "ui": 0,
+                "return_format": "value",
+                "ajax": 0,
+                "placeholder": ""
+            },
+            {
+                "key": "field_course_3_category",
+                "label": "Categoría del Curso 3",
+                "name": "course_3_category",
+                "type": "select",
+                "instructions": "Categoría o área del curso",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "choices": {
+                    "Prevención de Riesgos Laborales": "Prevención de Riesgos Laborales",
+                    "Formación Profesional": "Formación Profesional",
+                    "Idiomas": "Idiomas",
+                    "Informática": "Informática",
+                    "Gestión Empresarial": "Gestión Empresarial",
+                    "Marketing": "Marketing",
+                    "Otros": "Otros"
+                },
+                "default_value": "Prevención de Riesgos Laborales",
+                "allow_null": 0,
+                "multiple": 0,
+                "ui": 0,
+                "return_format": "value",
+                "ajax": 0,
+                "placeholder": ""
+            },
+            {
+                "key": "field_course_3_image",
+                "label": "Imagen del Curso 3",
+                "name": "course_3_image",
+                "type": "image",
+                "instructions": "Imagen representativa del curso (opcional)",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "return_format": "array",
+                "preview_size": "medium",
+                "library": "all",
+                "min_width": "",
+                "min_height": "",
+                "min_size": "",
+                "max_width": "",
+                "max_height": "",
+                "max_size": "",
+                "mime_types": ""
+            }
+        ],
+        "location": [
+            [
+                {
+                    "param": "page_template",
+                    "operator": "==",
+                    "value": "page-templates/page-cursos.php"
+                }
+            ]
+        ],
+        "menu_order": 0,
+        "position": "normal",
+        "style": "default",
+        "label_placement": "top",
+        "instruction_placement": "label",
+        "hide_on_screen": "",
+        "active": true,
+        "description": ""
+    }
+]

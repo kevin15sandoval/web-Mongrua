@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Image Upload - Course Management Panel</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .test-section {
+            border: 1px solid #ddd;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+        .image-upload-area {
+            border: 2px dashed #e1e8ed;
+            border-radius: 8px;
+            padding: 40px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .image-upload-area:hover {
+            border-color: #3498db;
+            background: #f8fcff;
+        }
+        .image-preview {
+            max-width: 200px;
+            max-height: 150px;
+            border-radius: 8px;
+            margin: 10px auto;
+            display: block;
+        }
+        .btn-remove-image {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            cursor: pointer;
+            margin-top: 8px;
+        }
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e1e8ed;
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 12px 0 8px;
+        }
+        .progress-fill {
+            height: 100%;
+            background: #3498db;
+            transition: width 0.3s ease;
+        }
+        .upload-spinner {
+            width: 30px;
+            height: 30px;
+            border: 3px solid #e1e8ed;
+            border-top: 3px solid #3498db;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 16px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .success { color: #27ae60; }
+        .error { color: #e74c3c; }
+    </style>
+</head>
+<body>
+    <h1>Image Upload Test - Course Management Panel</h1>
+    
+    <div class="test-section">
+        <h2>✅ Task 5.1: Image Upload API</h2>
+        <p><strong>Status:</strong> <span class="success">COMPLETED</span></p>
+        <ul>
+            <li>✅ Secure file upload endpoint implemented at <code>/wp-json/mongruas/v1/media/upload</code></li>
+            <li>✅ Image validation (type: JPG, PNG, WebP; size: 1KB-2MB)</li>
+            <li>✅ Image processing and optimization via WordPress media library</li>
+            <li>✅ Integration with WordPress media library</li>
+            <li>✅ Proper error handling and security measures</li>
+        </ul>
+        
+        <h3>API Features:</h3>
+        <ul>
+            <li><strong>File Type Validation:</strong> Only allows JPG, PNG, and WebP images</li>
+            <li><strong>Size Validation:</strong> Minimum 1KB, Maximum 2MB</li>
+            <li><strong>Security:</strong> CSRF protection, nonce verification, admin-only access</li>
+            <li><strong>WordPress Integration:</strong> Uses WordPress media handling functions</li>
+            <li><strong>Error Handling:</strong> Comprehensive error messages for different failure scenarios</li>
+        </ul>
+    </div>
+    
+    <div class="test-section">
+        <h2>✅ Task 5.3: Image Upload Interface</h2>
+        <p><strong>Status:</strong> <span class="success">COMPLETED</span></p>
+        <ul>
+            <li>✅ Drag-and-drop upload component</li>
+            <li>✅ Image preview functionality</li>
+            <li>✅ Upload progress indication</li>
+            <li>✅ Image removal capability</li>
+        </ul>
+        
+        <h3>Interface Features:</h3>
+        <ul>
+            <li><strong>Drag & Drop:</strong> Users can drag images directly onto the upload area</li>
+            <li><strong>Click to Upload:</strong> Traditional file input accessible by clicking</li>
+            <li><strong>Live Preview:</strong> Immediate preview of uploaded images</li>
+            <li><strong>Progress Indicator:</strong> Visual progress bar during upload</li>
+            <li><strong>Remove Functionality:</strong> Easy image removal with confirmation</li>
+            <li><strong>Validation Feedback:</strong> Clear error messages for invalid files</li>
+        </ul>
+        
+        <h3>Demo Upload Area:</h3>
+        <div class="image-upload-area" id="demo-upload">
+            <p>Haz clic o arrastra una imagen aquí</p>
+            <p><small>Formatos: JPG, PNG, WebP (máx. 2MB)</small></p>
+        </div>
+        <input type="file" id="demo-file-input" accept="image/jpeg,image/jpg,image/png,image/webp" style="display: none;">
+    </div>
+    
+    <div class="test-section">
+        <h2>🎯 Requirements Validation</h2>
+        <h3>Requirement 2.4 - Image Upload and Processing:</h3>
+        <ul>
+            <li>✅ <strong>Secure Upload:</strong> CSRF protection and admin authentication</li>
+            <li>✅ <strong>File Validation:</strong> Type, size, and format validation</li>
+            <li>✅ <strong>WordPress Integration:</strong> Uses WordPress media library</li>
+            <li>✅ <strong>Error Handling:</strong> Comprehensive error messages</li>
+        </ul>
+        
+        <h3>Requirement 3.3 - User Interface:</h3>
+        <ul>
+            <li>✅ <strong>Drag & Drop:</strong> Intuitive file upload interface</li>
+            <li>✅ <strong>Preview:</strong> Immediate visual feedback</li>
+            <li>✅ <strong>Progress:</strong> Upload progress indication</li>
+            <li>✅ <strong>Removal:</strong> Easy image removal capability</li>
+        </ul>
+    </div>
+    
+    <div class="test-section">
+        <h2>🔧 Technical Implementation</h2>
+        <h3>Backend (PHP):</h3>
+        <ul>
+            <li><strong>Endpoint:</strong> <code>POST /wp-json/mongruas/v1/media/upload</code></li>
+            <li><strong>Authentication:</strong> WordPress admin permissions required</li>
+            <li><strong>Validation:</strong> File type, size, and security checks</li>
+            <li><strong>Processing:</strong> WordPress media_handle_upload() function</li>
+            <li><strong>Response:</strong> JSON with image ID, URL, and metadata</li>
+        </ul>
+        
+        <h3>Frontend (JavaScript):</h3>
+        <ul>
+            <li><strong>Drag & Drop:</strong> HTML5 drag and drop API</li>
+            <li><strong>File Upload:</strong> XMLHttpRequest with progress tracking</li>
+            <li><strong>Preview:</strong> FileReader API for immediate preview</li>
+            <li><strong>Progress:</strong> Upload progress events</li>
+            <li><strong>Error Handling:</strong> User-friendly error messages</li>
+        </ul>
+        
+        <h3>CSS Styling:</h3>
+        <ul>
+            <li><strong>Upload Area:</strong> Dashed border with hover effects</li>
+            <li><strong>Progress Bar:</strong> Animated progress indicator</li>
+            <li><strong>Preview:</strong> Responsive image preview</li>
+            <li><strong>Buttons:</strong> Styled remove and upload buttons</li>
+        </ul>
+    </div>
+    
+    <script>
+        // Demo functionality for the test page
+        document.getElementById('demo-upload').addEventListener('click', function() {
+            document.getElementById('demo-file-input').click();
+        });
+        
+        document.getElementById('demo-file-input').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                simulateUpload(file);
+            }
+        });
+        
+        // Drag and drop for demo
+        const demoUpload = document.getElementById('demo-upload');
+        
+        demoUpload.addEventListener('dragover', function(e) {
+            e.preventDefault();
+            this.style.borderColor = '#3498db';
+            this.style.background = '#f8fcff';
+        });
+        
+        demoUpload.addEventListener('dragleave', function(e) {
+            e.preventDefault();
+            this.style.borderColor = '#e1e8ed';
+            this.style.background = '';
+        });
+        
+        demoUpload.addEventListener('drop', function(e) {
+            e.preventDefault();
+            this.style.borderColor = '#e1e8ed';
+            this.style.background = '';
+            
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                simulateUpload(files[0]);
+            }
+        });
+        
+        function simulateUpload(file) {
+            const uploadArea = document.getElementById('demo-upload');
+            
+            // Show progress
+            uploadArea.innerHTML = `
+                <div class="upload-spinner"></div>
+                <p>Subiendo imagen...</p>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 0%"></div>
+                </div>
+                <span class="progress-text">0%</span>
+            `;
+            
+            // Simulate progress
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += Math.random() * 20;
+                if (progress >= 100) {
+                    progress = 100;
+                    clearInterval(interval);
+                    
+                    // Show preview
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        uploadArea.innerHTML = `
+                            <img src="${e.target.result}" alt="Vista previa" class="image-preview">
+                            <p>Imagen cargada correctamente (simulación)</p>
+                            <button type="button" class="btn-remove-image" onclick="resetDemo()">Eliminar imagen</button>
+                        `;
+                    };
+                    reader.readAsDataURL(file);
+                } else {
+                    document.querySelector('.progress-fill').style.width = progress + '%';
+                    document.querySelector('.progress-text').textContent = Math.round(progress) + '%';
+                }
+            }, 100);
+        }
+        
+        function resetDemo() {
+            document.getElementById('demo-upload').innerHTML = `
+                <p>Haz clic o arrastra una imagen aquí</p>
+                <p><small>Formatos: JPG, PNG, WebP (máx. 2MB)</small></p>
+            `;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Carrusel Directo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 40px 20px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 40px;
+        }
+        
+        /* CARRUSEL SIMPLE */
+        .carrusel-container {
+            position: relative;
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .carrusel-slide {
+            display: none;
+            padding: 40px;
+        }
+        
+        .carrusel-slide.active {
+            display: block;
+        }
+        
+        .curso-card {
+            text-align: center;
+        }
+        
+        .curso-badge {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 25px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+        
+        .curso-titulo {
+            font-size: 2rem;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-weight: 800;
+        }
+        
+        .curso-descripcion {
+            color: #6c757d;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            font-size: 1.1rem;
+        }
+        
+        .curso-detalles {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .detalle-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #495057;
+            font-weight: 600;
+        }
+        
+        .detalle-icon {
+            font-size: 1.2rem;
+        }
+        
+        .curso-acciones {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 15px 25px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 700;
+            text-align: center;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+        
+        .btn-ver-mas {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+        }
+        
+        .btn-ver-mas:hover {
+            background: linear-gradient(135deg, #2980b9, #1f618d);
+            transform: translateY(-2px);
+            color: white;
+            text-decoration: none;
+        }
+        
+        .btn-reservar {
+            background: linear-gradient(135deg, #27ae60, #229954);
+            color: white;
+        }
+        
+        .btn-reservar:hover {
+            background: linear-gradient(135deg, #229954, #1e8449);
+            transform: translateY(-2px);
+            color: white;
+            text-decoration: none;
+        }
+        
+        /* CONTROLES */
+        .carrusel-controles {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 20px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .carrusel-controles:hover {
+            background: #3498db;
+            color: white;
+            transform: translateY(-50%) scale(1.1);
+        }
+        
+        .prev {
+            left: -25px;
+        }
+        
+        .next {
+            right: -25px;
+        }
+        
+        /* INDICADORES */
+        .carrusel-indicadores {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 30px;
+        }
+        
+        .indicador {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            border: none;
+            background: rgba(52, 152, 219, 0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .indicador.active {
+            background: #3498db;
+            transform: scale(1.3);
+        }
+        
+        @media (max-width: 768px) {
+            .curso-titulo {
+                font-size: 1.6rem;
+            }
+            
+            .curso-acciones {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎠 Test Carrusel Directo</h1>
+        
+        <div class="carrusel-container">
+            <!-- Slide 1 -->
+            <div class="carrusel-slide active">
+                <div class="curso-card">
+                    <div class="curso-badge">Próximamente</div>
+                    <h2 class="curso-titulo">Montaje y Mantenimiento de Instalaciones Eléctricas</h2>
+                    <p class="curso-descripcion">Curso completo de instalaciones eléctricas de baja tensión con certificado oficial.</p>
+                    
+                    <div class="curso-detalles">
+                        <div class="detalle-item">
+                            <span class="detalle-icon">📅</span>
+                            <span>Enero 2025</span>
+                        </div>
+                        <div class="detalle-item">
+                            <span class="detalle-icon">⏱️</span>
+                            <span>15 plazas</span>
+                        </div>
+                        <div class="detalle-item">
+                            <span class="detalle-icon">💻</span>
+                            <span>Presencial</span>
+                        </div>
+                    </div>
+                    
+                    <div class="curso-acciones">
+                        <a href="#" class="btn btn-ver-mas">Ver Más Información</a>
+                        <a href="#" class="btn btn-reservar">Reservar Plaza</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Slide 2 -->
+            <div class="carrusel-slide">
+                <div class="curso-card">
+                    <div class="curso-badge">Próximamente</div>
+                    <h2 class="curso-titulo">Sistemas Domóticos e Inmóticos</h2>
+                    <p class="curso-descripcion">Especialización en automatización de edificios y sistemas inteligentes.</p>
+                    
+                    <div class="curso-detalles">
+                        <div class="detalle-item">
+                            <span class="detalle-icon">📅</span>
+                            <span>Febrero 2025</span>
+                        </div>
+                        <div class="detalle-item">
+                            <span class="detalle-icon">⏱️</span>
+                            <span>12 plazas</span>
+                        </div>
+                        <div class="detalle-item">
+                            <span class="detalle-icon">💻</span>
+                            <span>Presencial</span>
+                        </div>
+                    </div>
+                    
+                    <div class="curso-acciones">
+                        <a href="#" class="btn btn-ver-mas">Ver Más Información</a>
+                        <a href="#" class="btn btn-reservar">Reservar Plaza</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Slide 3 -->
+            <div class="carrusel-slide">
+                <div class="curso-card">
+                    <div class="curso-badge">Próximamente</div>
+                    <h2 class="curso-titulo">Control de Plagas</h2>
+                    <p class="curso-descripcion">Formación profesional en control y prevención de plagas urbanas.</p>
+                    
+                    <div class="curso-detalles">
+                        <div class="detalle-item">
+                            <span class="detalle-icon">📅</span>
+                            <span>Marzo 2025</span>
+                        </div>
+                        <div class="detalle-item">
+                            <span class="detalle-icon">⏱️</span>
+                            <span>10 plazas</span>
+                        </div>
+                        <div class="detalle-item">
+                            <span class="detalle-icon">💻</span>
+                            <span>Presencial</span>
+                        </div>
+                    </div>
+                    
+                    <div class="curso-acciones">
+                        <a href="#" class="btn btn-ver-mas">Ver Más Información</a>
+                        <a href="#" class="btn btn-reservar">Reservar Plaza</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Controles -->
+            <button class="carrusel-controles prev" onclick="cambiarSlide(-1)">‹</button>
+            <button class="carrusel-controles next" onclick="cambiarSlide(1)">›</button>
+        </div>
+        
+        <!-- Indicadores -->
+        <div class="carrusel-indicadores">
+            <button class="indicador active" onclick="irASlide(0)"></button>
+            <button class="indicador" onclick="irASlide(1)"></button>
+            <button class="indicador" onclick="irASlide(2)"></button>
+        </div>
+    </div>
+
+    <script>
+        let slideActual = 0;
+        const totalSlides = 3;
+        
+        function mostrarSlide(n) {
+            const slides = document.querySelectorAll('.carrusel-slide');
+            const indicadores = document.querySelectorAll('.indicador');
+            
+            // Ocultar todos los slides
+            slides.forEach(slide => slide.classList.remove('active'));
+            indicadores.forEach(indicador => indicador.classList.remove('active'));
+            
+            // Mostrar slide actual
+            slides[n].classList.add('active');
+            indicadores[n].classList.add('active');
+        }
+        
+        function cambiarSlide(direccion) {
+            slideActual += direccion;
+            
+            if (slideActual >= totalSlides) {
+                slideActual = 0;
+            } else if (slideActual < 0) {
+                slideActual = totalSlides - 1;
+            }
+            
+            mostrarSlide(slideActual);
+        }
+        
+        function irASlide(n) {
+            slideActual = n;
+            mostrarSlide(slideActual);
+        }
+        
+        // Autoplay cada 5 segundos
+        setInterval(() => {
+            cambiarSlide(1);
+        }, 5000);
+        
+        console.log('🎠 Carrusel cargado correctamente');
+    </script>
+</body>
+</html>

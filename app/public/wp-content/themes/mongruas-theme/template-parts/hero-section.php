@@ -16,6 +16,22 @@ $hero_secondary_cta_text = get_field('hero_secondary_cta_text');
 $hero_secondary_cta_link = get_field('hero_secondary_cta_link');
 $hero_trust_badges = get_field('hero_trust_badges');
 
+// Si no hay imagen en ACF, buscar entrada.jpg en uploads
+if (!$hero_background_image) {
+    $upload_dir = wp_upload_dir();
+    // Buscar primero en la carpeta del mes actual
+    $entrada_path = $upload_dir['basedir'] . '/2025/10/entrada.jpg';
+    if (file_exists($entrada_path)) {
+        $hero_background_image = array('url' => $upload_dir['baseurl'] . '/2025/10/entrada.jpg', 'alt' => 'Entrada Mogruas');
+    } else {
+        // Si no está ahí, buscar en galeria
+        $entrada_path = $upload_dir['basedir'] . '/galeria/entrada.jpg';
+        if (file_exists($entrada_path)) {
+            $hero_background_image = array('url' => $upload_dir['baseurl'] . '/galeria/entrada.jpg', 'alt' => 'Entrada Mogruas');
+        }
+    }
+}
+
 // Default values
 $hero_headline = $hero_headline ?: 'LA FORMACIÓN AL ALCANCE DE TODOS';
 $hero_subheadline = $hero_subheadline ?: 'Centro Profesional para el Empleo desde 2005 en Talavera de la Reina';

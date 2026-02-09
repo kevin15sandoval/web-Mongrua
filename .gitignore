@@ -2,34 +2,44 @@
 app/public/wp-config.php
 app/public/.htaccess
 
-# WordPress core files
-app/public/wp-admin/
-app/public/wp-includes/
+# Uploads y cache
 app/public/wp-content/uploads/
-app/public/wp-content/upgrade/
 app/public/wp-content/cache/
+app/public/wp-content/upgrade/
+app/public/wp-content/backup-db/
+app/public/wp-content/backups/
+app/public/wp-content/blogs.dir/
+app/public/wp-content/upgrade/
 
 # Logs
-logs/
 *.log
+logs/
+app/logs/
 
-# Local environment
-local-xdebuginfo.php
-
-# OS files
+# Sistema operativo
 .DS_Store
 Thumbs.db
+desktop.ini
 
-# IDE
-.vscode/
+# IDEs
 .idea/
-
-# Dependencies
-node_modules/
-vendor/
-
-# Temporary files
-*.tmp
-*.bak
+.vscode/
 *.swp
+*.swo
 *~
+
+# Node modules (si usas npm)
+node_modules/
+
+# Archivos temporales
+*.tmp
+*.temp
+*.bak
+*.old
+
+# Base de datos local
+*.sql
+*.sqlite
+
+# Archivos de configuración local
+local-config.php

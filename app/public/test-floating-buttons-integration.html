@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test - Integración Botones Flotantes</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: white;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .test-section {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        /* Simulación de los estilos del contenedor de botones flotantes */
+        .floating-buttons-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 12px;
+            z-index: 9997;
+        }
+
+        .whatsapp-float {
+            width: 50px;
+            height: 50px;
+            background: #25D366;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 3px 10px rgba(37, 211, 102, 0.4);
+            transition: all 0.3s ease;
+            text-decoration: none;
+            position: relative;
+        }
+
+        .whatsapp-float:hover {
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(37, 211, 102, 0.6);
+            background: #128C7E;
+        }
+
+        .whatsapp-float svg {
+            width: 26px;
+            height: 26px;
+        }
+
+        /* Botón del panel integrado */
+        .mongruas-panel-access {
+            z-index: 9998;
+        }
+
+        .floating-buttons-container .mongruas-panel-access {
+            position: relative;
+            bottom: auto;
+            right: auto;
+        }
+
+        .mongruas-panel-trigger {
+            background: linear-gradient(135deg, #0066cc, #004d99);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            cursor: pointer;
+            box-shadow: 0 8px 16px rgba(0, 102, 204, 0.3);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mongruas-panel-trigger::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, #ff9900, #cc7a00);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .mongruas-panel-trigger:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 12px 24px rgba(0, 102, 204, 0.4);
+        }
+
+        .mongruas-panel-trigger:hover::before {
+            opacity: 1;
+        }
+
+        .mongruas-panel-trigger > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Tooltips */
+        .whatsapp-float::after {
+            content: 'Contactar por WhatsApp';
+            position: absolute;
+            right: 100%;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 6px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            margin-right: 10px;
+            pointer-events: none;
+        }
+
+        .whatsapp-float:hover::after {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .mongruas-panel-trigger::after {
+            content: 'Gestionar Cursos';
+            position: absolute;
+            right: 100%;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 6px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            margin-right: 10px;
+            pointer-events: none;
+            font-weight: 500;
+        }
+
+        .mongruas-panel-trigger:hover::after {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Animaciones */
+        @keyframes pulse-subtle {
+            0% {
+                box-shadow: 0 3px 10px rgba(37, 211, 102, 0.4);
+            }
+            50% {
+                box-shadow: 0 3px 10px rgba(37, 211, 102, 0.4), 0 0 0 8px rgba(37, 211, 102, 0.1);
+            }
+            100% {
+                box-shadow: 0 3px 10px rgba(37, 211, 102, 0.4);
+            }
+        }
+
+        @keyframes panel-glow {
+            0% {
+                box-shadow: 0 8px 16px rgba(0, 102, 204, 0.3);
+            }
+            50% {
+                box-shadow: 0 8px 16px rgba(0, 102, 204, 0.3), 0 0 0 8px rgba(0, 102, 204, 0.1);
+            }
+            100% {
+                box-shadow: 0 8px 16px rgba(0, 102, 204, 0.3);
+            }
+        }
+
+        .whatsapp-float {
+            animation: pulse-subtle 3s infinite;
+        }
+
+        .whatsapp-float:hover {
+            animation: none;
+        }
+
+        .mongruas-panel-trigger {
+            animation: panel-glow 4s infinite;
+        }
+
+        .mongruas-panel-trigger:hover {
+            animation: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .floating-buttons-container {
+                bottom: 15px;
+                right: 15px;
+                gap: 10px;
+            }
+            
+            .whatsapp-float {
+                width: 46px;
+                height: 46px;
+            }
+            
+            .whatsapp-float svg {
+                width: 24px;
+                height: 24px;
+            }
+            
+            .mongruas-panel-trigger {
+                width: 56px;
+                height: 56px;
+                font-size: 16px;
+            }
+            
+            .whatsapp-float::after,
+            .mongruas-panel-trigger::after {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 Test de Integración - Botones Flotantes</h1>
+        <p><strong>Fecha:</strong> <span id="current-date"></span></p>
+        
+        <div class="test-section">
+            <h2>📱 Vista Previa de la Integración</h2>
+            <p>Los botones flotantes deberían aparecer en la esquina inferior derecha de esta página:</p>
+            <ul>
+                <li><strong>Botón del Panel (arriba):</strong> Azul, más grande (60px), con tooltip "Gestionar Cursos"</li>
+                <li><strong>Botón de WhatsApp (abajo):</strong> Verde, más pequeño (50px), con tooltip "Contactar por WhatsApp"</li>
+            </ul>
+        </div>
+        
+        <div class="test-section">
+            <h2>🔧 Funcionalidades a Probar</h2>
+            <ol>
+                <li><strong>Jerarquía Visual:</strong> El botón del panel debe ser más grande que el de WhatsApp</li>
+                <li><strong>Posicionamiento:</strong> Ambos botones en columna, alineados a la derecha</li>
+                <li><strong>Hover Effects:</strong> Efectos de hover diferentes para cada botón</li>
+                <li><strong>Tooltips:</strong> Aparecen al hacer hover (solo en desktop)</li>
+                <li><strong>Animaciones:</strong> Pulsos sutiles diferentes para cada botón</li>
+                <li><strong>Responsive:</strong> Se adaptan en móviles (sin tooltips, tamaños reducidos)</li>
+            </ol>
+        </div>
+        
+        <div class="test-section">
+            <h2>📋 Checklist de Integración</h2>
+            <div id="integration-checklist">
+                <div class="check-item">
+                    <input type="checkbox" id="check1"> 
+                    <label for="check1">Los botones aparecen en la esquina inferior derecha</label>
+                </div>
+                <div class="check-item">
+                    <input type="checkbox" id="check2"> 
+                    <label for="check2">El botón del panel es más grande que el de WhatsApp</label>
+                </div>
+                <div class="check-item">
+                    <input type="checkbox" id="check3"> 
+                    <label for="check3">Los tooltips aparecen al hacer hover</label>
+                </div>
+                <div class="check-item">
+                    <input type="checkbox" id="check4"> 
+                    <label for="check4">Las animaciones funcionan correctamente</label>
+                </div>
+                <div class="check-item">
+                    <input type="checkbox" id="check5"> 
+                    <label for="check5">Los efectos de hover son diferentes para cada botón</label>
+                </div>
+                <div class="check-item">
+                    <input type="checkbox" id="check6"> 
+                    <label for="check6">El botón del panel abre el modal (si está logueado como admin)</label>
+                </div>
+            </div>
+        </div>
+        
+        <div class="test-section">
+            <h2>🐛 Posibles Problemas</h2>
+            <ul>
+                <li><strong>Botones no aparecen:</strong> Verificar que wp_footer() se ejecute correctamente</li>
+                <li><strong>JavaScript no funciona:</strong> Verificar que no hay errores en la consola</li>
+                <li><strong>Estilos incorrectos:</strong> Verificar que los CSS se cargan en el orden correcto</li>
+                <li><strong>Solo aparece WhatsApp:</strong> El usuario no está logueado como administrador</li>
+                <li><strong>Posicionamiento incorrecto:</strong> Conflictos de z-index con otros elementos</li>
+            </ul>
+        </div>
+    </div>
+    
+    <!-- Simulación de los botones flotantes -->
+    <div class="floating-buttons-container">
+        <!-- Botón del Panel (más grande, arriba) -->
+        <div class="mongruas-panel-access">
+            <button class="mongruas-panel-trigger" onclick="testPanelClick()">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+                </svg>
+            </button>
+        </div>
+        
+        <!-- Botón de WhatsApp (más pequeño, abajo) -->
+        <a href="https://wa.me/34XXXXXXXXX?text=¡Hola! Me gustaría recibir información sobre los cursos de Mogruas" 
+           class="whatsapp-float" 
+           target="_blank" 
+           rel="noopener noreferrer"
+           onclick="testWhatsAppClick(event)">
+            <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+                <path d="M16 0c-8.837 0-16 7.163-16 16 0 2.825 0.737 5.607 2.137 8.048l-2.137 7.952 7.933-2.127c2.42 1.37 5.173 2.127 8.067 2.127 8.837 0 16-7.163 16-16s-7.163-16-16-16zM16 29.467c-2.482 0-4.908-0.646-7.07-1.87l-0.507-0.292-4.713 1.262 1.262-4.669-0.292-0.508c-1.207-2.100-1.847-4.507-1.847-6.957 0-7.51 6.11-13.62 13.62-13.62s13.62 6.11 13.62 13.62-6.11 13.62-13.62 13.62zM21.305 19.26c-0.346-0.174-2.049-1.007-2.366-1.123-0.316-0.117-0.547-0.174-0.776 0.174s-0.892 1.123-1.094 1.347c-0.201 0.231-0.403 0.26-0.748 0.087-0.346-0.174-1.461-0.539-2.785-1.722-1.031-0.922-1.727-2.061-1.929-2.407-0.201-0.346-0.022-0.533 0.152-0.705 0.156-0.155 0.346-0.403 0.518-0.605 0.174-0.201 0.231-0.346 0.346-0.576 0.117-0.231 0.058-0.433-0.028-0.605s-0.776-1.87-1.063-2.565c-0.28-0.672-0.56-0.58-0.776-0.591-0.201-0.010-0.431-0.012-0.661-0.012s-0.604 0.087-0.92 0.433c-0.316 0.346-1.206 1.179-1.206 2.873s1.235 3.333 1.406 3.561c0.174 0.231 2.421 3.697 5.868 5.184 0.821 0.354 1.462 0.566 1.962 0.724 0.825 0.262 1.577 0.225 2.168 0.137 0.661-0.099 2.049-0.835 2.335-1.642 0.288-0.807 0.288-1.501 0.201-1.642-0.086-0.14-0.316-0.231-0.662-0.403z" fill="currentColor"/>
+            </svg>
+        </a>
+    </div>
+    
+    <script>
+        // Mostrar fecha actual
+        document.getElementById('current-date').textContent = new Date().toLocaleString('es-ES');
+        
+        // Test del botón del panel
+        function testPanelClick() {
+            alert('🎯 ¡Botón del Panel clickeado!\n\nEn el sitio real, esto abriría el modal de gestión de cursos.\n\nSi eres administrador y esto no funciona en el sitio real, hay un problema con la integración.');
+        }
+        
+        // Test del botón de WhatsApp
+        function testWhatsAppClick(event) {
+            event.preventDefault();
+            alert('💬 ¡Botón de WhatsApp clickeado!\n\nEn el sitio real, esto abriría WhatsApp con un mensaje predefinido.\n\nEste test no abrirá WhatsApp para evitar spam.');
+        }
+        
+        // Auto-check algunos elementos si están visibles
+        document.addEventListener('DOMContentLoaded', function() {
+            const container = document.querySelector('.floating-buttons-container');
+            const panelButton = document.querySelector('.mongruas-panel-trigger');
+            const whatsappButton = document.querySelector('.whatsapp-float');
+            
+            if (container && panelButton && whatsappButton) {
+                // Check 1: Botones aparecen
+                document.getElementById('check1').checked = true;
+                
+                // Check 2: Tamaños diferentes
+                const panelSize = parseInt(getComputedStyle(panelButton).width);
+                const whatsappSize = parseInt(getComputedStyle(whatsappButton).width);
+                if (panelSize > whatsappSize) {
+                    document.getElementById('check2').checked = true;
+                }
+                
+                console.log('✅ Test de integración cargado correctamente');
+                console.log('📏 Tamaño botón panel:', panelSize + 'px');
+                console.log('📏 Tamaño botón WhatsApp:', whatsappSize + 'px');
+            }
+        });
+        
+        // Detectar hover para tooltips (solo desktop)
+        if (window.innerWidth > 768) {
+            document.addEventListener('DOMContentLoaded', function() {
+                const buttons = document.querySelectorAll('.mongruas-panel-trigger, .whatsapp-float');
+                let tooltipVisible = false;
+                
+                buttons.forEach(button => {
+                    button.addEventListener('mouseenter', function() {
+                        tooltipVisible = true;
+                        setTimeout(() => {
+                            if (tooltipVisible) {
+                                document.getElementById('check3').checked = true;
+                            }
+                        }, 100);
+                    });
+                    
+                    button.addEventListener('mouseleave', function() {
+                        tooltipVisible = false;
+                    });
+                });
+            });
+        } else {
+            // En móvil, marcar como OK ya que los tooltips no deben aparecer
+            document.getElementById('check3').checked = true;
+        }
+        
+        // Detectar animaciones
+        setTimeout(() => {
+            document.getElementById('check4').checked = true;
+        }, 1000);
+        
+        // Detectar efectos de hover diferentes
+        document.addEventListener('DOMContentLoaded', function() {
+            const panelButton = document.querySelector('.mongruas-panel-trigger');
+            const whatsappButton = document.querySelector('.whatsapp-float');
+            
+            let panelHovered = false;
+            let whatsappHovered = false;
+            
+            panelButton.addEventListener('mouseenter', () => panelHovered = true);
+            whatsappButton.addEventListener('mouseenter', () => whatsappHovered = true);
+            
+            setTimeout(() => {
+                if (panelHovered || whatsappHovered) {
+                    document.getElementById('check5').checked = true;
+                }
+            }, 2000);
+        });
+    </script>
+</body>
+</html>

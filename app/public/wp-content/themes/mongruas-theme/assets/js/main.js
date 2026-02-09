@@ -1,284 +1,186 @@
 /**
- * Main JavaScript for Formación y Enseñanza Mogruas
- * 
- * @package Mongruas
- * @since 1.0.0
+ * Main JavaScript for Mongruas Theme
+ * Includes carousel functionality for about section
  */
 
-(function($) {
-    'use strict';
+document.addEventListener("DOMContentLoaded", function() {
+    console.log("🚀 Main.js cargado correctamente");
+    
+    // CARRUSEL DE FOTOS - PÁGINA DE INICIO
+    initializeAboutCarousel();
+    
+    // Otras funcionalidades
+    initializeFormValidation();
+    initializeScrollEffects();
+});
 
-    /**
-     * Mobile Menu Toggle
-     */
-    function initMobileMenu() {
-        const menuToggle = $('.menu-toggle');
-        const navMenu = $('.nav-menu');
-
-        menuToggle.on('click', function() {
-            const isExpanded = $(this).attr('aria-expanded') === 'true';
-            $(this).attr('aria-expanded', !isExpanded);
-            navMenu.toggleClass('active');
-        });
-
-        // Close menu when clicking outside
-        $(document).on('click', function(e) {
-            if (!$(e.target).closest('.main-navigation').length) {
-                menuToggle.attr('aria-expanded', 'false');
-                navMenu.removeClass('active');
-            }
+/**
+ * Inicializar carrusel de fotos en la sección About
+ */
+function initializeAboutCarousel() {
+    const track = document.getElementById("carouselTrackAbout");
+    if (!track) return;
+    
+    const slides = document.querySelectorAll(".carousel-slide-about");
+    const prevBtn = document.getElementById("prevBtnAbout");
+    const nextBtn = document.getElementById("nextBtnAbout");
+    const indicatorsContainer = document.getElementById("carouselIndicatorsAbout");
+    
+    if (slides.length === 0) return;
+    
+    let currentSlide = 0;
+    const totalSlides = slides.length;
+    
+    // Crear indicadores
+    indicatorsContainer.innerHTML = "";
+    for (let i = 0; i < totalSlides; i++) {
+        const indicator = document.createElement("button");
+        indicator.classList.add("carousel-indicator-about");
+        if (i === 0) indicator.classList.add("active");
+        indicator.setAttribute("aria-label", `Ir a imagen ${i + 1}`);
+        indicator.addEventListener("click", () => goToSlide(i));
+        indicatorsContainer.appendChild(indicator);
+    }
+    
+    const indicators = document.querySelectorAll(".carousel-indicator-about");
+    
+    function updateCarousel() {
+        slides.forEach(slide => slide.classList.remove("active"));
+        slides[currentSlide].classList.add("active");
+        indicators.forEach((indicator, index) => {
+            indicator.classList.toggle("active", index === currentSlide);
         });
     }
+    
+    function nextSlide() {
+        currentSlide = (currentSlide + 1) % totalSlides;
+        updateCarousel();
+    }
+    
+    function prevSlide() {
+        currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+        updateCarousel();
+    }
+    
+    function goToSlide(index) {
+        currentSlide = index;
+        updateCarousel();
+    }
+    
+    // Event listeners
+    if (prevBtn) prevBtn.addEventListener("click", prevSlide);
+    if (nextBtn) nextBtn.addEventListener("click", nextSlide);
+    
+    // Auto-play
+    let autoplayInterval = setInterval(nextSlide, 5000);
+    
+    const carouselContainer = document.querySelector(".about-carousel");
+    if (carouselContainer) {
+        carouselContainer.addEventListener("mouseenter", () => clearInterval(autoplayInterval));
+        carouselContainer.addEventListener("mouseleave", () => {
+            autoplayInterval = setInterval(nextSlide, 5000);
+        });
+    }
+    
+    // Soporte táctil
+    let touchStartX = 0;
+    let touchEndX = 0;
+    
+    track.addEventListener("touchstart", (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+    });
+    
+    track.addEventListener("touchend", (e) => {
+        touchEndX = e.changedTouches[0].screenX;
+        handleSwipe();
+    });
+    
+    function handleSwipe() {
+        const swipeThreshold = 50;
+        const diff = touchStartX - touchEndX;
+        
+        if (Math.abs(diff) > swipeThreshold) {
+            if (diff > 0) {
+                nextSlide();
+            } else {
+                prevSlide();
+            }
+        }
+    }
+    
+    console.log("🎠 Carrusel de fotos inicializado correctamente");
+}
 
-    /**
-     * Smooth Scroll for Anchor Links
-     */
-    function initSmoothScroll() {
-        $('a[href^="#"]').on('click', function(e) {
-            const target = $(this.getAttribute('href'));
+/**
+ * Inicializar validación de formularios
+ */
+function initializeFormValidation() {
+    const forms = document.querySelectorAll("form");
+    forms.forEach(form => {
+        form.addEventListener("submit", function(e) {
+            // Validación básica
+            const requiredFields = form.querySelectorAll("[required]");
+            let isValid = true;
             
-            if (target.length) {
-                e.preventDefault();
-                $('html, body').stop().animate({
-                    scrollTop: target.offset().top - 80
-                }, 800);
-            }
-        });
-    }
-
-    /**
-     * Track CTA Button Clicks
-     */
-    function initCTATracking() {
-        $('.btn, .cta-button').on('click', function() {
-            const ctaText = $(this).text().trim();
-            const ctaLocation = $(this).closest('section').attr('id') || 'unknown';
-
-            if (typeof mongruasAjax !== 'undefined') {
-                $.ajax({
-                    url: mongruasAjax.ajaxurl,
-                    type: 'POST',
-                    data: {
-                        action: 'mongruas_track_cta',
-                        nonce: mongruasAjax.nonce,
-                        cta_text: ctaText,
-                        cta_location: ctaLocation
-                    }
-                });
-            }
-
-            // Fire Google Analytics event if available
-            if (typeof gtag !== 'undefined') {
-                gtag('event', 'cta_click', {
-                    'event_category': 'engagement',
-                    'event_label': ctaText,
-                    'value': ctaLocation
-                });
-            }
-
-            // Fire Facebook Pixel event if available
-            if (typeof fbq !== 'undefined') {
-                fbq('track', 'Lead', {
-                    content_name: ctaText
-                });
-            }
-        });
-    }
-
-    /**
-     * Lazy Load Images
-     */
-    function initLazyLoad() {
-        if ('loading' in HTMLImageElement.prototype) {
-            // Browser supports native lazy loading
-            const images = document.querySelectorAll('img[loading="lazy"]');
-            images.forEach(img => {
-                if (img.dataset.src) {
-                    img.src = img.dataset.src;
+            requiredFields.forEach(field => {
+                if (!field.value.trim()) {
+                    isValid = false;
+                    field.classList.add("error");
+                } else {
+                    field.classList.remove("error");
                 }
             });
-        } else {
-            // Fallback for browsers that don't support native lazy loading
-            const lazyImages = document.querySelectorAll('img[data-src]');
             
-            const imageObserver = new IntersectionObserver((entries, observer) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        const img = entry.target;
-                        img.src = img.dataset.src;
-                        img.classList.add('loaded');
-                        observer.unobserve(img);
-                    }
-                });
-            });
-
-            lazyImages.forEach(img => imageObserver.observe(img));
-        }
-    }
-
-    /**
-     * Sticky Header on Scroll
-     */
-    function initStickyHeader() {
-        const header = $('.site-header');
-        let lastScroll = 0;
-
-        $(window).on('scroll', function() {
-            const currentScroll = $(this).scrollTop();
-
-            if (currentScroll > 100) {
-                header.addClass('scrolled');
-            } else {
-                header.removeClass('scrolled');
-            }
-
-            lastScroll = currentScroll;
-        });
-    }
-
-    /**
-     * Counter Animation for Statistics
-     */
-    function initCounterAnimation() {
-        const counters = $('.stat-number');
-        
-        if (counters.length && 'IntersectionObserver' in window) {
-            const counterObserver = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        const counter = entry.target;
-                        const target = parseInt(counter.getAttribute('data-target'));
-                        const duration = 2000;
-                        const increment = target / (duration / 16);
-                        let current = 0;
-
-                        const updateCounter = () => {
-                            current += increment;
-                            if (current < target) {
-                                counter.textContent = Math.floor(current);
-                                requestAnimationFrame(updateCounter);
-                            } else {
-                                counter.textContent = target;
-                            }
-                        };
-
-                        updateCounter();
-                        counterObserver.unobserve(counter);
-                    }
-                });
-            }, { threshold: 0.5 });
-
-            counters.each(function() {
-                counterObserver.observe(this);
-            });
-        }
-    }
-
-    /**
-     * FAQ Accordion
-     */
-    function initFAQAccordion() {
-        $('.faq-question').on('click', function() {
-            const faqItem = $(this).parent();
-            const faqAnswer = faqItem.find('.faq-answer');
-            const isActive = faqItem.hasClass('active');
-
-            // Close all other FAQ items
-            $('.faq-item').removeClass('active');
-            $('.faq-answer').slideUp(300);
-
-            // Toggle current item
-            if (!isActive) {
-                faqItem.addClass('active');
-                faqAnswer.slideDown(300);
+            if (!isValid) {
+                e.preventDefault();
+                console.log("❌ Formulario inválido");
             }
         });
-    }
-
-    /**
-     * Initialize all functions on document ready
-     */
-    $(document).ready(function() {
-        initMobileMenu();
-        initSmoothScroll();
-        initCTATracking();
-        initLazyLoad();
-        initStickyHeader();
-        initCounterAnimation();
-        initFAQAccordion();
     });
+}
 
-})(jQuery);
-
-
-    /**
-     * Testimonials Carousel
-     */
-    function initTestimonialsCarousel() {
-        const carousel = $('.testimonials-carousel');
-        if (!carousel.length) return;
-
-        const items = carousel.find('.testimonial-item');
-        const dotsContainer = carousel.find('.carousel-dots');
-        let currentIndex = 0;
-        let autoplayInterval;
-
-        // Create dots
-        items.each(function(index) {
-            const dot = $('<button>')
-                .addClass('carousel-dot')
-                .attr('aria-label', 'Go to testimonial ' + (index + 1))
-                .on('click', function() {
-                    showTestimonial(index);
-                });
-            if (index === 0) dot.addClass('active');
-            dotsContainer.append(dot);
+/**
+ * Inicializar efectos de scroll
+ */
+function initializeScrollEffects() {
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: "0px 0px -50px 0px"
+    };
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add("animate-in");
+            }
         });
+    }, observerOptions);
+    
+    // Observar elementos con clase animate
+    const animateElements = document.querySelectorAll(".animate-on-scroll");
+    animateElements.forEach(el => observer.observe(el));
+}
 
-        function showTestimonial(index) {
-            items.hide().eq(index).fadeIn(300);
-            $('.carousel-dot').removeClass('active').eq(index).addClass('active');
-            currentIndex = index;
+/**
+ * Utilidades generales
+ */
+window.MongruasUtils = {
+    // Función para smooth scroll
+    smoothScrollTo: function(target) {
+        const element = document.querySelector(target);
+        if (element) {
+            element.scrollIntoView({
+                behavior: "smooth",
+                block: "start"
+            });
         }
-
-        // Navigation buttons
-        carousel.find('.carousel-nav.prev').on('click', function() {
-            const newIndex = (currentIndex - 1 + items.length) % items.length;
-            showTestimonial(newIndex);
-            resetAutoplay();
-        });
-
-        carousel.find('.carousel-nav.next').on('click', function() {
-            const newIndex = (currentIndex + 1) % items.length;
-            showTestimonial(newIndex);
-            resetAutoplay();
-        });
-
-        // Autoplay
-        function startAutoplay() {
-            autoplayInterval = setInterval(function() {
-                const newIndex = (currentIndex + 1) % items.length;
-                showTestimonial(newIndex);
-            }, 5000);
+    },
+    
+    // Función para mostrar/ocultar elementos
+    toggle: function(selector) {
+        const element = document.querySelector(selector);
+        if (element) {
+            element.style.display = element.style.display === "none" ? "block" : "none";
         }
-
-        function resetAutoplay() {
-            clearInterval(autoplayInterval);
-            startAutoplay();
-        }
-
-        startAutoplay();
-
-        // Pause on hover
-        carousel.on('mouseenter', function() {
-            clearInterval(autoplayInterval);
-        }).on('mouseleave', function() {
-            startAutoplay();
-        });
     }
-
-    // Add to document ready
-    $(document).ready(function() {
-        // ... existing code ...
-        initTestimonialsCarousel();
-    });
+};

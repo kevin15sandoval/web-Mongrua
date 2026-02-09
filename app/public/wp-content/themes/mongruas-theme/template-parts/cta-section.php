@@ -95,6 +95,18 @@ $cta_description = get_field('cta_description') ?: 'Completa el formulario y nos
                     </label>
                 </div>
 
+                <div class="form-group checkbox-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" 
+                               id="receive_notifications" 
+                               name="receive_notifications" 
+                               value="1">
+                        <span>
+                            <?php esc_html_e('Deseo recibir información sobre cursos y novedades', 'mongruas'); ?>
+                        </span>
+                    </label>
+                </div>
+
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary btn-lg">
                         <?php esc_html_e('Solicitar Información', 'mongruas'); ?>

@@ -1,0 +1,23 @@
+/* CSS ULTRA-FORZADO - MÁXIMA PRIORIDAD */
+html body .upcoming-courses-section .upcoming-courses-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 30px !important;
+    max-width: 900px !important;
+    margin: 0 auto !important;
+}
+
+html body .courses-carousel,
+html body .courses-carousel-container,
+html body .carousel-controls,
+html body .carousel-btn,
+html body .carousel-indicators,
+html body .carousel-track,
+html body [class*="carousel"],
+html body 
+
+@media (max-width: 768px) {
+    html body .upcoming-courses-section .upcoming-courses-grid {
+        grid-template-columns: 1fr !important;
+    }
+}

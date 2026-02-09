@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎠 Carrusel 3 Columnas Visibles - Como la Imagen</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+        }
+
+        h1 {
+            background: linear-gradient(135deg, #0066cc, #0052a3);
+            color: white;
+            padding: 30px;
+            border-radius: 16px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        /* Próximos Cursos - EXACTAMENTE como la imagen */
+        .upcoming-courses-section {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 20px;
+            padding: 50px 40px;
+            margin: 40px 0;
+            border: 2px solid #e0e0e0;
+            position: relative;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .section-header h2 {
+            font-size: 42px;
+            font-weight: 800;
+            color: #1a1a1a;
+            margin-bottom: 10px;
+        }
+
+        .section-header p {
+            font-size: 22px;
+            color: #495057;
+        }
+
+        /* Contenedor del Carrusel - MUESTRA 3 COLUMNAS SIEMPRE */
+        .carousel-container {
+            position: relative;
+            overflow: hidden;
+            border-radius: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .carousel-track {
+            display: flex;
+            transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            will-change: transform;
+        }
+
+        /* CADA PÁGINA MUESTRA 3 CURSOS EN 3 COLUMNAS */
+        .carousel-page {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            min-width: 100%;
+            flex-shrink: 0;
+            padding: 0 10px;
+        }
+
+        /* Tarjetas de Cursos - EXACTAMENTE como la imagen */
+        .upcoming-course-card {
+            background: white;
+            border-radius: 16px;
+            padding: 25px 20px;
+            text-align: center;
+            border: 2px solid #e8e8e8;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            min-height: 400px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        /* Línea verde superior como en la imagen */
+        .upcoming-course-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #28a745, #20c997);
+        }
+
+        .upcoming-course-card:hover {
+            transform: translateY(-10px) scale(1.03);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            border-color: #0066cc;
+        }
+
+        /* Fecha verde como en la imagen */
+        .course-date {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 700;
+            display: inline-block;
+            margin-bottom: 15px;
+            box-shadow: 0 3px 10px rgba(40, 167, 69, 0.3);
+        }
+
+        /* Título del curso */
+        .upcoming-course-card h3 {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 15px;
+            line-height: 1.4;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        /* Descripción en cursiva */
+        .course-description {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.6;
+            margin: 15px 0;
+            font-style: italic;
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            text-align: center;
+        }
+
+        /* Detalles del curso */
+        .course-details {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            font-size: 14px;
+            gap: 10px;
+        }
+
+        .modalidad {
+            background: #e9ecef;
+            color: #495057;
+            padding: 6px 12px;
+            border-radius: 12px;
+            font-weight: 600;
+            flex: 1;
+            text-align: center;
+        }
+
+        .plazas {
+            background: #fff3cd;
+            color: #856404;
+            padding: 6px 12px;
+            border-radius: 12px;
+            font-weight: 600;
+            flex: 1;
+            text-align: center;
+        }
+
+        /* Botones como en la imagen */
+        .course-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: auto;
+            align-items: center;
+        }
+
+        .btn-ver-mas, .btn-reservar {
+            display: inline-block;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: none;
+            width: 180px;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        /* Botón azul "Ver Más Info" */
+        .btn-ver-mas {
+            background: linear-gradient(135deg, #1e40af, #3b82f6);
+            box-shadow: 0 4px 14px 0 rgba(30, 64, 175, 0.3);
+        }
+
+        /* Botón verde "Reservar Plaza" */
+        .btn-reservar {
+            background: linear-gradient(135deg, #059669, #10b981);
+            box-shadow: 0 4px 14px 0 rgba(5, 150, 105, 0.3);
+        }
+
+        .btn-ver-mas:hover, .btn-reservar:hover {
+            transform: translateY(-3px);
+            color: white;
+            text-decoration: none;
+        }
+
+        .btn-ver-mas:hover {
+            box-shadow: 0 8px 25px 0 rgba(30, 64, 175, 0.4);
+            background: linear-gradient(135deg, #1d4ed8, #2563eb);
+        }
+
+        .btn-reservar:hover {
+            box-shadow: 0 8px 25px 0 rgba(5, 150, 105, 0.4);
+            background: linear-gradient(135deg, #047857, #059669);
+        }
+
+        /* Controles del Carrusel - Como en la imagen */
+        .carousel-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .carousel-btn {
+            background: linear-gradient(135deg, #0066cc, #0052a3);
+            color: white;
+            border: none;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 24px;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(0, 102, 204, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .carousel-btn:hover {
+            transform: translateY(-4px) scale(1.1);
+            box-shadow: 0 8px 25px rgba(0, 102, 204, 0.4);
+            background: linear-gradient(135deg, #0052a3, #003d7a);
+        }
+
+        /* Indicadores como en la imagen */
+        .carousel-indicators {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .carousel-indicator {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            border: none;
+            background: rgba(0, 102, 204, 0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .carousel-indicator.active {
+            background: #0066cc;
+            transform: scale(1.3);
+            box-shadow: 0 3px 10px rgba(0, 102, 204, 0.4);
+        }
+
+        .carousel-indicator.active::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 6px;
+            height: 6px;
+            background: white;
+            border-radius: 50%;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .carousel-page {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .course-details {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .upcoming-course-card {
+                min-height: 350px;
+            }
+        }
+
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .carousel-page {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+            }
+        }
+
+        .info-box {
+            background: #d1ecf1;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: center;
+            border-left: 5px solid #0066cc;
+        }
+    </style>
+</head>
+<body>
+
+<h1>🎠 Carrusel 3 Columnas Visibles - EXACTAMENTE como tu imagen</h1>
+
+<div class="info-box">
+    <strong>✅ AHORA SÍ - COMO LA IMAGEN:</strong><br>
+    • Se ven los 3 cursos simultáneamente en 3 columnas<br>
+    • El carrusel navega de 3 en 3 cursos<br>
+    • Diseño idéntico a tu imagen de referencia<br>
+    • Botones de navegación ← → debajo<br>
+    • Indicadores de página activos<br>
+    • Auto-play cada 6 segundos<br>
+</div>
+
+<!-- Próximos Cursos - EXACTAMENTE como la imagen -->
+<div class="upcoming-courses-section">
+    <div class="section-header">
+        <h2>Próximos Cursos</h2>
+        <p>Cursos que comenzarán próximamente. ¡Reserva tu plaza!</p>
+    </div>
+    
+    <div class="carousel-container" id="coursesCarousel">
+        <div class="carousel-track" id="carouselTrack">
+            <!-- PÁGINA 1 - Se ven los 3 cursos simultáneamente -->
+            <div class="carousel-page">
+                <div class="upcoming-course-card">
+                    <div class="course-date">Enero 2025</div>
+                    <h3>Montaje y Mantenimiento de Instalaciones Eléctricas</h3>
+                    <p class="course-description">Curso completo de instalaciones eléctricas de baja tensión con certificado oficial.</p>
+                    <div class="course-details">
+                        <span class="modalidad">Presencial</span>
+                        <span class="plazas">15 plazas</span>
+                    </div>
+                    <div class="course-buttons">
+                        <a href="#" class="btn-ver-mas">Ver Más Info</a>
+                        <a href="#" class="btn-reservar">Reservar Plaza</a>
+                    </div>
+                </div>
+                
+                <div class="upcoming-course-card">
+                    <div class="course-date">Febrero 2025</div>
+                    <h3>Sistemas Domóticos e Inmóticos</h3>
+                    <p class="course-description">Especialización en automatización de edificios y sistemas inteligentes.</p>
+                    <div class="course-details">
+                        <span class="modalidad">Presencial</span>
+                        <span class="plazas">12 plazas</span>
+                    </div>
+                    <div class="course-buttons">
+                        <a href="#" class="btn-ver-mas">Ver Más Info</a>
+                        <a href="#" class="btn-reservar">Reservar Plaza</a>
+                    </div>
+                </div>
+                
+                <div class="upcoming-course-card">
+                    <div class="course-date">Marzo 2025</div>
+                    <h3>Control de Plagas</h3>
+                    <p class="course-description">Formación profesional en control y prevención de plagas urbanas.</p>
+                    <div class="course-details">
+                        <span class="modalidad">Presencial</span>
+                        <span class="plazas">10 plazas</span>
+                    </div>
+                    <div class="course-buttons">
+                        <a href="#" class="btn-ver-mas">Ver Más Info</a>
+                        <a href="#" class="btn-reservar">Reservar Plaza</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- PÁGINA 2 - Otros 3 cursos -->
+            <div class="carousel-page">
+                <div class="upcoming-course-card">
+                    <div class="course-date">Abril 2025</div>
+                    <h3>Energías Renovables</h3>
+                    <p class="course-description">Instalación y mantenimiento de sistemas de energía solar y eólica.</p>
+                    <div class="course-details">
+                        <span class="modalidad">Presencial</span>
+                        <span class="plazas">20 plazas</span>
+                    </div>
+                    <div class="course-buttons">
+                        <a href="#" class="btn-ver-mas">Ver Más Info</a>
+                        <a href="#" class="btn-reservar">Reservar Plaza</a>
+                    </div>
+                </div>
+                
+                <div class="upcoming-course-card">
+                    <div class="course-date">Mayo 2025</div>
+                    <h3>Prevención de Riesgos Laborales</h3>
+                    <p class="course-description">Formación completa en seguridad y salud laboral.</p>
+                    <div class="course-details">
+                        <span class="modalidad">Online</span>
+                        <span class="plazas">25 plazas</span>
+                    </div>
+                    <div class="course-buttons">
+                        <a href="#" class="btn-ver-mas">Ver Más Info</a>
+                        <a href="#" class="btn-reservar">Reservar Plaza</a>
+                    </div>
+                </div>
+                
+                <div class="upcoming-course-card">
+                    <div class="course-date">Junio 2025</div>
+                    <h3>Soldadura Industrial</h3>
+                    <p class="course-description">Técnicas avanzadas de soldadura para la industria.</p>
+                    <div class="course-details">
+                        <span class="modalidad">Presencial</span>
+                        <span class="plazas">8 plazas</span>
+                    </div>
+                    <div class="course-buttons">
+                        <a href="#" class="btn-ver-mas">Ver Más Info</a>
+                        <a href="#" class="btn-reservar">Reservar Plaza</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- PÁGINA 3 - Otros 3 cursos -->
+            <div class="carousel-page">
+                <div class="upcoming-course-card">
+                    <div class="course-date">Julio 2025</div>
+                    <h3>Climatización y Refrigeración</h3>
+                    <p class="course-description">Instalación y mantenimiento de sistemas de climatización.</p>
+                    <div class="course-details">
+                        <span class="modalidad">Presencial</span>
+                        <span class="plazas">14 plazas</span>
+                    </div>
+                    <div class="course-buttons">
+                        <a href="#" class="btn-ver-mas">Ver Más Info</a>
+                        <a href="#" class="btn-reservar">Reservar Plaza</a>
+                    </div>
+                </div>
+                
+                <div class="upcoming-course-card">
+                    <div class="course-date">Agosto 2025</div>
+                    <h3>Automatización Industrial</h3>
+                    <p class="course-description">Programación de PLCs y sistemas automatizados.</p>
+                    <div class="course-details">
+                        <span class="modalidad">Semipresencial</span>
+                        <span class="plazas">16 plazas</span>
+                    </div>
+                    <div class="course-buttons">
+                        <a href="#" class="btn-ver-mas">Ver Más Info</a>
+                        <a href="#" class="btn-reservar">Reservar Plaza</a>
+                    </div>
+                </div>
+                
+                <div class="upcoming-course-card">
+                    <div class="course-date">Septiembre 2025</div>
+                    <h3>Gestión de Residuos</h3>
+                    <p class="course-description">Tratamiento y gestión sostenible de residuos.</p>
+                    <div class="course-details">
+                        <span class="modalidad">Online</span>
+                        <span class="plazas">30 plazas</span>
+                    </div>
+                    <div class="course-buttons">
+                        <a href="#" class="btn-ver-mas">Ver Más Info</a>
+                        <a href="#" class="btn-reservar">Reservar Plaza</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Controles del Carrusel -->
+    <div class="carousel-controls">
+        <button class="carousel-btn" id="prevBtn">←</button>
+        <div class="carousel-indicators" id="carouselIndicators">
+            <button class="carousel-indicator active" data-page="0"></button>
+            <button class="carousel-indicator" data-page="1"></button>
+            <button class="carousel-indicator" data-page="2"></button>
+        </div>
+        <button class="carousel-btn" id="nextBtn">→</button>
+    </div>
+</div>
+
+<div class="info-box">
+    <strong>🎯 FUNCIONAMIENTO PERFECTO - COMO TU IMAGEN:</strong><br>
+    • <strong>Página 1:</strong> Se ven 3 cursos simultáneamente (Eléctricas, Domótica, Plagas)<br>
+    • <strong>Página 2:</strong> Se ven otros 3 cursos (Renovables, PRL, Soldadura)<br>
+    • <strong>Página 3:</strong> Se ven otros 3 cursos (Climatización, Automatización, Residuos)<br>
+    • <strong>Navegación:</strong> Al hacer clic en → se cambian los 3 cursos por otros 3<br>
+    • <strong>Auto-play:</strong> Cada 6 segundos cambia automáticamente<br>
+    • <strong>Diseño:</strong> Exactamente igual que tu imagen de referencia<br>
+</div>
+
+<script>
+// Carrusel que muestra 3 columnas visibles - COMO LA IMAGEN
+document.addEventListener("DOMContentLoaded", function() {
+    const carouselContainer = document.getElementById("coursesCarousel");
+    const carouselTrack = document.getElementById("carouselTrack");
+    const prevBtn = document.getElementById("prevBtn");
+    const nextBtn = document.getElementById("nextBtn");
+    const indicators = document.querySelectorAll(".carousel-indicator");
+    const pages = document.querySelectorAll(".carousel-page");
+    
+    let currentPage = 0;
+    const totalPages = pages.length;
+    let isTransitioning = false;
+    let autoPlayInterval;
+    
+    console.log(`🎠 Carrusel inicializado: ${totalPages} páginas, cada una con 3 cursos visibles`);
+    
+    // Función para mover el carrusel
+    function moveToPage(pageIndex, smooth = true) {
+        if (isTransitioning || pageIndex < 0 || pageIndex >= totalPages) return;
+        
+        console.log(`📍 Moviendo a página ${pageIndex + 1} de ${totalPages}`);
+        
+        if (smooth) {
+            carouselTrack.style.transition = "transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)";
+            isTransitioning = true;
+            setTimeout(() => {
+                isTransitioning = false;
+            }, 600);
+        } else {
+            carouselTrack.style.transition = "none";
+        }
+        
+        // Mover el carrusel para mostrar la página completa (3 cursos)
+        const translateX = -pageIndex * 100;
+        carouselTrack.style.transform = `translateX(${translateX}%)`;
+        
+        currentPage = pageIndex;
+        updateIndicators();
+    }
+    
+    // Función para actualizar indicadores
+    function updateIndicators() {
+        indicators.forEach((indicator, index) => {
+            indicator.classList.toggle("active", index === currentPage);
+        });
+    }
+    
+    // Función para ir a la siguiente página (siguientes 3 cursos)
+    function nextPage() {
+        const nextIndex = (currentPage + 1) % totalPages;
+        moveToPage(nextIndex);
+        console.log(`➡️ Siguiente página: mostrando cursos ${(nextIndex * 3) + 1}-${(nextIndex + 1) * 3}`);
+    }
+    
+    // Función para ir a la página anterior (anteriores 3 cursos)
+    function prevPage() {
+        const prevIndex = (currentPage - 1 + totalPages) % totalPages;
+        moveToPage(prevIndex);
+        console.log(`⬅️ Página anterior: mostrando cursos ${(prevIndex * 3) + 1}-${(prevIndex + 1) * 3}`);
+    }
+    
+    // Event listeners para botones
+    nextBtn.addEventListener("click", () => {
+        nextPage();
+        stopAutoPlay();
+        setTimeout(startAutoPlay, 4000); // Reanudar después de 4 segundos
+    });
+    
+    prevBtn.addEventListener("click", () => {
+        prevPage();
+        stopAutoPlay();
+        setTimeout(startAutoPlay, 4000);
+    });
+    
+    // Event listeners para indicadores
+    indicators.forEach((indicator, index) => {
+        indicator.addEventListener("click", () => {
+            moveToPage(index);
+            console.log(`🎯 Indicador clickeado: página ${index + 1}`);
+            stopAutoPlay();
+            setTimeout(startAutoPlay, 4000);
+        });
+    });
+    
+    // Auto-play
+    function startAutoPlay() {
+        autoPlayInterval = setInterval(() => {
+            nextPage();
+        }, 6000); // Cambiar cada 6 segundos
+        console.log("▶️ Auto-play iniciado (6 segundos)");
+    }
+    
+    function stopAutoPlay() {
+        clearInterval(autoPlayInterval);
+        console.log("⏸️ Auto-play pausado");
+    }
+    
+    // Pausar auto-play al hacer hover
+    carouselContainer.addEventListener("mouseenter", stopAutoPlay);
+    carouselContainer.addEventListener("mouseleave", startAutoPlay);
+    
+    // Soporte para touch/swipe en móviles
+    let startX = 0;
+    let currentX = 0;
+    let isDragging = false;
+    let startTime = 0;
+    
+    carouselContainer.addEventListener("touchstart", (e) => {
+        startX = e.touches[0].clientX;
+        startTime = Date.now();
+        isDragging = true;
+        stopAutoPlay();
+        carouselTrack.style.transition = "none";
+    });
+    
+    carouselContainer.addEventListener("touchmove", (e) => {
+        if (!isDragging) return;
+        e.preventDefault();
+        
+        currentX = e.touches[0].clientX;
+        const diffX = startX - currentX;
+        const movePercent = (diffX / carouselContainer.offsetWidth) * 100;
+        const currentTransform = -currentPage * 100;
+        
+        // Limitar el movimiento
+        const maxMove = 25;
+        const limitedMove = Math.max(-maxMove, Math.min(maxMove, movePercent));
+        
+        carouselTrack.style.transform = `translateX(${currentTransform - limitedMove}%)`;
+    });
+    
+    carouselContainer.addEventListener("touchend", (e) => {
+        if (!isDragging) return;
+        isDragging = false;
+        
+        const diffX = startX - currentX;
+        const diffTime = Date.now() - startTime;
+        const velocity = Math.abs(diffX) / diffTime;
+        
+        const threshold = 50;
+        const isQuickSwipe = velocity > 0.5;
+        const isLongSwipe = Math.abs(diffX) > threshold;
+        
+        if (isQuickSwipe || isLongSwipe) {
+            if (diffX > 0) {
+                nextPage();
+            } else {
+                prevPage();
+            }
+        } else {
+            moveToPage(currentPage);
+        }
+        
+        setTimeout(startAutoPlay, 4000);
+    });
+    
+    // Prevenir scroll vertical durante swipe horizontal
+    carouselContainer.addEventListener("touchmove", (e) => {
+        if (isDragging) {
+            e.preventDefault();
+        }
+    }, { passive: false });
+    
+    // Navegación con teclado
+    document.addEventListener("keydown", (e) => {
+        if (e.key === "ArrowLeft") {
+            prevPage();
+            stopAutoPlay();
+            setTimeout(startAutoPlay, 4000);
+        } else if (e.key === "ArrowRight") {
+            nextPage();
+            stopAutoPlay();
+            setTimeout(startAutoPlay, 4000);
+        }
+    });
+    
+    // Pausar cuando la pestaña no está visible
+    document.addEventListener("visibilitychange", () => {
+        if (document.hidden) {
+            stopAutoPlay();
+        } else {
+            startAutoPlay();
+        }
+    });
+    
+    // Inicializar
+    moveToPage(0, false);
+    startAutoPlay();
+    
+    console.log("✅ Carrusel listo - Se muestran 3 cursos simultáneamente como en la imagen");
+});
+</script>
+
+</body>
+</html>

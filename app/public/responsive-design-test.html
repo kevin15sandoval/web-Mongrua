@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Design Test - Course Management Panel</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .header {
+            background: linear-gradient(135deg, #0066cc, #004d99);
+            color: white;
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .test-section {
+            margin: 30px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        .test-section h3 {
+            margin-top: 0;
+            color: #0066cc;
+            border-bottom: 2px solid #0066cc;
+            padding-bottom: 10px;
+        }
+        .checklist {
+            list-style: none;
+            padding: 0;
+        }
+        .checklist li {
+            margin: 10px 0;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 5px;
+            position: relative;
+            padding-left: 40px;
+        }
+        .checklist li::before {
+            content: "☐";
+            position: absolute;
+            left: 15px;
+            font-size: 1.2em;
+            color: #666;
+        }
+        .checklist li.checked::before {
+            content: "✅";
+        }
+        .device-info {
+            background: #e7f3ff;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+        .viewport-indicator {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            font-family: monospace;
+            z-index: 10000;
+        }
+        .test-button {
+            background: #28a745;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            margin: 10px 5px;
+        }
+        .test-button:hover {
+            background: #218838;
+        }
+        .instructions {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                padding: 15px;
+            }
+            .header {
+                padding: 20px;
+            }
+            .test-section {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="viewport-indicator" id="viewport-info">
+        Viewport: <span id="viewport-size"></span>
+    </div>
+
+    <div class="container">
+        <div class="header">
+            <h1>📱 Responsive Design Test</h1>
+            <p>Course Management Panel - Cross-Device Verification</p>
+        </div>
+
+        <div class="instructions">
+            <h3>📋 Testing Instructions</h3>
+            <p><strong>How to test:</strong></p>
+            <ol>
+                <li>Open this page in your browser</li>
+                <li>Use browser developer tools to test different screen sizes</li>
+                <li>Test on actual devices if available</li>
+                <li>Check each item in the checklists below</li>
+                <li>Click items to mark them as completed</li>
+            </ol>
+            <p><strong>Recommended test sizes:</strong> 320px, 480px, 768px, 1024px, 1200px, 1920px</p>
+        </div>
+
+        <!-- Desktop Testing -->
+        <div class="test-section">
+            <h3>🖥️ Desktop Testing (1200px+)</h3>
+            <div class="device-info">
+                <strong>Target:</strong> Desktop computers and large laptops<br>
+                <strong>Layout:</strong> Full sidebar + main panel side-by-side<br>
+                <strong>Panel Size:</strong> 1200x800px modal
+            </div>
+            <ul class="checklist" data-category="desktop">
+                <li onclick="toggleCheck(this)">Panel opens as centered modal</li>
+                <li onclick="toggleCheck(this)">Sidebar is 300px wide with course list</li>
+                <li onclick="toggleCheck(this)">Main panel shows form and preview side-by-side</li>
+                <li onclick="toggleCheck(this)">All form fields are properly sized</li>
+                <li onclick="toggleCheck(this)">Preview panel shows complete course card</li>
+                <li onclick="toggleCheck(this)">Modal has proper shadows and borders</li>
+                <li onclick="toggleCheck(this)">Close button is visible and accessible</li>
+                <li onclick="toggleCheck(this)">No horizontal scrolling required</li>
+                <li onclick="toggleCheck(this)">Text is readable and properly sized</li>
+                <li onclick="toggleCheck(this)">Buttons are appropriately sized</li>
+            </ul>
+        </div>
+
+        <!-- Tablet Testing -->
+        <div class="test-section">
+            <h3>📱 Tablet Testing (768px - 1024px)</h3>
+            <div class="device-info">
+                <strong>Target:</strong> iPads and Android tablets<br>
+                <strong>Layout:</strong> Reduced sidebar + adjusted main panel<br>
+                <strong>Panel Size:</strong> 95% viewport width
+            </div>
+            <ul class="checklist" data-category="tablet">
+                <li onclick="toggleCheck(this)">Panel adapts to smaller screen</li>
+                <li onclick="toggleCheck(this)">Sidebar is 250px wide</li>
+                <li onclick="toggleCheck(this)">Form fields stack appropriately</li>
+                <li onclick="toggleCheck(this)">Preview remains visible</li>
+                <li onclick="toggleCheck(this)">Touch targets are large enough (44px+)</li>
+                <li onclick="toggleCheck(this)">Text remains readable</li>
+                <li onclick="toggleCheck(this)">No content is cut off</li>
+                <li onclick="toggleCheck(this)">Scrolling works smoothly</li>
+                <li onclick="toggleCheck(this)">Modal fits within viewport</li>
+                <li onclick="toggleCheck(this)">Orientation changes work correctly</li>
+            </ul>
+        </div>
+
+        <!-- Mobile Testing -->
+        <div class="test-section">
+            <h3>📱 Mobile Testing (< 768px)</h3>
+            <div class="device-info">
+                <strong>Target:</strong> Smartphones in portrait and landscape<br>
+                <strong>Layout:</strong> Stacked layout, full viewport<br>
+                <strong>Panel Size:</strong> Full screen modal
+            </div>
+            <ul class="checklist" data-category="mobile">
+                <li onclick="toggleCheck(this)">Panel takes full screen</li>
+                <li onclick="toggleCheck(this)">Sidebar becomes full-width section</li>
+                <li onclick="toggleCheck(this)">Course list is easily scrollable</li>
+                <li onclick="toggleCheck(this)">Form fields are full-width</li>
+                <li onclick="toggleCheck(this)">Preview stacks below form</li>
+                <li onclick="toggleCheck(this)">Touch targets are 44px+ minimum</li>
+                <li onclick="toggleCheck(this)">Text is readable without zooming</li>
+                <li onclick="toggleCheck(this)">Virtual keyboard doesn't break layout</li>
+                <li onclick="toggleCheck(this)">Scrolling is smooth and natural</li>
+                <li onclick="toggleCheck(this)">Close button is easily accessible</li>
+            </ul>
+        </div>
+
+        <!-- Accessibility Testing -->
+        <div class="test-section">
+            <h3>♿ Accessibility Testing</h3>
+            <div class="device-info">
+                <strong>Target:</strong> Users with disabilities and assistive technologies<br>
+                <strong>Standards:</strong> WCAG 2.1 AA compliance
+            </div>
+            <ul class="checklist" data-category="accessibility">
+                <li onclick="toggleCheck(this)">All interactive elements are keyboard accessible</li>
+                <li onclick="toggleCheck(this)">Tab order is logical and intuitive</li>
+                <li onclick="toggleCheck(this)">Focus indicators are clearly visible</li>
+                <li onclick="toggleCheck(this)">Color contrast meets WCAG standards</li>
+                <li onclick="toggleCheck(this)">Text can be zoomed to 200% without breaking</li>
+                <li onclick="toggleCheck(this)">Form labels are properly associated</li>
+                <li onclick="toggleCheck(this)">Error messages are clear and helpful</li>
+                <li onclick="toggleCheck(this)">ARIA labels are present where needed</li>
+                <li onclick="toggleCheck(this)">Screen reader navigation works</li>
+                <li onclick="toggleCheck(this)">Reduced motion preferences are respected</li>
+            </ul>
+        </div>
+
+        <!-- Performance Testing -->
+        <div class="test-section">
+            <h3>⚡ Performance Testing</h3>
+            <div class="device-info">
+                <strong>Target:</strong> Smooth operation across all devices<br>
+                <strong>Metrics:</strong> Load time, animations, responsiveness
+            </div>
+            <ul class="checklist" data-category="performance">
+                <li onclick="toggleCheck(this)">Panel opens quickly (< 300ms)</li>
+                <li onclick="toggleCheck(this)">Animations are smooth (60fps)</li>
+                <li onclick="toggleCheck(this)">Form interactions are responsive</li>
+                <li onclick="toggleCheck(this)">Image uploads work on mobile</li>
+                <li onclick="toggleCheck(this)">Auto-save doesn't cause lag</li>
+                <li onclick="toggleCheck(this)">Preview updates smoothly</li>
+                <li onclick="toggleCheck(this)">No memory leaks during extended use</li>
+                <li onclick="toggleCheck(this)">Works on slower connections</li>
+                <li onclick="toggleCheck(this)">Battery usage is reasonable</li>
+                <li onclick="toggleCheck(this)">CPU usage remains low</li>
+            </ul>
+        </div>
+
+        <!-- Browser Compatibility -->
+        <div class="test-section">
+            <h3>🌐 Browser Compatibility</h3>
+            <div class="device-info">
+                <strong>Target:</strong> Major browsers and versions<br>
+                <strong>Support:</strong> Chrome, Firefox, Safari, Edge (last 2 versions)
+            </div>
+            <ul class="checklist" data-category="browser">
+                <li onclick="toggleCheck(this)">Chrome (desktop and mobile)</li>
+                <li onclick="toggleCheck(this)">Firefox (desktop and mobile)</li>
+                <li onclick="toggleCheck(this)">Safari (desktop and iOS)</li>
+                <li onclick="toggleCheck(this)">Edge (desktop)</li>
+                <li onclick="toggleCheck(this)">Samsung Internet (Android)</li>
+                <li onclick="toggleCheck(this)">CSS Grid support works correctly</li>
+                <li onclick="toggleCheck(this)">Flexbox layouts render properly</li>
+                <li onclick="toggleCheck(this)">JavaScript functionality works</li>
+                <li onclick="toggleCheck(this)">Media queries are respected</li>
+                <li onclick="toggleCheck(this)">No console errors</li>
+            </ul>
+        </div>
+
+        <div class="test-section">
+            <h3>📊 Test Summary</h3>
+            <div id="test-summary">
+                <p>Complete the checklists above to see your progress.</p>
+            </div>
+            <button class="test-button" onclick="generateReport()">Generate Test Report</button>
+            <button class="test-button" onclick="resetTests()">Reset All Tests</button>
+        </div>
+    </div>
+
+    <script>
+        // Update viewport size indicator
+        function updateViewportInfo() {
+            const width = window.innerWidth;
+            const height = window.innerHeight;
+            document.getElementById('viewport-size').textContent = `${width}x${height}px`;
+        }
+
+        // Toggle checklist item
+        function toggleCheck(item) {
+            item.classList.toggle('checked');
+            updateTestSummary();
+        }
+
+        // Update test summary
+        function updateTestSummary() {
+            const categories = ['desktop', 'tablet', 'mobile', 'accessibility', 'performance', 'browser'];
+            let totalTests = 0;
+            let completedTests = 0;
+            let categoryResults = {};
+
+            categories.forEach(category => {
+                const items = document.querySelectorAll(`[data-category="${category}"] li`);
+                const checked = document.querySelectorAll(`[data-category="${category}"] li.checked`);
+                
+                categoryResults[category] = {
+                    total: items.length,
+                    completed: checked.length,
+                    percentage: Math.round((checked.length / items.length) * 100)
+                };
+                
+                totalTests += items.length;
+                completedTests += checked.length;
+            });
+
+            const overallPercentage = Math.round((completedTests / totalTests) * 100);
+            
+            let summaryHTML = `
+                <h4>Overall Progress: ${completedTests}/${totalTests} (${overallPercentage}%)</h4>
+                <div style="background: #e9ecef; height: 20px; border-radius: 10px; margin: 10px 0;">
+                    <div style="background: ${overallPercentage >= 80 ? '#28a745' : overallPercentage >= 60 ? '#ffc107' : '#dc3545'}; 
+                                height: 100%; width: ${overallPercentage}%; border-radius: 10px; transition: width 0.3s;"></div>
+                </div>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin: 20px 0;">
+            `;
+
+            Object.entries(categoryResults).forEach(([category, result]) => {
+                const status = result.percentage >= 80 ? '✅' : result.percentage >= 60 ? '⚠️' : '❌';
+                summaryHTML += `
+                    <div style="background: #f8f9fa; padding: 15px; border-radius: 5px; text-align: center;">
+                        <strong>${status} ${category.charAt(0).toUpperCase() + category.slice(1)}</strong><br>
+                        ${result.completed}/${result.total} (${result.percentage}%)
+                    </div>
+                `;
+            });
+
+            summaryHTML += '</div>';
+
+            if (overallPercentage >= 95) {
+                summaryHTML += '<div style="background: #d4edda; color: #155724; padding: 15px; border-radius: 5px; margin: 10px 0;"><strong>🎉 Excellent!</strong> Responsive design is working perfectly across all devices.</div>';
+            } else if (overallPercentage >= 80) {
+                summaryHTML += '<div style="background: #fff3cd; color: #856404; padding: 15px; border-radius: 5px; margin: 10px 0;"><strong>👍 Good!</strong> Most responsive features are working. Review failed items.</div>';
+            } else {
+                summaryHTML += '<div style="background: #f8d7da; color: #721c24; padding: 15px; border-radius: 5px; margin: 10px 0;"><strong>⚠️ Needs Work!</strong> Several responsive issues need attention.</div>';
+            }
+
+            document.getElementById('test-summary').innerHTML = summaryHTML;
+        }
+
+        // Generate test report
+        function generateReport() {
+            const categories = ['desktop', 'tablet', 'mobile', 'accessibility', 'performance', 'browser'];
+            let report = 'RESPONSIVE DESIGN TEST REPORT\n';
+            report += '================================\n\n';
+            report += `Generated: ${new Date().toLocaleString()}\n`;
+            report += `Viewport: ${window.innerWidth}x${window.innerHeight}px\n`;
+            report += `User Agent: ${navigator.userAgent}\n\n`;
+
+            categories.forEach(category => {
+                const items = document.querySelectorAll(`[data-category="${category}"] li`);
+                const checked = document.querySelectorAll(`[data-category="${category}"] li.checked`);
+                
+                report += `${category.toUpperCase()} TESTING:\n`;
+                report += `Progress: ${checked.length}/${items.length}\n`;
+                
+                items.forEach((item, index) => {
+                    const status = item.classList.contains('checked') ? '✅' : '❌';
+                    report += `${status} ${item.textContent}\n`;
+                });
+                report += '\n';
+            });
+
+            // Create downloadable file
+            const blob = new Blob([report], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `responsive-test-report-${Date.now()}.txt`;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        // Reset all tests
+        function resetTests() {
+            if (confirm('Are you sure you want to reset all test results?')) {
+                document.querySelectorAll('.checklist li.checked').forEach(item => {
+                    item.classList.remove('checked');
+                });
+                updateTestSummary();
+            }
+        }
+
+        // Initialize
+        window.addEventListener('resize', updateViewportInfo);
+        updateViewportInfo();
+        updateTestSummary();
+
+        // Auto-save progress to localStorage
+        function saveProgress() {
+            const checkedItems = Array.from(document.querySelectorAll('.checklist li.checked')).map(item => {
+                const category = item.closest('[data-category]').getAttribute('data-category');
+                const index = Array.from(item.parentNode.children).indexOf(item);
+                return `${category}-${index}`;
+            });
+            localStorage.setItem('responsiveTestProgress', JSON.stringify(checkedItems));
+        }
+
+        function loadProgress() {
+            const saved = localStorage.getItem('responsiveTestProgress');
+            if (saved) {
+                const checkedItems = JSON.parse(saved);
+                checkedItems.forEach(itemId => {
+                    const [category, index] = itemId.split('-');
+                    const item = document.querySelector(`[data-category="${category}"] li:nth-child(${parseInt(index) + 1})`);
+                    if (item) {
+                        item.classList.add('checked');
+                    }
+                });
+                updateTestSummary();
+            }
+        }
+
+        // Override toggleCheck to include auto-save
+        const originalToggleCheck = toggleCheck;
+        toggleCheck = function(item) {
+            originalToggleCheck(item);
+            saveProgress();
+        };
+
+        // Load saved progress on page load
+        document.addEventListener('DOMContentLoaded', loadProgress);
+    </script>
+</body>
+</html>

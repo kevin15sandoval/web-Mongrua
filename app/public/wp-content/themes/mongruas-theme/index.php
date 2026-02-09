@@ -6,6 +6,13 @@
  * @since 1.0.0
  */
 
+// Si es un archivo (blog/anuncios), usar el template de archive
+if (is_archive() || is_home()) {
+    include(locate_template('archive.php'));
+    return;
+}
+// Forzar recarga 2
+
 get_header();
 ?>
 

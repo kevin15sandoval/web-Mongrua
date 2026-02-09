@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aplicar Estética Bonita</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f8f9fa;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            margin: 10px;
+            transition: all 0.3s ease;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(52, 152, 219, 0.3);
+        }
+        .btn.success {
+            background: linear-gradient(135deg, #27ae60, #229954);
+        }
+        .btn.success:hover {
+            box-shadow: 0 8px 25px rgba(39, 174, 96, 0.3);
+        }
+        .status {
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        .success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        .center {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎨 Aplicar Estética Bonita - Próximos Cursos</h1>
+        
+        <div class="center">
+            <a href="arreglar-estetica-simple.php" class="btn success">
+                ✨ Aplicar Estética Bonita
+            </a>
+            
+            <a href="verificar-estetica-mejorada.php" class="btn">
+                🔍 Verificar Estado
+            </a>
+        </div>
+        
+        <div class="status info">
+            <strong>📋 Instrucciones:</strong><br>
+            1. Haz clic en "Aplicar Estética Bonita"<br>
+            2. Espera a que se complete el proceso<br>
+            3. Ve a la página de cursos para ver los cambios<br>
+            4. ¡Disfruta del diseño mejorado!
+        </div>
+        
+        <div class="status success">
+            <strong>✅ Lo que se va a arreglar:</strong><br>
+            • Diseño limpio y moderno<br>
+            • Colores suaves y profesionales<br>
+            • Sombras elegantes<br>
+            • Animaciones suaves<br>
+            • Efectos hover bonitos<br>
+            • 100% responsive<br>
+        </div>
+        
+        <div class="center" style="margin-top: 30px;">
+            <a href="../cursos/" class="btn">
+                👀 Ver Página de Cursos
+            </a>
+        </div>
+    </div>
+    
+    <script>
+        // Auto-aplicar después de 2 segundos si el usuario no hace clic
+        setTimeout(function() {
+            if (confirm('¿Quieres aplicar la estética bonita automáticamente?')) {
+                window.location.href = 'arreglar-estetica-simple.php';
+            }
+        }, 3000);
+    </script>
+</body>
+</html>

@@ -25,6 +25,7 @@
 
 
 
+
 - [ ] 2. Create landing page template and basic structure
   - Create page-templates/landing-page.php template file
   - Implement basic HTML structure with semantic sections

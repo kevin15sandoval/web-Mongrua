@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Access Button Functionality - Task 7.1</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .test-section {
+            background: #f8f9fa;
+            border: 1px solid #e1e8ed;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .test-section h2 {
+            color: #2c3e50;
+            margin-top: 0;
+        }
+        .test-item {
+            background: white;
+            border: 1px solid #e1e8ed;
+            border-radius: 6px;
+            padding: 15px;
+            margin: 10px 0;
+        }
+        .test-item h3 {
+            margin-top: 0;
+            color: #34495e;
+        }
+        .test-steps {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 4px;
+            padding: 10px;
+            margin: 10px 0;
+        }
+        .test-steps ol {
+            margin: 0;
+            padding-left: 20px;
+        }
+        .expected-result {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            border-radius: 4px;
+            padding: 10px;
+            margin: 10px 0;
+        }
+        .expected-result strong {
+            color: #155724;
+        }
+        .warning {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            border-radius: 4px;
+            padding: 10px;
+            margin: 10px 0;
+            color: #721c24;
+        }
+        .info {
+            background: #d1ecf1;
+            border: 1px solid #bee5eb;
+            border-radius: 4px;
+            padding: 10px;
+            margin: 10px 0;
+            color: #0c5460;
+        }
+        .checklist {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        .checklist li {
+            padding: 5px 0;
+        }
+        .checklist input[type="checkbox"] {
+            margin-right: 10px;
+        }
+        .responsive-test {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 15px;
+            margin: 15px 0;
+        }
+        .device-test {
+            background: white;
+            border: 1px solid #e1e8ed;
+            border-radius: 6px;
+            padding: 15px;
+            text-align: center;
+        }
+        .keyboard-shortcuts {
+            background: #f8f9fa;
+            border: 1px solid #e1e8ed;
+            border-radius: 4px;
+            padding: 10px;
+            font-family: monospace;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 Access Button Functionality Test - Task 7.1</h1>
+    
+    <div class="info">
+        <strong>Purpose:</strong> This test page helps verify that the access button functionality meets all requirements from task 7.1:
+        <ul>
+            <li>Test button visibility for admin users only</li>
+            <li>Verify modal opening and closing behavior</li>
+            <li>Ensure responsive design works across devices</li>
+            <li>Test keyboard navigation and accessibility</li>
+        </ul>
+    </div>
+
+    <div class="warning">
+        <strong>Prerequisites:</strong> You must be logged into WordPress as an administrator to see the access button. Regular users and logged-out visitors should not see the button.
+    </div>
+
+    <!-- Test 1: Button Visibility -->
+    <div class="test-section">
+        <h2>Test 1: Button Visibility for Admin Users Only</h2>
+        
+        <div class="test-item">
+            <h3>1.1 Admin User Visibility</h3>
+            <div class="test-steps">
+                <strong>Steps:</strong>
+                <ol>
+                    <li>Ensure you are logged in as a WordPress administrator</li>
+                    <li>Navigate to any page on the site</li>
+                    <li>Look for the access button in the bottom-right corner</li>
+                </ol>
+            </div>
+            <div class="expected-result">
+                <strong>Expected Result:</strong> A circular button with a document/list icon should be visible in the bottom-right corner with the title "Gestionar Cursos"
+            </div>
+            <ul class="checklist">
+                <li><input type="checkbox"> Button is visible in bottom-right corner</li>
+                <li><input type="checkbox"> Button has document/list SVG icon</li>
+                <li><input type="checkbox"> Button has hover effect (darker background, slight lift)</li>
+                <li><input type="checkbox"> Button has proper title attribute on hover</li>
+            </ul>
+        </div>
+
+        <div class="test-item">
+            <h3>1.2 Regular User/Logged Out Visibility</h3>
+            <div class="test-steps">
+                <strong>Steps:</strong>
+                <ol>
+                    <li>Log out of WordPress or test with a non-admin user</li>
+                    <li>Navigate to any page on the site</li>
+                    <li>Check the bottom-right corner</li>
+                </ol>
+            </div>
+            <div class="expected-result">
+                <strong>Expected Result:</strong> No access button should be visible
+            </div>
+            <ul class="checklist">
+                <li><input type="checkbox"> Button is NOT visible when logged out</li>
+                <li><input type="checkbox"> Button is NOT visible for non-admin users</li>
+                <li><input type="checkbox"> No JavaScript errors in console</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Test 2: Modal Opening and Closing -->
+    <div class="test-section">
+        <h2>Test 2: Modal Opening and Closing Behavior</h2>
+        
+        <div class="test-item">
+            <h3>2.1 Modal Opening</h3>
+            <div class="test-steps">
+                <strong>Steps:</strong>
+                <ol>
+                    <li>Click the access button in the bottom-right corner</li>
+                    <li>Observe the modal animation and content</li>
+                </ol>
+            </div>
+            <div class="expected-result">
+                <strong>Expected Result:</strong> Modal opens with smooth fade-in animation, showing login form
+            </div>
+            <ul class="checklist">
+                <li><input type="checkbox"> Modal opens with fade-in animation</li>
+                <li><input type="checkbox"> Modal has dark overlay background</li>
+                <li><input type="checkbox"> Modal is centered on screen</li>
+                <li><input type="checkbox"> Login form is visible with username/password fields</li>
+                <li><input type="checkbox"> Modal header shows "Panel de Gestión de Cursos"</li>
+                <li><input type="checkbox"> Close button (X) is visible in top-right</li>
+            </ul>
+        </div>
+
+        <div class="test-item">
+            <h3>2.2 Modal Closing Methods</h3>
+            <div class="test-steps">
+                <strong>Steps:</strong>
+                <ol>
+                    <li>Open the modal</li>
+                    <li>Test each closing method:</li>
+                    <ul>
+                        <li>Click the X button</li>
+                        <li>Click outside the modal (on overlay)</li>
+                        <li>Press the Escape key</li>
+                    </ul>
+                </ol>
+            </div>
+            <div class="expected-result">
+                <strong>Expected Result:</strong> Modal closes with fade-out animation for all methods
+            </div>
+            <ul class="checklist">
+                <li><input type="checkbox"> Closes when clicking X button</li>
+                <li><input type="checkbox"> Closes when clicking overlay</li>
+                <li><input type="checkbox"> Closes when pressing Escape key</li>
+                <li><input type="checkbox"> Smooth fade-out animation</li>
+                <li><input type="checkbox"> Form data is cleared when closed</li>
+            </ul>
+        </div>
+
+        <div class="test-item">
+            <h3>2.3 Modal Content Structure</h3>
+            <div class="test-steps">
+                <strong>Steps:</strong>
+                <ol>
+                    <li>Open the modal</li>
+                    <li>Inspect the modal content structure</li>
+                </ol>
+            </div>
+            <div class="expected-result">
+                <strong>Expected Result:</strong> Modal contains all required sections and elements
+            </div>
+            <ul class="checklist">
+                <li><input type="checkbox"> Header with title and close button</li>
+                <li><input type="checkbox"> Login form with username field</li>
+                <li><input type="checkbox"> Login form with password field</li>
+                <li><input type="checkbox"> Submit button labeled "Acceder"</li>
+                <li><input type="checkbox"> Hidden main panel section</li>
+                <li><input type="checkbox"> Hidden loading indicator</li>
+                <li><input type="checkbox"> Error message container (hidden initially)</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Test 3: Responsive Design -->
+    <div class="test-section">
+        <h2>Test 3: Responsive Design Across Devices</h2>
+        
+        <div class="test-item">
+            <h3>3.1 Desktop Testing (1200px+)</h3>
+            <div class="test-steps">
+                <strong>Steps:</strong>
+                <ol>
+                    <li>Test on desktop browser at full width</li>
+                    <li>Open the modal and check layout</li>
+                </ol>
+            </div>
+            <div class="expected-result">
+                <strong>Expected Result:</strong> Full modal layout with sidebar and main areas
+            </div>
+            <ul class="checklist">
+                <li><input type="checkbox"> Button positioned correctly in bottom-right</li>
+                <li><input type="checkbox"> Modal is 1200px wide, 800px tall</li>
+                <li><input type="checkbox"> Modal is centered on screen</li>
+                <li><input type="checkbox"> All content fits without scrolling</li>
+            </ul>
+        </div>
+
+        <div class="test-item">
+            <h3>3.2 Tablet Testing (768px - 1024px)</h3>
+            <div class="test-steps">
+                <strong>Steps:</strong>
+                <ol>
+                    <li>Resize browser to tablet width or use device emulation</li>
+                    <li>Test button visibility and modal behavior</li>
+                </ol>
+            </div>
+            <div class="expected-result">
+                <strong>Expected Result:</strong> Modal adapts to smaller screen, maintains usability
+            </div>
+            <ul class="checklist">
+                <li><input type="checkbox"> Button remains visible and clickable</li>
+                <li><input type="checkbox"> Modal takes 95% of viewport width/height</li>
+                <li><input type="checkbox"> Sidebar width adjusts (250px)</li>
+                <li><input type="checkbox"> Form elements stack properly</li>
+                <li><input type="checkbox"> Text remains readable</li>
+            </ul>
+        </div>
+
+        <div class="test-item">
+            <h3>3.3 Mobile Testing (< 768px)</h3>
+            <div class="test-steps">
+                <strong>Steps:</strong>
+                <ol>
+                    <li>Resize browser to mobile width or test on mobile device</li>
+                    <li>Test button and modal functionality</li>
+                </ol>
+            </div>
+            <div class="expected-result">
+                <strong>Expected Result:</strong> Mobile-optimized layout with stacked elements
+            </div>
+            <ul class="checklist">
+                <li><input type="checkbox"> Button remains accessible on mobile</li>
+                <li><input type="checkbox"> Modal takes full viewport (100vw x 100vh)</li>
+                <li><input type="checkbox"> Layout switches to vertical stacking</li>
+                <li><input type="checkbox"> Sidebar becomes full-width at top</li>
+                <li><input type="checkbox"> Touch interactions work properly</li>
+                <li><input type="checkbox"> No horizontal scrolling</li>
+            </ul>
+        </div>
+
+        <div class="responsive-test">
+            <div class="device-test">
+                <h4>📱 Mobile Portrait</h4>
+                <p>320px - 480px</p>
+                <input type="checkbox"> Tested
+            </div>
+            <div class="device-test">
+                <h4>📱 Mobile Landscape</h4>
+                <p>481px - 767px</p>
+                <input type="checkbox"> Tested
+            </div>
+            <div class="device-test">
+                <h4>📱 Tablet Portrait</h4>
+                <p>768px - 1024px</p>
+                <input type="checkbox"> Tested
+            </div>
+            <div class="device-test">
+                <h4>💻 Desktop</h4>
+                <p>1025px+</p>
+                <input type="checkbox"> Tested
+            </div>
+        </div>
+    </div>
+
+    <!-- Test 4: Keyboard Navigation and Accessibility -->
+    <div class="test-section">
+        <h2>Test 4: Keyboard Navigation and Accessibility</h2>
+        
+        <div class="test-item">
+            <h3>4.1 Keyboard Navigation</h3>
+            <div class="keyboard-shortcuts">
+                <strong>Keyboard Shortcuts to Test:</strong><br>
+                • Tab - Navigate between elements<br>
+                • Enter/Space - Activate buttons<br>
+                • Escape - Close modal<br>
+                • Shift+Tab - Navigate backwards
+            </div>
+            <div class="test-steps">
+                <strong>Steps:</strong>
+                <ol>
+                    <li>Use only keyboard navigation (no mouse)</li>
+                    <li>Tab to the access button and press Enter/Space</li>
+                    <li>Navigate through the modal using Tab</li>
+                    <li>Test closing with Escape key</li>
+                </ol>
+            </div>
+            <div class="expected-result">
+                <strong>Expected Result:</strong> Full keyboard accessibility
+            </div>
+            <ul class="checklist">
+                <li><input type="checkbox"> Can tab to access button</li>
+                <li><input type="checkbox"> Access button has visible focus indicator</li>
+                <li><input type="checkbox"> Enter/Space opens modal</li>
+                <li><input type="checkbox"> Tab navigates through modal elements</li>
+                <li><input type="checkbox"> Focus is trapped within modal</li>
+                <li><input type="checkbox"> Escape key closes modal</li>
+                <li><input type="checkbox"> Focus returns to trigger button after closing</li>
+            </ul>
+        </div>
+
+        <div class="test-item">
+            <h3>4.2 Screen Reader Accessibility</h3>
+            <div class="test-steps">
+                <strong>Steps:</strong>
+                <ol>
+                    <li>Test with screen reader (NVDA, JAWS, or VoiceOver)</li>
+                    <li>Navigate to and activate the access button</li>
+                    <li>Navigate through the modal content</li>
+                </ol>
+            </div>
+            <div class="expected-result">
+                <strong>Expected Result:</strong> All content is properly announced
+            </div>
+            <ul class="checklist">
+                <li><input type="checkbox"> Button has descriptive title "Gestionar Cursos"</li>
+                <li><input type="checkbox"> Modal title is announced</li>
+                <li><input type="checkbox"> Form labels are properly associated</li>
+                <li><input type="checkbox"> Required fields are announced as required</li>
+                <li><input type="checkbox"> Error messages are announced</li>
+                <li><input type="checkbox"> Button roles are properly identified</li>
+            </ul>
+        </div>
+
+        <div class="test-item">
+            <h3>4.3 Visual Accessibility</h3>
+            <div class="test-steps">
+                <strong>Steps:</strong>
+                <ol>
+                    <li>Test with high contrast mode enabled</li>
+                    <li>Test with reduced motion preferences</li>
+                    <li>Check color contrast ratios</li>
+                </ol>
+            </div>
+            <div class="expected-result">
+                <strong>Expected Result:</strong> Accessible in all visual modes
+            </div>
+            <ul class="checklist">
+                <li><input type="checkbox"> High contrast mode support</li>
+                <li><input type="checkbox"> Reduced motion support (no animations)</li>
+                <li><input type="checkbox"> Sufficient color contrast (4.5:1 minimum)</li>
+                <li><input type="checkbox"> Focus indicators are visible</li>
+                <li><input type="checkbox"> Text is readable at 200% zoom</li>
+            </ul>
+        </div>
+
+        <div class="test-item">
+            <h3>4.4 Form Accessibility</h3>
+            <div class="test-steps">
+                <strong>Steps:</strong>
+                <ol>
+                    <li>Open the modal</li>
+                    <li>Test form field navigation and interaction</li>
+                    <li>Test form validation and error handling</li>
+                </ol>
+            </div>
+            <div class="expected-result">
+                <strong>Expected Result:</strong> Form is fully accessible
+            </div>
+            <ul class="checklist">
+                <li><input type="checkbox"> Labels are properly associated with inputs</li>
+                <li><input type="checkbox"> Required fields have required attribute</li>
+                <li><input type="checkbox"> Form can be submitted with Enter key</li>
+                <li><input type="checkbox"> Error messages are accessible</li>
+                <li><input type="checkbox"> Success messages are announced</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Test 5: Performance and Browser Compatibility -->
+    <div class="test-section">
+        <h2>Test 5: Performance and Browser Compatibility</h2>
+        
+        <div class="test-item">
+            <h3>5.1 Performance Testing</h3>
+            <div class="test-steps">
+                <strong>Steps:</strong>
+                <ol>
+                    <li>Open browser developer tools</li>
+                    <li>Monitor network and performance tabs</li>
+                    <li>Test button and modal interactions</li>
+                </ol>
+            </div>
+            <div class="expected-result">
+                <strong>Expected Result:</strong> Fast loading and smooth interactions
+            </div>
+            <ul class="checklist">
+                <li><input type="checkbox"> CSS loads quickly (< 100ms)</li>
+                <li><input type="checkbox"> JavaScript loads quickly (< 200ms)</li>
+                <li><input type="checkbox"> Modal opens smoothly (< 300ms)</li>
+                <li><input type="checkbox"> No JavaScript errors in console</li>
+                <li><input type="checkbox"> No CSS layout shifts</li>
+            </ul>
+        </div>
+
+        <div class="test-item">
+            <h3>5.2 Browser Compatibility</h3>
+            <div class="test-steps">
+                <strong>Steps:</strong>
+                <ol>
+                    <li>Test in multiple browsers</li>
+                    <li>Check for consistent behavior</li>
+                </ol>
+            </div>
+            <div class="expected-result">
+                <strong>Expected Result:</strong> Consistent behavior across browsers
+            </div>
+            <ul class="checklist">
+                <li><input type="checkbox"> Chrome (latest)</li>
+                <li><input type="checkbox"> Firefox (latest)</li>
+                <li><input type="checkbox"> Safari (latest)</li>
+                <li><input type="checkbox"> Edge (latest)</li>
+                <li><input type="checkbox"> Mobile browsers</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Test Results Summary -->
+    <div class="test-section">
+        <h2>📊 Test Results Summary</h2>
+        
+        <div class="test-item">
+            <h3>Overall Assessment</h3>
+            <div class="test-steps">
+                <strong>Requirements Verification:</strong>
+                <ul>
+                    <li><input type="checkbox"> ✅ Button visibility for admin users only (Requirement 1.1, 1.2)</li>
+                    <li><input type="checkbox"> ✅ Modal opening and closing behavior (Requirement 1.1, 1.2)</li>
+                    <li><input type="checkbox"> ✅ Responsive design works across devices (Requirement 1.1, 1.2)</li>
+                    <li><input type="checkbox"> ✅ Keyboard navigation and accessibility (Requirement 1.1, 1.2)</li>
+                </ul>
+            </div>
+            
+            <div class="expected-result">
+                <strong>Task 7.1 Completion Criteria:</strong><br>
+                All checkboxes above should be completed to consider task 7.1 successfully implemented.
+            </div>
+        </div>
+    </div>
+
+    <div class="info">
+        <strong>Next Steps:</strong> After completing all tests successfully, task 7.1 "Verify access button functionality" can be marked as complete. Any failing tests should be addressed before moving to the next task.
+    </div>
+
+    <script>
+        // Add some interactivity to the test page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Count checked items
+            function updateProgress() {
+                const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+                const checked = document.querySelectorAll('input[type="checkbox"]:checked');
+                const progress = Math.round((checked.length / checkboxes.length) * 100);
+                
+                // Update page title with progress
+                document.title = `Test Access Button Functionality - ${progress}% Complete`;
+            }
+            
+            // Add event listeners to all checkboxes
+            document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+                checkbox.addEventListener('change', updateProgress);
+            });
+            
+            // Initial progress calculation
+            updateProgress();
+            
+            // Add keyboard shortcuts info
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    console.log('Escape key pressed - test modal closing behavior');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

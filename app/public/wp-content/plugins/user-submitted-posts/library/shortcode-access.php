@@ -13,11 +13,25 @@ function usp_access($attr, $content = null) {
 		'deny' => '',
 	), $attr));
 	
+	// deny message
+	
+	$deny = htmlspecialchars($deny, ENT_QUOTES);
+	
 	$deny = str_replace("{", "<", $deny);
 	$deny = str_replace("}", ">", $deny);
 	
-	$deny    = htmlspecialchars($deny, ENT_QUOTES);
+	$deny = preg_replace('#<script(.*)>(.*)</script>#is', '', $deny);
+	
+	// content
+	
 	$content = htmlspecialchars($content, ENT_QUOTES);
+	
+	$content = str_replace("{", "<", $content);
+	$content = str_replace("}", ">", $content);
+	
+	$content = preg_replace('#<script(.*)>(.*)</script>#is', '', $content);
+	
+	//
 	
 	$caps = array_map('trim', explode(',', $cap));
 	

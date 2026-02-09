@@ -1,0 +1,322 @@
+/* ============================================
+   PÁGINA DE CONTACTO - ESTILOS
+   ============================================ */
+
+/* Hero Section */
+.contact-hero {
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+    color: white;
+    padding: 80px 0 60px;
+    text-align: center;
+}
+
+.contact-hero h1 {
+    font-size: 48px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    color: white;
+}
+
+.contact-hero .hero-subtitle {
+    font-size: 20px;
+    opacity: 0.95;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Quick Contact Section */
+.quick-contact-section {
+    padding: 60px 0;
+    background: #f8f9fa;
+}
+
+.quick-contact-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.contact-card {
+    background: white;
+    border-radius: 16px;
+    padding: 40px 30px;
+    text-align: center;
+    text-decoration: none;
+    color: inherit;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 2px solid transparent;
+}
+
+.contact-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 24px rgba(0,0,0,0.15);
+}
+
+.contact-card .card-icon {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    transition: all 0.3s ease;
+}
+
+.contact-card .card-icon svg {
+    width: 40px;
+    height: 40px;
+    color: white;
+}
+
+.contact-card h3 {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: var(--color-gray-800);
+}
+
+.contact-card p {
+    font-size: 16px;
+    color: var(--color-gray-600);
+    margin-bottom: 12px;
+}
+
+.contact-card .contact-value {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--color-primary);
+    margin-top: 8px;
+}
+
+/* WhatsApp Card */
+.whatsapp-card .card-icon {
+    background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+}
+
+.whatsapp-card:hover {
+    border-color: #25D366;
+}
+
+.whatsapp-card:hover .card-icon {
+    transform: scale(1.1);
+}
+
+/* Phone Card */
+.phone-card .card-icon {
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+}
+
+.phone-card:hover {
+    border-color: var(--color-primary);
+}
+
+.phone-card:hover .card-icon {
+    transform: scale(1.1);
+}
+
+/* Email Card */
+.email-card .card-icon {
+    background: linear-gradient(135deg, #EA4335 0%, #C5221F 100%);
+}
+
+.email-card:hover {
+    border-color: #EA4335;
+}
+
+.email-card:hover .card-icon {
+    transform: scale(1.1);
+}
+
+/* Contact Info Section */
+.contact-info-section {
+    padding: 60px 0;
+    background: white;
+}
+
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 40px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.info-card {
+    text-align: center;
+    padding: 30px;
+}
+
+.info-card .info-icon {
+    width: 70px;
+    height: 70px;
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+}
+
+.info-card .info-icon svg {
+    width: 35px;
+    height: 35px;
+    color: white;
+}
+
+.info-card h3 {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: var(--color-gray-800);
+}
+
+.info-card p {
+    font-size: 16px;
+    color: var(--color-gray-600);
+    line-height: 1.6;
+    margin-bottom: 8px;
+}
+
+/* Map Section */
+.contact-map-section {
+    padding: 80px 0;
+    background: #f8f9fa;
+}
+
+.contact-map-section h2 {
+    text-align: center;
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--color-gray-800);
+    margin-bottom: 12px;
+}
+
+.contact-map-section .map-subtitle {
+    text-align: center;
+    font-size: 18px;
+    color: var(--color-gray-600);
+    margin-bottom: 40px;
+}
+
+.contact-map-section .map-container {
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+    margin-bottom: 30px;
+}
+
+.contact-map-section .map-container iframe {
+    display: block;
+    width: 100%;
+    height: 500px;
+}
+
+.map-actions {
+    text-align: center;
+}
+
+.map-actions .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 16px 32px;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.map-actions .btn svg {
+    flex-shrink: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .contact-hero {
+        padding: 60px 0 40px;
+    }
+    
+    .contact-hero h1 {
+        font-size: 32px;
+    }
+    
+    .contact-hero .hero-subtitle {
+        font-size: 16px;
+    }
+    
+    .quick-contact-section {
+        padding: 40px 0;
+    }
+    
+    .quick-contact-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .contact-card {
+        padding: 30px 20px;
+    }
+    
+    .contact-card .card-icon {
+        width: 70px;
+        height: 70px;
+    }
+    
+    .contact-card .card-icon svg {
+        width: 35px;
+        height: 35px;
+    }
+    
+    .contact-card h3 {
+        font-size: 20px;
+    }
+    
+    .contact-info-section {
+        padding: 40px 0;
+    }
+    
+    .info-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+    
+    .contact-map-section {
+        padding: 50px 0;
+    }
+    
+    .contact-map-section h2 {
+        font-size: 28px;
+    }
+    
+    .contact-map-section .map-container iframe {
+        height: 350px;
+    }
+    
+    .map-actions .btn {
+        padding: 14px 24px;
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .contact-hero h1 {
+        font-size: 28px;
+    }
+    
+    .contact-hero .hero-subtitle {
+        font-size: 15px;
+    }
+    
+    .contact-card {
+        padding: 25px 15px;
+    }
+    
+    .contact-map-section .map-container iframe {
+        height: 300px;
+    }
+}

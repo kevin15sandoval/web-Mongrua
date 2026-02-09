@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Course Management Interface</title>
+    <link rel="stylesheet" href="wp-content/themes/mongruas-theme/assets/css/course-management-panel.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h1>Course Management Interface Test</h1>
+    
+    <!-- Test the panel layout -->
+    <div class="mongruas-panel-container" style="position: relative; margin: 20px auto; max-width: 1200px;">
+        <div class="mongruas-panel-header">
+            <h2>Panel de Gestión de Cursos</h2>
+            <button class="mongruas-panel-close">×</button>
+        </div>
+        
+        <div class="mongruas-main-panel">
+            <div class="panel-sidebar">
+                <h3>Cursos Próximos</h3>
+                <div class="courses-list">
+                    <!-- Test course items -->
+                    <div class="course-item active" data-course-id="1" draggable="true">
+                        <div class="course-item-drag-handle">⋮⋮</div>
+                        <div class="course-item-content">
+                            <div class="course-item-title">Prevención de Riesgos Laborales</div>
+                            <div class="course-item-meta">15 de Enero 2025</div>
+                            <div class="course-item-status active">Activo</div>
+                        </div>
+                    </div>
+                    
+                    <div class="course-item" data-course-id="2" draggable="true">
+                        <div class="course-item-drag-handle">⋮⋮</div>
+                        <div class="course-item-content">
+                            <div class="course-item-title">Formación en Idiomas</div>
+                            <div class="course-item-meta">20 de Febrero 2025</div>
+                            <div class="course-item-status active">Activo</div>
+                        </div>
+                    </div>
+                    
+                    <div class="course-item empty" data-course-id="3">
+                        <div>Curso 3 - Vacío</div>
+                        <div class="course-item-meta">Haz clic para añadir</div>
+                    </div>
+                </div>
+                <button class="btn-secondary">Añadir Curso</button>
+            </div>
+            
+            <div class="panel-main">
+                <div class="course-editor">
+                    <h3>Editando Curso 1</h3>
+                    <div class="save-indicator">
+                        <span class="saved">✓ Guardado</span>
+                    </div>
+                    
+                    <form id="course-form">
+                        <div class="form-field">
+                            <label for="course-name">Nombre del Curso *</label>
+                            <input type="text" id="course-name" name="name" value="Prevención de Riesgos Laborales" required class="field-valid">
+                            <div class="field-validation validation-success">✓ Nombre válido</div>
+                        </div>
+                        
+                        <div class="form-field">
+                            <label for="course-description">Descripción</label>
+                            <textarea id="course-description" name="description" rows="3">Curso completo de prevención de riesgos laborales para empresas.</textarea>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-field">
+                                <label for="course-date">Fecha de Inicio</label>
+                                <input type="text" id="course-date" name="date" value="15 de Enero 2025">
+                            </div>
+                            
+                            <div class="form-field">
+                                <label for="course-duration">Duración</label>
+                                <input type="text" id="course-duration" name="duration" value="40 horas">
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-field">
+                                <label for="course-modality">Modalidad</label>
+                                <select id="course-modality" name="modality">
+                                    <option value="Online">Online</option>
+                                    <option value="Presencial" selected>Presencial</option>
+                                    <option value="Semipresencial">Semipresencial</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-field">
+                                <label for="course-category">Categoría</label>
+                                <select id="course-category" name="category">
+                                    <option value="Prevención de Riesgos Laborales" selected>Prevención de Riesgos Laborales</option>
+                                    <option value="Formación Profesional">Formación Profesional</option>
+                                    <option value="Idiomas">Idiomas</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-field">
+                            <label for="course-image">Imagen del Curso</label>
+                            <div class="image-upload-area">
+                                <p>Haz clic o arrastra una imagen aquí</p>
+                                <p><small>Formatos: JPG, PNG, WebP (máx. 2MB)</small></p>
+                            </div>
+                        </div>
+                        
+                        <div class="form-actions">
+                            <button type="submit" class="btn-primary">Guardar Curso</button>
+                            <button type="button" class="btn-secondary">Eliminar</button>
+                        </div>
+                    </form>
+                </div>
+                
+                <div class="course-preview">
+                    <h3>Vista Previa</h3>
+                    <div class="preview-content">
+                        <div class="preview-course-card">
+                            <div class="preview-course-image">
+                                Sin imagen
+                            </div>
+                            <div class="preview-course-content">
+                                <h4 class="preview-course-title">Prevención de Riesgos Laborales</h4>
+                                <div class="preview-course-meta">
+                                    <span>📅 15 de Enero 2025</span>
+                                    <span>⏱️ 40 horas</span>
+                                    <span>📍 Presencial</span>
+                                </div>
+                                <p class="preview-course-description">Curso completo de prevención de riesgos laborales para empresas.</p>
+                                <div class="preview-course-badges">
+                                    <span class="preview-badge">Prevención de Riesgos Laborales</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Simple test for drag and drop visual feedback
+        $(document).ready(function() {
+            $('.course-item[draggable="true"]').on('dragstart', function() {
+                $(this).addClass('dragging');
+            }).on('dragend', function() {
+                $(this).removeClass('dragging');
+                $('.course-item').removeClass('drag-over');
+            });
+            
+            $('.course-item').on('dragover', function(e) {
+                e.preventDefault();
+                $(this).addClass('drag-over');
+            }).on('dragleave', function() {
+                $(this).removeClass('drag-over');
+            });
+            
+            // Test validation
+            $('#course-name').on('input', function() {
+                const value = $(this).val().trim();
+                $(this).removeClass('field-valid field-invalid');
+                $('.field-validation').removeClass('validation-success validation-error');
+                
+                if (value.length >= 3) {
+                    $(this).addClass('field-valid');
+                    $('.field-validation').addClass('validation-success').text('✓ Nombre válido');
+                } else if (value.length > 0) {
+                    $(this).addClass('field-invalid');
+                    $('.field-validation').addClass('validation-error').text('El nombre debe tener al menos 3 caracteres');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

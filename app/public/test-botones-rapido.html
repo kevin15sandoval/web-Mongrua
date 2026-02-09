@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎨 Test Rápido - Botones Mejorados</title>
+    
+    <!-- Incluir los estilos del header -->
+    <style>
+    /* Botones Modernos - Diseño 2025 Compacto */
+    .btn, .button, button, input[type="submit"], .wp-block-button__link {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+        font-weight: 600 !important;
+        border-radius: 8px !important;
+        padding: 10px 20px !important;
+        font-size: 14px !important;
+        border: none !important;
+        cursor: pointer !important;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        text-decoration: none !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 6px !important;
+        position: relative !important;
+        overflow: hidden !important;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12) !important;
+        margin: 0 4px !important;
+    }
+    
+    /* Botón Primario - Azul Mongruas */
+    .btn-primary, .button-primary {
+        background: linear-gradient(135deg, #0066cc, #0052a3) !important;
+        color: white !important;
+        box-shadow: 0 4px 15px rgba(0, 102, 204, 0.3) !important;
+    }
+    
+    .btn-primary:hover, .button-primary:hover {
+        background: linear-gradient(135deg, #0052a3, #003d7a) !important;
+        transform: translateY(-3px) !important;
+        box-shadow: 0 8px 25px rgba(0, 102, 204, 0.4) !important;
+        color: white !important;
+    }
+    
+    /* Botón Secundario - Gris elegante */
+    .btn-secondary, .button-secondary {
+        background: linear-gradient(135deg, #6c757d, #5a6268) !important;
+        color: white !important;
+        box-shadow: 0 4px 15px rgba(108, 117, 125, 0.3) !important;
+    }
+    
+    .btn-secondary:hover, .button-secondary:hover {
+        background: linear-gradient(135deg, #5a6268, #495057) !important;
+        transform: translateY(-3px) !important;
+        box-shadow: 0 8px 25px rgba(108, 117, 125, 0.4) !important;
+        color: white !important;
+    }
+    
+    /* Botón de Éxito - Verde */
+    .btn-success, .button-success {
+        background: linear-gradient(135deg, #28a745, #20c997) !important;
+        color: white !important;
+        box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3) !important;
+    }
+    
+    .btn-success:hover, .button-success:hover {
+        background: linear-gradient(135deg, #20c997, #17a2b8) !important;
+        transform: translateY(-3px) !important;
+        box-shadow: 0 8px 25px rgba(40, 167, 69, 0.4) !important;
+        color: white !important;
+    }
+    
+    /* Botones CTA especiales - Tamaño compacto */
+    .cta-button, .hero-button, .contact-button {
+        background: linear-gradient(135deg, #ff6b35, #f7931e) !important;
+        color: white !important;
+        padding: 12px 24px !important;
+        border-radius: 25px !important;
+        font-weight: 700 !important;
+        font-size: 15px !important;
+        text-transform: uppercase !important;
+        letter-spacing: 0.5px !important;
+        box-shadow: 0 3px 12px rgba(255, 107, 53, 0.3) !important;
+        border: none !important;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        margin: 0 6px !important;
+    }
+
+    .cta-button:hover, .hero-button:hover, .contact-button:hover {
+        background: linear-gradient(135deg, #f7931e, #e8890b) !important;
+        transform: translateY(-2px) scale(1.02) !important;
+        box-shadow: 0 6px 18px rgba(255, 107, 53, 0.4) !important;
+        color: white !important;
+    }
+    
+    /* Efectos especiales para botones */
+    .btn::before, .button::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+        transition: left 0.5s;
+    }
+
+    .btn:hover::before, .button:hover::before {
+        left: 100%;
+    }
+    
+    /* Botones responsivos - Compactos */
+    @media (max-width: 768px) {
+        .btn, .button, button {
+            padding: 8px 16px !important;
+            font-size: 13px !important;
+            border-radius: 6px !important;
+            margin: 0 2px !important;
+        }
+        
+        .cta-button, .hero-button {
+            padding: 10px 20px !important;
+            font-size: 14px !important;
+            border-radius: 20px !important;
+            margin: 0 3px !important;
+        }
+    }
+    
+    /* Espaciado mejorado para grupos */
+    .button-group {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-bottom: 20px;
+    }
+    
+    /* Estilos de la página */
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+        margin: 0;
+        padding: 40px;
+        min-height: 100vh;
+    }
+    
+    .container {
+        max-width: 800px;
+        margin: 0 auto;
+        background: white;
+        padding: 40px;
+        border-radius: 20px;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+    }
+    
+    h1 {
+        text-align: center;
+        color: #0066cc;
+        font-size: 36px;
+        font-weight: 800;
+        margin-bottom: 30px;
+    }
+    
+    .button-group {
+        display: flex;
+        gap: 15px;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-bottom: 30px;
+    }
+    
+    .status {
+        background: linear-gradient(135deg, #28a745, #20c997);
+        color: white;
+        padding: 20px;
+        border-radius: 12px;
+        text-align: center;
+        margin-top: 30px;
+        font-weight: 600;
+    }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎨 Botones Compactos - Mongruas</h1>
+        
+        <div class="button-group">
+            <button class="btn btn-primary">Botón Primario</button>
+            <button class="btn btn-secondary">Botón Secundario</button>
+            <button class="btn btn-success">Botón de Éxito</button>
+        </div>
+        
+        <div class="button-group">
+            <button class="cta-button">¡Inscríbete Ahora!</button>
+            <button class="hero-button">Solicita Información</button>
+        </div>
+        
+        <div class="status">
+            ✅ Los botones ahora son más compactos y están más juntos<br>
+            📏 Tamaño reducido: padding 10px 20px (antes 14px 28px)<br>
+            🤏 Espaciado menor: margin 4px entre botones<br>
+            📱 Responsive: se adaptan perfectamente en móvil<br>
+            ✨ Mantienen todos los efectos modernos
+        </div>
+    </div>
+    
+    <script>
+    // Agregar efectos de click
+    document.querySelectorAll('.btn, .button, button').forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+            // Efecto de ripple
+            const ripple = document.createElement('span');
+            const rect = this.getBoundingClientRect();
+            const size = Math.max(rect.width, rect.height);
+            const x = e.clientX - rect.left - size / 2;
+            const y = e.clientY - rect.top - size / 2;
+            
+            ripple.style.cssText = `
+                position: absolute;
+                width: ${size}px;
+                height: ${size}px;
+                left: ${x}px;
+                top: ${y}px;
+                background: rgba(255,255,255,0.3);
+                border-radius: 50%;
+                transform: scale(0);
+                animation: ripple 0.6s linear;
+                pointer-events: none;
+            `;
+            
+            this.appendChild(ripple);
+            setTimeout(() => ripple.remove(), 600);
+        });
+    });
+    
+    // Agregar animación de ripple
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes ripple {
+            to { transform: scale(4); opacity: 0; }
+        }
+    `;
+    document.head.appendChild(style);
+    </script>
+</body>
+</html>
