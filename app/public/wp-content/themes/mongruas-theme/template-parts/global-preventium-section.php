@@ -8,7 +8,7 @@
 
 $preventium_heading = get_field('preventium_heading') ?: 'Delegación Global Preventium';
 $preventium_description = get_field('preventium_description') ?: 'Servicios de Prevención de Riesgos Laborales';
-$preventium_url = get_field('preventium_url') ?: 'https://www.globalpreventium.com';
+$preventium_url = get_field('preventium_url') ?: 'http://45.156.210.243:1001/web/';
 $preventium_phone = get_field('preventium_phone') ?: '926 921 018';
 ?>
 

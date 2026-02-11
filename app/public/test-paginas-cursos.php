@@ -1,144 +1,205 @@
 <?php
 /**
- * Test de Páginas Individuales de Cursos
+ * Test de páginas individuales de cursos
+ * 
  */
 
 // Cargar WordPress
-require_once('wp-config.php');
-require_once('wp-load.php');
+require_once('wp-config.php';
 
-echo "<h1>🧪 Test de Páginas Individuales de Cursos</h1>";
 
-echo "<h2>🔗 Enlaces de Prueba</h2>";
+h1>";
 
-echo "<div style='background: white; padding: 20px; border-radius: 8px; margin: 20px 0; box-shadow: 0 2px 10px rgba(0,0,0,0.1);'>";
 
-// Verificar datos de cursos
+echo "<h2>📋 Verificando Sistema de Cursos Individuales</h2>";
+
+// Test 1: Verificar que losisten
+echo "<h3>1️⃣ Datos de Cursos</h3>";
 for ($i = 1; $i <= 3; $i++) {
-    $course_name = get_option("course_{$i}_name");
-    $course_date = get_option("course_{$i}_date");
-    $course_description = get_option("course_{$i}_description");
-    $course_image = get_option("course_{$i}_image");
+    $nombre = get_option("course_{$i}_name");
+    $fecha = get_option("course_{$i}_date");
+    $modalidad = get_option("course_{$i}_modality");
+    ion");
+    $imagen = get_option("course_{$i}_
     
-    // Datos por defecto si no existen
-    if (!$course_name) {
-        $defaults = [
-            1 => 'Montaje y Mantenimiento de Instalaciones Eléctricas',
-            2 => 'Sistemas Domóticos e Inmóticos',
-            3 => 'Control de Plagas'
-        ];
-        $course_name = $defaults[$i];
-        $course_date = ['', 'Enero 2025', 'Febrero 2025', 'Marzo 2025'][$i];
-    }
+    echo "<div style=
+    echo "<strong>Curso $i:</strong><br>";
+    echo "📚 Nombre: " . ($nombre ? $nombre : "❌ N";
+    echo "📅 Fecha: " . ($fecha ? $f;
+    echo "";
+    echo "📝 Descripción: " . ($descr>";
+    echo "🖼️ Imagen: " . ($imagen ? "✅ Definida" : "❌ No definida") . "<br>";
+    e
+}
+
+// Test 2: Verificar URLs de cursos individuales
+echo "<h3>2️⃣ URLs de Cursos Individuales:</h3>";
+for  {
+    $url = home_url("/curso/?crso=$i");
+    echo "<div style='background: white; padding: 10px; margin: 5px 0; border-radius: 5px;'>";
+    e";
     
-    echo "<div style='border: 2px solid #e0e0e0; border-radius: 8px; padding: 20px; margin: 15px 0; background: #fafafa;'>";
-    echo "<h3>📚 Curso $i: " . esc_html($course_name) . "</h3>";
-    echo "<p><strong>Fecha:</strong> " . esc_html($course_date) . "</p>";
+    echo "</div>";
+}
+
+// Test 3: Verificar template de curso individual
+echo ;
+$temse.php';
+if (file_exists($template_path)) {
+    echo "✅ Template existe: $template_path
+    $template_size = filesize($template_path);
+    echo "📏 Tamaño: " . number_format($template_size) . " bytes<br>";
+} else {
+    echo "❌ Templa;
+}
+
+// Test 4: Veruting
+/h3>";
+$routing_path = 'curso.php';
+
+    echo "✅ R
+    echo "📄 Contenido:<br>";
+    echo "<pre style='background: #f8f9fa; padding: 10px; border-radius: 5";
+    echo htmlspecialchars(file_get_conte;
+    echo "</pre>";
+} else {
+    echo "❌ Routing no encontrad>";
+}
+
+// Test 5: Verificar botones en template de cursos
+echo "<h3>5️⃣ Botones en Template de Cursos3>";
+$c
+)) {
+    $content = file_get_contents($courses_template);
     
-    if ($course_description) {
-        echo "<p><strong>Descripción:</strong> " . esc_html(substr($course_description, 0, 100)) . "...</p>";
-    }
+    // Buscar botones "Ver Más Info"
+    $ver_mas_count = substr_count($content, 'btn-ver-mas');
+ 
     
-    if ($course_image) {
-        echo "<p><strong>Imagen:</strong> ✅ Configurada</p>";
+    // Buscar "
+);
+    echo "📝 Botones 'Reservar Pl
+    
+    // Buscar enlaces a páginas individuales
+    $curso_l=');
+    echo "🔗 Enlaces a páginas individuales: $curso_links<br>";
+    
+    if ($ver_mas_count > 0 && $reservar_count > 0 && $curso_links > 0) {
+        echo "✅ <strong>Sistema de botones funcionando correctamente</strong><br>";
     } else {
-        echo "<p><strong>Imagen:</strong> ⚪ No configurada</p>";
+        echo "⚠️ <strong>Posible problema con los botones</strong><br>";
     }
-    
-    $course_url = home_url("/curso/?curso=$i");
-    echo "<div style='margin-top: 15px;'>";
-    echo "<a href='$course_url' style='background: #0066cc; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; margin-right: 10px;' target='_blank'>🔗 Ver Página del Curso</a>";
-    echo "<code style='background: #e9ecef; padding: 5px 10px; border-radius: 3px; font-size: 12px;'>$course_url</code>";
-    echo "</div>";
-    echo "</div>";
+} else {
+    echo "❌ Template de cursos no encont
 }
 
 echo "</div>";
 
-echo "<h2>🎯 Funcionalidades Implementadas</h2>";
+// Test 6: Si
+echo "<div style='background: #fff3cd; padding: 20px; border-radius: 8px; margin: 20px";
+echo "<h2>🎯 
 
-$features = [
-    '✅ Páginas individuales para cada curso',
-    '✅ URLs amigables: /curso/?curso=1, /curso/?curso=2, /curso/?curso=3',
-    '✅ Información completa desplegada',
-    '✅ Imágenes grandes si están configuradas',
-    '✅ Formulario de contacto integrado',
-    '✅ Navegación entre cursos',
-    '✅ Diseño responsive',
-    '✅ Breadcrumb de navegación',
-    '✅ Sidebar con información adicional',
-    '✅ Enlaces desde las tarjetas de curso'
-];
+curso 1
+$course_id = 1;
+$course_name = get_option("course_{$course_id}_name");
+$course_date = get_option("course_{$course_id}_date");
+$course_descri
 
-echo "<div style='background: white; padding: 20px; border-radius: 8px; margin: 20px 0; box-shadow: 0 2px 10px rgba(0,0,0,0.1);'>";
-echo "<ul>";
-foreach ($features as $feature) {
-    echo "<li style='margin: 8px 0; font-size: 16px;'>$feature</li>";
+if ($course_name) {
+    echo "<div style='background: white; padding: ";
+    echo "<h3>✅ Simulación E";
+    echo "<s;
+    echo "<strong>Fecha:</strong> $course_date<br>";
+    echo "<strong>Descripción:</strong> " . substr($course_description, 0, 100)
+    echo "<br><strong>URL de prueba:</strong> <a href='" . home_url("/curso/?curso=$course_id";
+    echo "</div>";
+} else {
+    echo "<div'>";
+  3>";
+;
+    echiv>";
 }
-echo "</ul>";
+
 echo "</div>";
 
-echo "<h2>🚀 Cómo Funciona</h2>";
-
-echo "<div style='background: #d1ecf1; color: #0c5460; padding: 20px; border-radius: 8px; margin: 20px 0;'>";
-echo "<ol>";
-echo "<li><strong>En la página de cursos (/anuncios)</strong> - Ahora cada curso tiene dos botones:</li>";
-echo "<ul style='margin: 10px 0;'>";
-echo "<li>🔍 <strong>\"Ver Más Info\"</strong> - Lleva a la página individual del curso</li>";
-echo "<li>📝 <strong>\"Reservar Plaza\"</strong> - Lleva directamente al formulario de contacto</li>";
-echo "</ul>";
-echo "<li><strong>En la página individual</strong> - El usuario puede ver:</li>";
-echo "<ul style='margin: 10px 0;'>";
-echo "<li>📸 Imagen grande del curso (si está configurada)</li>";
-echo "<li>📋 Descripción completa</li>";
-echo "<li>ℹ️ Información detallada (objetivos, metodología, certificación)</li>";
-echo "<li>📞 Formulario de contacto específico del curso</li>";
-echo "<li>🎓 Enlaces a otros cursos disponibles</li>";
-echo "<li>📱 Información de contacto directo</li>";
-echo "</ul>";
-echo "<li><strong>Navegación fácil</strong> - Breadcrumbs y botones para volver</li>";
-echo "</ol>";
+// Botones de acción
+echo "<div style='text-a;
+e
+;
+echo "<a hre/a>";
 echo "</div>";
 
-echo "<div style='text-align: center; margin: 30px 0;'>";
-echo "<a href='" . home_url('/anuncios') . "' style='background: #28a745; color: white; padding: 15px 30px; text-decoration: none; border-radius: 8px; margin: 5px; font-weight: bold;'>👀 Ver Página de Cursos</a>";
-echo "<a href='" . home_url('/gestionar-proximos-cursos.php') . "' style='background: #0066cc; color: white; padding: 15px 30px; text-decoration: none; border-radius: 8px; margin: 5px; font-weight: bold;'>⚙️ Gestionar Cursos</a>";
-echo "</div>";
-
-echo "<div style='background: #fff3cd; color: #856404; padding: 20px; border-radius: 8px; margin: 20px 0;'>";
-echo "<h3>💡 Consejo para la Administradora</h3>";
-echo "<p>Ahora puedes:</p>";
-echo "<ul>";
-echo "<li>📝 <strong>Añadir descripciones detalladas</strong> en el gestor de cursos</li>";
-echo "<li>🖼️ <strong>Subir imágenes atractivas</strong> para cada curso</li>";
-echo "<li>🎯 <strong>Los usuarios verán toda la información</strong> antes de contactar</li>";
-echo "<li>📞 <strong>Recibirás consultas más específicas</strong> sobre cada curso</li>";
-echo "</ul>";
-echo "</div>";
 ?>
 
-<style>
-body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    max-width: 1000px;
-    margin: 0 auto;
-    padding: 20px;
-    background: #f8f9fa;
+<script>
+f) {
+entana
+    lank');
+    
+ mensaje
+
+    me= `
+        position: fixed;
+ px;
+        
+</style>}
+ight: 200px;   max-hex: auto;
+   overflow-
+pre {
+  line;
+}
+underdecoration: ext-ver {
+    tho
 }
 
-h1, h2, h3 {
-    color: #333;
-}
+a:none;: -decoration   text66cc;
+ : #00
+    color
+a {}
+op: 25px;
+    margin-t: #495057;
+olor  c3 {
+  }
 
-ul, ol {
-    line-height: 1.6;
-}
+h10px;
+bottom: g-
+    paddin#0066cc;2px solid ttom: rder-bo
+    bocc;r: #0066{
+    colo}
 
-li {
-    margin: 5px 0;
-}
+h2 ;
+ottom: 30pxn-b  margi center;
+  align:ext-;
+    ta1a1a color: #1   {
 
-code {
-    font-family: 'Courier New', monospace;
+h1 f9fa;
 }
-</style>
+und: #f8 backgro
+   px;ng: 20
+    paddi auto;n: 0;
+    margi 1000pxx-width:
+    maserif;sans-oto, UI', Robe egot, 'SonmFnkMacSystem, Blisystey: -apple-t-famil
+    fon>
+body {<style>
+
+/script30000);
+<
+}, ();ation.reload
+    locut(() => {etTimeor cambios
+sa vears p segundosh cada 30efre-r// Auto
+
+ 3000);
+}  },);
+  e.remove( messag       () => {
+ut(tTimeo    se
+);
+    messagendChild(dy.appeument.bodoc    .`;
+d}..eIrs ${cousoobando CurPr🧪  `tent =xtConsage.te   mes;
+ d;
+    `weight: bol   font-    
+ 0; 1000dex:   z-in    
+ : 8px;-radius  border
+      px 20px; 15ng:di   pad   hite;
+  color: w
+        745;round: #28a     backg  ;
+ right: 20px

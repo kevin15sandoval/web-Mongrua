@@ -23,9 +23,9 @@ get_header();
         <div class="container">
             <div class="quick-contact-grid">
                 <?php
-                $phone = get_field('contact_phone', 'option') ?: '925 82 37 09';
-                $email = get_field('contact_email', 'option') ?: 'info@mongruas.com';
-                $whatsapp = get_field('whatsapp_number', 'option') ?: '34925823709';
+                $phone = get_field('contact_phone', 'option') ?: '925 81 39 99';
+                $email = get_field('contact_email', 'option') ?: 'mongruasformaciontalavera@gmail.com';
+                $whatsapp = get_field('whatsapp_number', 'option') ?: '34603492885';
                 
                 // Limpiar número de teléfono para enlaces
                 $phone_clean = str_replace([' ', '-', '(', ')'], '', $phone);
@@ -58,7 +58,7 @@ get_header();
                 </a>
 
                 <!-- Botón Email -->
-                <a href="mailto:<?php echo esc_attr($email); ?>" class="contact-card email-card">
+                <a href="https://mail.google.com/mail/?view=cm&fs=1&to=<?php echo esc_attr($email); ?>" class="contact-card email-card" target="_blank" rel="noopener">
                     <div class="card-icon">
                         <svg viewBox="0 0 24 24" fill="currentColor">
                             <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
@@ -66,7 +66,7 @@ get_header();
                     </div>
                     <h3>Email</h3>
                     <p>Escríbenos un correo</p>
-                    <span class="contact-value"><?php echo esc_html($email); ?></span>
+                    <span class="contact-value">Enviar correo</span>
                 </a>
             </div>
         </div>
@@ -94,8 +94,9 @@ get_header();
                         </svg>
                     </div>
                     <h3>Horario</h3>
-                    <p>Lunes a Viernes: 9:00 - 14:00 y 16:00 - 19:00</p>
-                    <p>Sábados: 10:00 - 13:00</p>
+                    <p>Lunes a Viernes: </p>
+                    <p> 8:00 - 20:00</p>
+                    
                 </div>
             </div>
         </div>

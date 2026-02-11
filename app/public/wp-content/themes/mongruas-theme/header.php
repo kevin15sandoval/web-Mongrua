@@ -172,28 +172,23 @@
             </button>
             <?php
             // Mostrar menú de WordPress si existe
-            if (has_nav_menu('primary')) {
-                wp_nav_menu(array(
-                    'theme_location' => 'primary',
-                    'menu_id'        => 'primary-menu',
-                    'menu_class'     => 'nav-menu',
-                    'container'      => false,
-                    'fallback_cb'    => false,
-                ));
-            } else {
+            
+             {
                 // Menú por defecto si no hay menú configurado
                 ?>
                 <ul id="primary-menu" class="nav-menu">
                     <li><a href="<?php echo home_url('/'); ?>">Inicio</a></li>
+                    <li><a href="<?php echo home_url('/anuncios/'); ?>">Anuncios</a></li>
                     <li><a href="<?php echo home_url('/contacto/'); ?>">Contacto</a></li>
                     <li><a href="<?php echo home_url('/como-funciona/'); ?>">Cómo Funciona</a></li>
                     <li><a href="<?php echo home_url('/preguntas-respuestas/'); ?>">Preguntas y Respuestas</a></li>
-                    <li><a href="<?php echo home_url('/anuncios/'); ?>">Cursos</a></li>
+                    
                 </ul>
                 <?php
             }
             ?>
             <div class="header-cta">
+               
                 <a href="https://www.plataformateleformacion.com" target="_blank" class="btn btn-secondary">
                     <?php esc_html_e('Campus Virtual', 'mongruas'); ?>
                 </a>
@@ -249,6 +244,27 @@
     box-shadow: 0 2px 8px rgba(220, 53, 69, 0.3);
     position: relative;
     overflow: hidden;
+}
+
+/* Botón especial de Anuncios en header - estilo destacado */
+.header-cta .btn-anuncios-special {
+    background: #6c7a89 !important;
+    color: white !important;
+    padding: 10px 24px !important;
+    border-radius: 12px !important;
+    font-size: 15px !important;
+    font-weight: 600 !important;
+    box-shadow: 0 3px 10px rgba(108, 122, 137, 0.3) !important;
+    transition: all 0.3s ease !important;
+    text-decoration: none !important;
+    display: inline-block !important;
+}
+
+.header-cta .btn-anuncios-special:hover {
+    background: #5a6875 !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 5px 15px rgba(108, 122, 137, 0.4) !important;
+    color: white !important;
 }
 
 .btn-admin-topbar::before {
@@ -433,8 +449,14 @@
         margin-left: 8px;
     }
     
-    .admin-text {
+    .admin-text, .btn-text {
         display: none;
+    }
+    
+    .header-cta .btn {
+        padding: 6px 12px !important;
+        font-size: 12px !important;
+        margin: 0 2px !important;
     }
     
     .admin-modal-content-topbar {

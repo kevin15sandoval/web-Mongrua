@@ -89,10 +89,14 @@
 }
 
 .contact-card .contact-value {
-    font-size: 18px;
-    font-weight: 600;
+    font-size: 16px;
+    font-weight: 700;
     color: var(--color-primary);
-    margin-top: 8px;
+    margin-top: 12px;
+    line-height: 1.4;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    max-width: 100%;
 }
 
 /* WhatsApp Card */

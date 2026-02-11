@@ -162,6 +162,7 @@ require_once MONGRUAS_THEME_DIR . '/inc/acf-fields.php';
 require_once MONGRUAS_THEME_DIR . '/inc/analytics.php';
 require_once MONGRUAS_THEME_DIR . '/inc/security-config.php';
 require_once MONGRUAS_THEME_DIR . '/inc/course-management-panel.php';
+require_once MONGRUAS_THEME_DIR . '/inc/course-social-integration.php'; // Sistema de publicación automática en Instagram
 
 // Include tests in development
 if (defined('WP_DEBUG') && WP_DEBUG) {

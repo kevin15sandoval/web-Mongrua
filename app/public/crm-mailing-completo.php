@@ -81,6 +81,102 @@ if (isset($_POST['accion']) && $_POST['accion'] === 'actualizar_cliente' && isse
     }
 }
 
+// AJAX: Cambiar estado del cliente (activar/desactivar)
+if (isset($_POST['accion']) && $_POST['accion'] === 'toggle_estado_cliente' && isset($_POST['cliente_id'])) {
+    $cliente_id = intval($_POST['cliente_id']);
+    $nuevo_estado = sanitize_text_field($_POST['nuevo_estado']);
+    
+    // Validar que el estado sea válido
+    if (!in_array($nuevo_estado, ['activo', 'inactivo', 'bloqueado'])) {
+        header('Content-Type: application/json');
+        echo json_encode(['success' => false, 'error' => 'Estado no válido']);
+        exit;
+    }
+    
+    $resultado = $wpdb->update(
+        $table_clientes,
+        array(
+            'estado' => $nuevo_estado,
+            'ultima_actividad' => current_time('mysql')
+        ),
+        array('id' => $cliente_id)
+    );
+    
+    if ($resultado !== false) {
+        header('Content-Type: application/json');
+        echo json_encode([
+            'success' => true, 
+            'message' => 'Estado actualizado correctamente',
+            'nuevo_estado' => $nuevo_estado
+        ]);
+        exit;
+    } else {
+        header('Content-Type: application/json');
+        echo json_encode(['success' => false, 'error' => 'Error al actualizar estado: ' . $wpdb->last_error]);
+        exit;
+    }
+}
+
+// AJAX: Eliminar campaña (solo borradores)
+if (isset($_POST['accion']) && $_POST['accion'] === 'eliminar_campana' && isset($_POST['campana_id'])) {
+    $campana_id = intval($_POST['campana_id']);
+    
+    // Verificar que la campaña existe y es un borrador
+    $campana = $wpdb->get_row($wpdb->prepare("SELECT * FROM $table_campanas WHERE id = %d", $campana_id));
+    
+    if ($campana && $campana->estado === 'borrador') {
+        // Eliminar registros de envíos relacionados (si existen)
+        $wpdb->delete($table_envios, array('campana_id' => $campana_id));
+        
+        // Eliminar la campaña
+        $resultado = $wpdb->delete($table_campanas, array('id' => $campana_id));
+        
+        if ($resultado) {
+            header('Content-Type: application/json');
+            echo json_encode(['success' => true, 'message' => 'Campaña eliminada correctamente']);
+            exit;
+        } else {
+            header('Content-Type: application/json');
+            echo json_encode(['success' => false, 'error' => 'Error al eliminar la campaña: ' . $wpdb->last_error]);
+            exit;
+        }
+    } else {
+        header('Content-Type: application/json');
+        echo json_encode(['success' => false, 'error' => 'Solo se pueden eliminar campañas en estado borrador']);
+        exit;
+    }
+}
+
+// AJAX: Actualizar campaña
+if (isset($_POST['accion']) && $_POST['accion'] === 'actualizar_campana' && isset($_POST['campana_id'])) {
+    $campana_id = intval($_POST['campana_id']);
+    $nombre = sanitize_text_field($_POST['nombre']);
+    $asunto = sanitize_text_field($_POST['asunto']);
+    $contenido = wp_kses_post($_POST['contenido']);
+    $segmento = sanitize_text_field($_POST['segmento']);
+    
+    $resultado = $wpdb->update(
+        $table_campanas,
+        array(
+            'nombre' => $nombre,
+            'asunto' => $asunto,
+            'contenido' => $contenido,
+            'segmento' => $segmento
+        ),
+        array('id' => $campana_id)
+    );
+    
+    if ($resultado !== false) {
+        header('Content-Type: application/json');
+        echo json_encode(['success' => true, 'message' => 'Campaña actualizada correctamente']);
+        exit;
+    } else {
+        header('Content-Type: application/json');
+        echo json_encode(['success' => false, 'error' => 'Error al actualizar: ' . $wpdb->last_error]);
+        exit;
+    }
+}
+
 // AJAX: Obtener clientes para campaña
 if (isset($_GET['accion']) && $_GET['accion'] === 'obtener_clientes_para_campana') {
     $segmento = isset($_GET['segmento']) ? sanitize_text_field($_GET['segmento']) : '';
@@ -104,10 +200,19 @@ if (isset($_GET['accion']) && $_GET['accion'] === 'obtener_clientes_para_campana
 if (isset($_GET['accion']) && $_GET['accion'] === 'exportar_excel') {
     $filtro_lista = isset($_GET['lista']) ? sanitize_text_field($_GET['lista']) : '';
     $filtro_sector = isset($_GET['sector']) ? sanitize_text_field($_GET['sector']) : '';
+    $filtro_estado = isset($_GET['estado']) ? sanitize_text_field($_GET['estado']) : 'activo';
     $busqueda = isset($_GET['buscar']) ? sanitize_text_field($_GET['buscar']) : '';
     
     // Construir WHERE clause
-    $where_parts = ["estado = 'activo'"];
+    $where_parts = [];
+    
+    // Filtro de estado
+    if ($filtro_estado === 'todos') {
+        // No filtrar por estado
+    } else {
+        $where_parts[] = $wpdb->prepare("estado = %s", $filtro_estado);
+    }
+    
     if (!empty($filtro_lista)) {
         $where_parts[] = $wpdb->prepare("lista = %s", $filtro_lista);
     }
@@ -122,7 +227,7 @@ if (isset($_GET['accion']) && $_GET['accion'] === 'exportar_excel') {
             '%' . $wpdb->esc_like($busqueda) . '%'
         );
     }
-    $where_clause = "WHERE " . implode(" AND ", $where_parts);
+    $where_clause = !empty($where_parts) ? "WHERE " . implode(" AND ", $where_parts) : "";
     
     // Obtener todos los clientes filtrados
     $clientes = $wpdb->get_results("SELECT * FROM $table_clientes $where_clause ORDER BY fecha_registro DESC");
@@ -330,6 +435,9 @@ if (isset($_POST['accion'])) {
             
             if ($resultado) {
                 $mensaje_resultado = "<div class='alert alert-success'>✅ Campaña creada correctamente</div>";
+                // Redirigir para evitar reenvío del formulario
+                header("Location: " . $_SERVER['PHP_SELF'] . "#campanas");
+                exit;
             } else {
                 $mensaje_resultado = "<div class='alert alert-error'>❌ Error al crear campaña</div>";
             }
@@ -442,10 +550,19 @@ $offset = ($pagina_actual - 1) * $por_pagina;
 
 $filtro_lista = isset($_GET['lista']) ? sanitize_text_field($_GET['lista']) : '';
 $filtro_sector = isset($_GET['sector']) ? sanitize_text_field($_GET['sector']) : '';
+$filtro_estado = isset($_GET['estado']) ? sanitize_text_field($_GET['estado']) : 'activo'; // Por defecto solo activos
 $busqueda = isset($_GET['buscar']) ? sanitize_text_field($_GET['buscar']) : '';
 
 // Construir WHERE clause
-$where_parts = ["estado = 'activo'"];
+$where_parts = [];
+
+// Filtro de estado
+if ($filtro_estado === 'todos') {
+    // No filtrar por estado, mostrar todos
+} else {
+    $where_parts[] = $wpdb->prepare("estado = %s", $filtro_estado);
+}
+
 if (!empty($filtro_lista)) {
     $where_parts[] = $wpdb->prepare("lista = %s", $filtro_lista);
 }
@@ -460,7 +577,8 @@ if (!empty($busqueda)) {
         '%' . $wpdb->esc_like($busqueda) . '%'
     );
 }
-$where_clause = "WHERE " . implode(" AND ", $where_parts);
+
+$where_clause = !empty($where_parts) ? "WHERE " . implode(" AND ", $where_parts) : "";
 
 // Obtener total de clientes con filtros
 $total_clientes_filtrados = $wpdb->get_var("SELECT COUNT(*) FROM $table_clientes $where_clause");
@@ -472,7 +590,7 @@ $clientes_recientes = $wpdb->get_results("SELECT * FROM $table_clientes $where_c
 // Obtener listas disponibles
 $listas = $wpdb->get_results("SELECT lista, COUNT(*) as total FROM $table_clientes WHERE lista != '' GROUP BY lista ORDER BY total DESC");
 
-$campanas_recientes = $wpdb->get_results("SELECT * FROM $table_campanas ORDER BY fecha_creacion DESC LIMIT 5");
+$campanas_recientes = $wpdb->get_results("SELECT * FROM $table_campanas ORDER BY fecha_creacion DESC LIMIT 50");
 $sectores = $wpdb->get_results("SELECT sector, COUNT(*) as total FROM $table_clientes WHERE sector != '' GROUP BY sector ORDER BY total DESC");
 ?>
 
@@ -634,23 +752,42 @@ body {
     border-radius: 8px;
     overflow: hidden;
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    font-size: 15px;
 }
 
 .table th, .table td {
-    padding: 12px;
+    padding: 12px 10px;
     text-align: left;
     border-bottom: 1px solid #e0e0e0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .table th {
     background: #f8f9fa;
     font-weight: 700;
     color: #333;
+    font-size: 14px;
 }
 
 .table tr:hover {
     background: #f8f9fa;
 }
+
+/* Anchos específicos para cada columna */
+.table th:nth-child(1), .table td:nth-child(1) { display: none; } /* ID - OCULTA */
+.table th:nth-child(2), .table td:nth-child(2) { width: 110px; } /* Sector */
+.table th:nth-child(3), .table td:nth-child(3) { width: 200px; max-width: 200px; } /* Empresa */
+.table th:nth-child(4), .table td:nth-child(4) { width: 170px; max-width: 170px; } /* Contacto */
+.table th:nth-child(5), .table td:nth-child(5) { width: 120px; } /* Teléfono */
+.table th:nth-child(6), .table td:nth-child(6) { width: 200px; max-width: 200px; } /* Correo */
+.table th:nth-child(7), .table td:nth-child(7) { display: none; } /* Población - OCULTA */
+.table th:nth-child(8), .table td:nth-child(8) { display: none; } /* Provincia - OCULTA */
+.table th:nth-child(9), .table td:nth-child(9) { display: none; } /* Observaciones - OCULTA */
+.table th:nth-child(10), .table td:nth-child(10) { width: 110px; } /* Lista */
+.table th:nth-child(11), .table td:nth-child(11) { width: 90px; } /* Estado */
+.table th:nth-child(12), .table td:nth-child(12) { width: 140px; white-space: normal; } /* Acciones */
 
 .alert {
     padding: 15px;
@@ -671,17 +808,20 @@ body {
 }
 
 .badge {
-    padding: 4px 8px;
-    border-radius: 12px;
+    padding: 5px 10px;
+    border-radius: 10px;
     font-size: 12px;
     font-weight: 600;
     text-transform: uppercase;
+    display: inline-block;
+    white-space: nowrap;
 }
 
 .badge-success { background: #d4edda; color: #155724; }
 .badge-warning { background: #fff3cd; color: #856404; }
 .badge-danger { background: #f8d7da; color: #721c24; }
 .badge-info { background: #d1ecf1; color: #0c5460; }
+.badge-secondary { background: #e2e8f0; color: #4a5568; }
 
 @media (max-width: 768px) {
     .dashboard-grid {
@@ -760,6 +900,14 @@ body {
                         <?php endforeach; ?>
                     </select>
                 </div>
+                <div class="form-group" style="margin-bottom: 0;">
+                    <label>🔘 Estado:</label>
+                    <select name="estado">
+                        <option value="activo" <?php selected($filtro_estado, 'activo'); ?>>✅ Solo Activos</option>
+                        <option value="inactivo" <?php selected($filtro_estado, 'inactivo'); ?>>🚫 Solo Inactivos</option>
+                        <option value="todos" <?php selected($filtro_estado, 'todos'); ?>>👥 Todos</option>
+                    </select>
+                </div>
                 <div style="display: flex; gap: 10px;">
                     <button type="submit" class="btn btn-primary" style="margin: 0;">Filtrar</button>
                     <a href="?#clientes" class="btn btn-secondary" style="margin: 0; padding: 12px 20px;">Limpiar</a>
@@ -775,6 +923,7 @@ body {
                     <?php if ($busqueda): ?><input type="hidden" name="buscar" value="<?php echo esc_attr($busqueda); ?>"><?php endif; ?>
                     <?php if ($filtro_lista): ?><input type="hidden" name="lista" value="<?php echo esc_attr($filtro_lista); ?>"><?php endif; ?>
                     <?php if ($filtro_sector): ?><input type="hidden" name="sector" value="<?php echo esc_attr($filtro_sector); ?>"><?php endif; ?>
+                    <?php if ($filtro_estado): ?><input type="hidden" name="estado" value="<?php echo esc_attr($filtro_estado); ?>"><?php endif; ?>
                     
                     <label style="margin: 0; font-weight: 600; color: #2d3748;">Mostrar:</label>
                     <select name="por_pagina" onchange="this.form.submit()" style="padding: 8px 12px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 14px;">
@@ -787,7 +936,7 @@ body {
                 </form>
             </div>
             <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-                <a href="?accion=exportar_excel<?php echo $busqueda ? '&buscar=' . urlencode($busqueda) : ''; ?><?php echo $filtro_lista ? '&lista=' . urlencode($filtro_lista) : ''; ?><?php echo $filtro_sector ? '&sector=' . urlencode($filtro_sector) : ''; ?>" class="btn" style="margin: 0; background: #28a745; color: white;">📊 Exportar Excel</a>
+                <a href="?accion=exportar_excel<?php echo $busqueda ? '&buscar=' . urlencode($busqueda) : ''; ?><?php echo $filtro_lista ? '&lista=' . urlencode($filtro_lista) : ''; ?><?php echo $filtro_sector ? '&sector=' . urlencode($filtro_sector) : ''; ?><?php echo $filtro_estado ? '&estado=' . urlencode($filtro_estado) : ''; ?>" class="btn" style="margin: 0; background: #28a745; color: white;">📊 Exportar Excel</a>
                 <button onclick="toggleFormularioCliente()" class="btn btn-primary" style="margin: 0;">➕ Agregar Cliente</button>
                 <a href="importar-todos-excel-crm.php" class="btn btn-success" style="margin: 0;">📥 Importar Excel</a>
             </div>
@@ -867,7 +1016,6 @@ body {
         </div>
 
         <h3>📋 Clientes Recientes</h3>
-        <div style="overflow-x: auto;">
         <table class="table">
             <thead>
                 <tr>
@@ -888,7 +1036,7 @@ body {
             <tbody>
                 <?php if (empty($clientes_recientes)): ?>
                 <tr>
-                    <td colspan="12" style="text-align: center; padding: 40px; color: #718096;">
+                    <td colspan="8" style="text-align: center; padding: 40px; color: #718096;">
                         No se encontraron clientes con los filtros seleccionados
                     </td>
                 </tr>
@@ -907,9 +1055,7 @@ body {
                     <td><?php echo esc_html($cliente->email); ?></td>
                     <td><?php echo esc_html($cliente->ciudad); ?></td>
                     <td><?php echo esc_html($cliente->provincia); ?></td>
-                    <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="<?php echo esc_attr($cliente->notas); ?>">
-                        <?php echo esc_html($cliente->notas); ?>
-                    </td>
+                    <td><?php echo esc_html($cliente->notas); ?></td>
                     <td>
                         <?php if ($cliente->lista): ?>
                         <span class="badge badge-info"><?php echo esc_html($cliente->lista); ?></span>
@@ -921,8 +1067,14 @@ body {
                         </span>
                     </td>
                     <td>
-                        <button onclick="verDetalleCliente(<?php echo $cliente->id; ?>)" class="btn btn-primary" style="padding: 8px 15px; margin: 0; font-size: 13px;">
-                            👁️ Ver
+                        <button onclick="verDetalleCliente(<?php echo $cliente->id; ?>)" class="btn btn-primary" style="padding: 8px 14px; margin: 0 3px 3px 0; font-size: 14px;">
+                            👁️
+                        </button>
+                        <button onclick="toggleEstadoCliente(<?php echo $cliente->id; ?>, '<?php echo $cliente->estado; ?>')" 
+                                class="btn <?php echo $cliente->estado === 'activo' ? 'btn-warning' : 'btn-success'; ?>" 
+                                style="padding: 8px 14px; margin: 0 0 3px 0; font-size: 14px;"
+                                id="btn-estado-<?php echo $cliente->id; ?>">
+                            <?php echo $cliente->estado === 'activo' ? '🚫' : '✅'; ?>
                         </button>
                     </td>
                 </tr>
@@ -930,13 +1082,12 @@ body {
                 <?php endif; ?>
             </tbody>
         </table>
-        </div>
 
         <!-- Paginación -->
         <?php if ($total_paginas > 1): ?>
         <div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-top: 30px;">
             <?php if ($pagina_actual > 1): ?>
-                <a href="?pagina=<?php echo $pagina_actual - 1; ?><?php echo $filtro_lista ? '&lista=' . urlencode($filtro_lista) : ''; ?><?php echo $filtro_sector ? '&sector=' . urlencode($filtro_sector) : ''; ?><?php echo $busqueda ? '&buscar=' . urlencode($busqueda) : ''; ?>#clientes" class="btn btn-secondary" style="margin: 0;">← Anterior</a>
+                <a href="?pagina=<?php echo $pagina_actual - 1; ?><?php echo $filtro_lista ? '&lista=' . urlencode($filtro_lista) : ''; ?><?php echo $filtro_sector ? '&sector=' . urlencode($filtro_sector) : ''; ?><?php echo $filtro_estado ? '&estado=' . urlencode($filtro_estado) : ''; ?><?php echo $busqueda ? '&buscar=' . urlencode($busqueda) : ''; ?>#clientes" class="btn btn-secondary" style="margin: 0;">← Anterior</a>
             <?php endif; ?>
             
             <span style="padding: 10px 20px; background: #f8f9fa; border-radius: 8px; font-weight: 600;">
@@ -944,7 +1095,7 @@ body {
             </span>
             
             <?php if ($pagina_actual < $total_paginas): ?>
-                <a href="?pagina=<?php echo $pagina_actual + 1; ?><?php echo $filtro_lista ? '&lista=' . urlencode($filtro_lista) : ''; ?><?php echo $filtro_sector ? '&sector=' . urlencode($filtro_sector) : ''; ?><?php echo $busqueda ? '&buscar=' . urlencode($busqueda) : ''; ?>#clientes" class="btn btn-secondary" style="margin: 0;">Siguiente →</a>
+                <a href="?pagina=<?php echo $pagina_actual + 1; ?><?php echo $filtro_lista ? '&lista=' . urlencode($filtro_lista) : ''; ?><?php echo $filtro_sector ? '&sector=' . urlencode($filtro_sector) : ''; ?><?php echo $filtro_estado ? '&estado=' . urlencode($filtro_estado) : ''; ?><?php echo $busqueda ? '&buscar=' . urlencode($busqueda) : ''; ?>#clientes" class="btn btn-secondary" style="margin: 0;">Siguiente →</a>
             <?php endif; ?>
         </div>
         <?php endif; ?>
@@ -953,7 +1104,7 @@ body {
     <!-- Pestaña: Campañas de Email -->
     <div id="campanas" class="tab-content">
         <h3>📧 Crear Nueva Campaña</h3>
-        <form method="post">
+        <form method="post" onsubmit="return validarFormularioCampana(this)">
             <input type="hidden" name="accion" value="crear_campana">
             <div class="form-grid">
                 <div class="form-group">
@@ -984,6 +1135,18 @@ body {
         </form>
 
         <h3>📋 Campañas Recientes</h3>
+        
+        <?php if (empty($campanas_recientes)): ?>
+            <div style="background: #fff3cd; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 5px solid #ffc107;">
+                <strong>⚠️ No hay campañas para mostrar</strong>
+                <p>Crea una campaña usando el formulario de arriba.</p>
+            </div>
+        <?php else: ?>
+            <p style="background: #e7f3ff; padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+                <strong>📊 Total de campañas encontradas: <?php echo count($campanas_recientes); ?></strong>
+            </p>
+        <?php endif; ?>
+        
         <table class="table">
             <thead>
                 <tr>
@@ -1012,33 +1175,36 @@ body {
                     </td>
                     <td><?php echo date('d/m/Y H:i', strtotime($campana->fecha_creacion)); ?></td>
                     <td>
+                        <button 
+                            type="button"
+                            onclick="abrirEditorCampana(<?php echo $campana->id; ?>)"
+                            class="btn btn-primary" 
+                            data-campana-id="<?php echo $campana->id; ?>"
+                            data-campana-nombre="<?php echo esc_attr($campana->nombre); ?>"
+                            data-campana-asunto="<?php echo esc_attr($campana->asunto); ?>"
+                            data-campana-contenido="<?php echo esc_attr($campana->contenido); ?>"
+                            data-campana-segmento="<?php echo esc_attr($campana->segmento); ?>"
+                            style="padding: 8px 15px; margin: 0 0 5px 0; font-size: 13px; display: block; width: 100%;">
+                            📝 Editar y Enviar
+                        </button>
+                        <?php if ($campana->estado === 'borrador'): ?>
+                        <button 
+                            type="button"
+                            onclick="eliminarCampana(<?php echo $campana->id; ?>, '<?php echo esc_js($campana->nombre); ?>')"
+                            class="btn" 
+                            style="padding: 8px 15px; margin: 0; font-size: 13px; display: block; width: 100%; background: #dc3545; color: white;">
+                            🗑️ Eliminar
+                        </button>
+                        <?php endif; ?>
+                    </td>
+                    <td>
                         <?php if ($campana->estado === 'enviada'): ?>
                             Enviados: <?php echo $campana->total_enviados; ?>/<?php echo $campana->total_destinatarios; ?>
                         <?php else: ?>
                             -
                         <?php endif; ?>
                     </td>
-                    <td>
-                        <?php if ($campana->estado === 'borrador'): ?>
-                        <button 
-                            class="btn btn-primary btn-seleccionar-destinatarios" 
-                            data-campana-id="<?php echo $campana->id; ?>"
-                            data-campana-nombre="<?php echo esc_attr($campana->nombre); ?>"
-                            data-campana-segmento="<?php echo esc_attr($campana->segmento); ?>"
-                            data-campana-asunto="<?php echo esc_attr($campana->asunto); ?>"
-                            data-campana-contenido="<?php echo esc_attr($campana->contenido); ?>"
-                            style="padding: 8px 15px; margin: 0 5px 0 0; font-size: 13px;">
-                            👥 Seleccionar Destinatarios
-                        </button>
-                        <form method="post" style="display: inline;">
-                            <input type="hidden" name="accion" value="enviar_campana">
-                            <input type="hidden" name="campana_id" value="<?php echo $campana->id; ?>">
-                            <button type="submit" class="btn btn-warning" style="padding: 8px 15px; margin: 0; font-size: 13px;" onclick="return confirm('¿Enviar a TODOS los clientes del segmento?')">
-                                🚀 Enviar a Todos
-                            </button>
-                        </form>
-                        <?php endif; ?>
-                    </td>
+                    
                 </tr>
                 <?php endforeach; ?>
             </tbody>
@@ -1207,6 +1373,103 @@ body {
     <a href="<?php echo home_url('/'); ?>" class="btn btn-warning">🌐 Página Principal</a>
 </div>
 
+<!-- Modal para editor de campaña - DISEÑO MODERNO 2 COLUMNAS SIMÉTRICAS -->
+<div id="modalEditorCampana" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, rgba(0,0,0,0.8), rgba(0,0,0,0.9)); z-index: 9999; overflow-y: auto; padding: 20px;">
+    <div style="background: #ffffff; border-radius: 16px; max-width: 1600px; width: 100%; margin: 0 auto; box-shadow: 0 20px 60px rgba(0,0,0,0.3); position: relative; max-height: calc(100vh - 40px); display: flex; flex-direction: column;">
+        
+        <!-- Header con botón cerrar -->
+        <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 25px 30px; border-radius: 16px 16px 0 0; position: relative; flex-shrink: 0;">
+            <button onclick="cerrarEditorCampana()" style="position: absolute; top: 15px; right: 15px; background: rgba(255,255,255,0.2); color: white; border: none; border-radius: 50%; width: 45px; height: 45px; font-size: 26px; cursor: pointer; font-weight: bold; transition: all 0.3s;" onmouseover="this.style.background='rgba(255,255,255,0.3)'" onmouseout="this.style.background='rgba(255,255,255,0.2)'">×</button>
+            <h2 style="color: white; margin: 0; font-size: 24px; font-weight: 700;">Editar Campaña y Seleccionar Destinatarios</h2>
+            <p style="color: rgba(255,255,255,0.9); margin: 5px 0 0 0; font-size: 14px;">Personaliza tu campaña y elige los destinatarios</p>
+        </div>
+        
+        <!-- Contenido en 2 columnas con scroll -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 25px; padding: 30px; overflow-y: auto; flex: 1;">
+            
+            <!-- COLUMNA IZQUIERDA: Formulario de campaña -->
+            <div style="background: #f8f9fa; padding: 25px; border-radius: 12px; height: fit-content;">
+                <h3 style="color: #2d3748; margin: 0 0 20px 0; font-size: 18px; font-weight: 700; border-bottom: 3px solid #667eea; padding-bottom: 10px;">Datos de la Campaña</h3>
+                
+                <input type="hidden" id="edit_campana_id">
+                
+                <div style="margin-bottom: 18px;">
+                    <label style="font-weight: 600; color: #4a5568; display: block; margin-bottom: 8px; font-size: 13px;">Nombre de la Campaña</label>
+                    <input type="text" id="edit_campana_nombre" required placeholder="Ej: Promoción Cursos Enero 2025" style="width: 100%; padding: 12px 15px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 14px; transition: all 0.3s;" onfocus="this.style.borderColor='#667eea'" onblur="this.style.borderColor='#e2e8f0'">
+                </div>
+                
+                <div style="margin-bottom: 18px;">
+                    <label style="font-weight: 600; color: #4a5568; display: block; margin-bottom: 8px; font-size: 13px;">Asunto del Email</label>
+                    <input type="text" id="edit_campana_asunto" required placeholder="Ej: ¡Nuevos cursos disponibles!" style="width: 100%; padding: 12px 15px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 14px; transition: all 0.3s;" onfocus="this.style.borderColor='#667eea'" onblur="this.style.borderColor='#e2e8f0'">
+                </div>
+                
+                <div style="margin-bottom: 18px;">
+                    <label style="font-weight: 600; color: #4a5568; display: block; margin-bottom: 8px; font-size: 13px;">Segmento de Clientes</label>
+                    <select id="edit_campana_segmento" onchange="cargarDestinatariosCampana(this.value)" style="width: 100%; padding: 12px 15px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 14px; background: white; cursor: pointer;">
+                        <option value="todos">Todos los Clientes</option>
+                        <?php foreach ($sectores as $sector): ?>
+                        <option value="<?php echo esc_attr($sector->sector); ?>">
+                            <?php echo esc_html($sector->sector); ?> (<?php echo $sector->total; ?> clientes)
+                        </option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+                
+                <div>
+                    <label style="font-weight: 600; color: #4a5568; display: block; margin-bottom: 8px; font-size: 13px;">Contenido del Email</label>
+                    <textarea id="edit_campana_contenido" rows="12" required placeholder="Contenido HTML del email. Puedes usar [NOMBRE] y [EMPRESA] para personalizar." style="width: 100%; padding: 12px 15px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 14px; resize: vertical; transition: all 0.3s;" onfocus="this.style.borderColor='#667eea'" onblur="this.style.borderColor='#e2e8f0'"></textarea>
+                </div>
+            </div>
+            
+            <!-- COLUMNA DERECHA: Selección de destinatarios -->
+            <div style="background: #f8f9fa; padding: 25px; border-radius: 12px; display: flex; flex-direction: column; height: fit-content;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 10px;">
+                    <h3 style="color: #2d3748; margin: 0; font-size: 18px; font-weight: 700;">Destinatarios</h3>
+                    <div style="display: flex; gap: 8px;">
+                        <button onclick="seleccionarTodosVisiblesEditor()" style="padding: 8px 16px; background: #48bb78; color: white; border: none; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.3s;" onmouseover="this.style.background='#38a169'" onmouseout="this.style.background='#48bb78'">✓ Visibles</button>
+                        <button onclick="seleccionarTodosEditor()" style="padding: 8px 16px; background: #48bb78; color: white; border: none; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.3s;" onmouseover="this.style.background='#38a169'" onmouseout="this.style.background='#48bb78'">✓ Todos</button>
+                        <button onclick="deseleccionarTodosEditor()" style="padding: 8px 16px; background: #718096; color: white; border: none; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.3s;" onmouseover="this.style.background='#4a5568'" onmouseout="this.style.background='#718096'">✗ Ninguno</button>
+                    </div>
+                </div>
+                
+                <!-- BUSCADOR DE DESTINATARIOS -->
+                <div style="background: white; padding: 12px; border-radius: 8px; margin-bottom: 15px; border: 2px solid #667eea;">
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <span style="font-size: 20px;">🔍</span>
+                        <input type="text" id="buscadorDestinatariosEditor" placeholder="Buscar por empresa, nombre, email, sector..." style="flex: 1; padding: 10px; border: 2px solid #e2e8f0; border-radius: 6px; font-size: 14px;" oninput="filtrarDestinatariosEditor()">
+                        <button onclick="limpiarBuscadorEditor()" style="padding: 8px 12px; background: #e2e8f0; color: #4a5568; border: none; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; transition: all 0.3s;" onmouseover="this.style.background='#cbd5e0'" onmouseout="this.style.background='#e2e8f0'">✗</button>
+                    </div>
+                    <div id="resultadosBusquedaEditor" style="margin-top: 8px; color: #718096; font-size: 13px; font-weight: 600;">
+                        Mostrando <span id="clientesMostradosEditor">0</span> de <span id="clientesTotalesEditor">0</span> destinatarios
+                    </div>
+                </div>
+                
+                <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 15px 20px; border-radius: 10px; margin-bottom: 15px; text-align: center;">
+                    <div style="color: white; font-size: 14px; font-weight: 600; margin-bottom: 5px;">Seleccionados</div>
+                    <div style="color: white; font-size: 32px; font-weight: 800;"><span id="contadorSeleccionadosEditor">0</span></div>
+                </div>
+                
+                <div id="listaDestinatariosEditor" style="overflow-y: auto; background: white; border-radius: 10px; padding: 15px; height: 400px;">
+                    <div style="text-align: center; padding: 60px 20px;">
+                        <div style="font-size: 48px; margin-bottom: 15px;">⏳</div>
+                        <p style="color: #718096; font-size: 15px;">Cargando destinatarios...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Footer con botones de acción -->
+        <div style="background: #f7fafc; padding: 20px 30px; border-radius: 0 0 16px 16px; display: flex; gap: 15px; justify-content: center; border-top: 2px solid #e2e8f0; flex-shrink: 0;">
+            <button onclick="guardarYEnviarCampana()" style="padding: 14px 40px; background: linear-gradient(135deg, #48bb78, #38a169); color: white; border: none; border-radius: 10px; font-size: 16px; font-weight: 700; cursor: pointer; box-shadow: 0 4px 12px rgba(72, 187, 120, 0.4); transition: all 0.3s;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 16px rgba(72, 187, 120, 0.5)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(72, 187, 120, 0.4)'">
+                📧 Abrir en Gmail
+            </button>
+            <button onclick="cerrarEditorCampana()" style="padding: 14px 40px; background: #e2e8f0; color: #4a5568; border: none; border-radius: 10px; font-size: 16px; font-weight: 700; cursor: pointer; transition: all 0.3s;" onmouseover="this.style.background='#cbd5e0'" onmouseout="this.style.background='#e2e8f0'">
+                Cancelar
+            </button>
+        </div>
+    </div>
+</div>
+
 <!-- Modal para detalle de cliente -->
 <div id="modalDetalleCliente" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 9999; align-items: center; justify-content: center;">
     <div style="background: white; border-radius: 20px; padding: 40px; max-width: 700px; width: 90%; max-height: 90vh; overflow-y: auto; position: relative;">
@@ -1237,6 +1500,27 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
+// Prevenir envío duplicado de formularios
+let formularioEnviado = false;
+
+function validarFormularioCampana(form) {
+    if (formularioEnviado) {
+        alert('⏳ La campaña ya se está creando, por favor espera...');
+        return false;
+    }
+    
+    formularioEnviado = true;
+    
+    // Deshabilitar botón de envío
+    const botonSubmit = form.querySelector('button[type="submit"]');
+    if (botonSubmit) {
+        botonSubmit.disabled = true;
+        botonSubmit.innerHTML = '⏳ Creando campaña...';
+    }
+    
+    return true;
+}
+
 // Listas disponibles desde PHP
 const listasDisponibles = <?php echo json_encode(array_map(function($lista) {
     return ['nombre' => $lista->lista, 'total' => $lista->total];
@@ -1253,6 +1537,336 @@ function showTab(tabName) {
     // Mostrar la pestaña seleccionada
     document.getElementById(tabName).classList.add('active');
     event.target.classList.add('active');
+}
+
+// Función para abrir el editor de campaña con selección de destinatarios
+function abrirEditorCampana(campanaId) {
+    // Obtener el botón que fue clickeado usando event
+    const boton = event ? event.target.closest('button') : null;
+    
+    if (!boton) {
+        console.error('No se pudo encontrar el botón');
+        return;
+    }
+    
+    const campanaNombre = boton.dataset.campanaNombre || '';
+    const campanaAsunto = boton.dataset.campanaAsunto || '';
+    const campanaContenido = boton.dataset.campanaContenido || '';
+    const campanaSegmento = boton.dataset.campanaSegmento || 'todos';
+    
+    console.log('Abriendo editor para campaña:', campanaId, campanaNombre);
+    
+    // Guardar datos de la campaña
+    window.campanaActual = {
+        id: campanaId,
+        nombre: campanaNombre,
+        asunto: campanaAsunto,
+        contenido: campanaContenido,
+        segmento: campanaSegmento
+    };
+    
+    // Llenar el formulario de edición
+    document.getElementById('edit_campana_id').value = campanaId;
+    document.getElementById('edit_campana_nombre').value = campanaNombre;
+    document.getElementById('edit_campana_asunto').value = campanaAsunto;
+    document.getElementById('edit_campana_contenido').value = campanaContenido;
+    document.getElementById('edit_campana_segmento').value = campanaSegmento;
+    
+    // Cargar destinatarios
+    cargarDestinatariosCampana(campanaSegmento);
+    
+    // Mostrar el modal
+    document.getElementById('modalEditorCampana').style.display = 'flex';
+}
+
+function cerrarEditorCampana() {
+    document.getElementById('modalEditorCampana').style.display = 'none';
+}
+
+function cargarDestinatariosCampana(segmento) {
+    const listaDestinatarios = document.getElementById('listaDestinatariosEditor');
+    listaDestinatarios.innerHTML = '<div style="text-align: center; padding: 60px 20px;"><div style="font-size: 48px; margin-bottom: 15px;">⏳</div><p style="color: #718096; font-size: 15px;">Cargando destinatarios...</p></div>';
+    
+    fetch(`?accion=obtener_clientes_para_campana&segmento=${encodeURIComponent(segmento || 'todos')}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.success && data.clientes) {
+                let html = '';
+                let totalConEmail = 0;
+                
+                data.clientes.forEach(cliente => {
+                    const tieneEmail = cliente.email && cliente.email.trim() !== '';
+                    if (tieneEmail) totalConEmail++;
+                    
+                    const bgColor = tieneEmail ? '#ffffff' : '#f7fafc';
+                    const borderColor = tieneEmail ? '#e2e8f0' : '#cbd5e0';
+                    html += `
+                        <label class="item-destinatario-editor" 
+                               data-empresa="${(cliente.empresa || '').toLowerCase()}" 
+                               data-nombre="${(cliente.nombre || '').toLowerCase()}" 
+                               data-email="${(cliente.email || '').toLowerCase()}" 
+                               data-telefono="${(cliente.telefono || '').toLowerCase()}" 
+                               data-sector="${(cliente.sector || '').toLowerCase()}"
+                               style="display: flex; align-items: center; padding: 12px 15px; background: ${bgColor}; border-radius: 8px; margin-bottom: 8px; cursor: ${tieneEmail ? 'pointer' : 'not-allowed'}; border: 2px solid ${borderColor}; transition: all 0.2s;" onmouseover="if(${tieneEmail}) this.style.borderColor='#667eea'; this.style.background='#f7fafc'" onmouseout="this.style.borderColor='${borderColor}'; this.style.background='${bgColor}'">
+                            <input type="checkbox" class="checkbox-destinatario" value="${cliente.id}" ${tieneEmail ? 'checked' : 'disabled'} onchange="actualizarContadorEditor()" style="width: 18px; height: 18px; margin-right: 12px; cursor: ${tieneEmail ? 'pointer' : 'not-allowed'}; accent-color: #667eea;">
+                            <div style="flex: 1; min-width: 0;">
+                                <div style="font-weight: 700; color: #2d3748; margin-bottom: 4px; font-size: 14px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${cliente.empresa || 'Sin empresa'}</div>
+                                <div style="font-size: 12px; color: #718096; display: flex; gap: 12px; flex-wrap: wrap;">
+                                    <span style="display: inline-flex; align-items: center; gap: 4px;">
+                                        <span style="font-size: 14px;">👤</span>
+                                        <span>${cliente.nombre || 'Sin nombre'}</span>
+                                    </span>
+                                    <span style="display: inline-flex; align-items: center; gap: 4px;">
+                                        <span style="font-size: 14px;">📧</span>
+                                        <span>${tieneEmail ? cliente.email : '<span style="color: #e53e3e; font-weight: 600;">Sin email</span>'}</span>
+                                    </span>
+                                    ${cliente.telefono ? `<span style="display: inline-flex; align-items: center; gap: 4px;"><span style="font-size: 14px;">📱</span><span>${cliente.telefono}</span></span>` : ''}
+                                    ${cliente.sector ? `<span style="display: inline-flex; align-items: center; gap: 4px;"><span style="font-size: 14px;">🏷️</span><span>${cliente.sector}</span></span>` : ''}
+                                </div>
+                            </div>
+                        </label>
+                    `;
+                });
+                
+                if (data.clientes.length === 0) {
+                    html = '<div style="text-align: center; padding: 60px 20px; color: #718096;"><div style="font-size: 48px; margin-bottom: 15px;">📭</div><p style="font-size: 15px; font-weight: 600;">No hay clientes en este segmento</p></div>';
+                }
+                
+                listaDestinatarios.innerHTML = html;
+                
+                // Actualizar contadores
+                document.getElementById('clientesMostradosEditor').textContent = totalConEmail;
+                document.getElementById('clientesTotalesEditor').textContent = totalConEmail;
+                actualizarContadorEditor();
+            } else {
+                listaDestinatarios.innerHTML = '<div style="text-align: center; padding: 60px 20px; color: #e53e3e;"><div style="font-size: 48px; margin-bottom: 15px;">❌</div><p style="font-size: 15px; font-weight: 600;">Error al cargar destinatarios</p></div>';
+            }
+        })
+        .catch(error => {
+            listaDestinatarios.innerHTML = '<div style="text-align: center; padding: 60px 20px; color: #e53e3e;"><div style="font-size: 48px; margin-bottom: 15px;">❌</div><p style="font-size: 15px; font-weight: 600;">Error de conexión</p></div>';
+        });
+}
+
+function actualizarContadorEditor() {
+    const checkboxes = document.querySelectorAll('#listaDestinatariosEditor .checkbox-destinatario:checked');
+    const contador = document.getElementById('contadorSeleccionadosEditor');
+    if (contador) {
+        contador.textContent = checkboxes.length;
+    }
+}
+
+function seleccionarTodosEditor() {
+    const checkboxes = document.querySelectorAll('#listaDestinatariosEditor .checkbox-destinatario:not(:disabled)');
+    checkboxes.forEach(cb => cb.checked = true);
+    actualizarContadorEditor();
+}
+
+function deseleccionarTodosEditor() {
+    const checkboxes = document.querySelectorAll('#listaDestinatariosEditor .checkbox-destinatario');
+    checkboxes.forEach(cb => cb.checked = false);
+    actualizarContadorEditor();
+}
+
+// Función para seleccionar solo los destinatarios visibles (filtrados)
+function seleccionarTodosVisiblesEditor() {
+    const items = document.querySelectorAll('.item-destinatario-editor');
+    items.forEach(item => {
+        if (item.style.display !== 'none') {
+            const checkbox = item.querySelector('.checkbox-destinatario:not(:disabled)');
+            if (checkbox) {
+                checkbox.checked = true;
+            }
+        }
+    });
+    actualizarContadorEditor();
+}
+
+// Función para filtrar destinatarios en tiempo real
+function filtrarDestinatariosEditor() {
+    const buscador = document.getElementById('buscadorDestinatariosEditor');
+    const filtro = buscador.value.toLowerCase().trim();
+    const items = document.querySelectorAll('.item-destinatario-editor');
+    
+    let visibles = 0;
+    let total = 0;
+    
+    items.forEach(item => {
+        const empresa = item.dataset.empresa || '';
+        const nombre = item.dataset.nombre || '';
+        const email = item.dataset.email || '';
+        const telefono = item.dataset.telefono || '';
+        const sector = item.dataset.sector || '';
+        
+        // Contar solo los que tienen email (no disabled)
+        const checkbox = item.querySelector('.checkbox-destinatario');
+        if (checkbox && !checkbox.disabled) {
+            total++;
+        }
+        
+        // Buscar en todos los campos
+        const coincide = empresa.includes(filtro) || 
+                        nombre.includes(filtro) || 
+                        email.includes(filtro) || 
+                        telefono.includes(filtro) || 
+                        sector.includes(filtro);
+        
+        if (coincide) {
+            item.style.display = 'flex';
+            if (checkbox && !checkbox.disabled) {
+                visibles++;
+            }
+        } else {
+            item.style.display = 'none';
+        }
+    });
+    
+    // Actualizar contador de resultados
+    const clientesMostrados = document.getElementById('clientesMostradosEditor');
+    const clientesTotales = document.getElementById('clientesTotalesEditor');
+    if (clientesMostrados) {
+        clientesMostrados.textContent = visibles;
+    }
+    if (clientesTotales) {
+        clientesTotales.textContent = total;
+    }
+    
+    // Mostrar mensaje si no hay resultados
+    const listaDestinatarios = document.getElementById('listaDestinatariosEditor');
+    let mensajeNoResultados = document.getElementById('mensajeNoResultadosEditor');
+    
+    if (visibles === 0 && filtro !== '' && total > 0) {
+        if (!mensajeNoResultados) {
+            mensajeNoResultados = document.createElement('div');
+            mensajeNoResultados.id = 'mensajeNoResultadosEditor';
+            mensajeNoResultados.style.cssText = 'text-align: center; padding: 40px; color: #718096;';
+            mensajeNoResultados.innerHTML = `
+                <div style="font-size: 48px; margin-bottom: 15px;">🔍</div>
+                <p style="font-weight: 600; font-size: 15px;">No se encontraron resultados para "${filtro}"</p>
+                <p style="font-size: 13px; margin-top: 10px;">Intenta con otro término de búsqueda</p>
+            `;
+            listaDestinatarios.appendChild(mensajeNoResultados);
+        }
+    } else if (mensajeNoResultados) {
+        mensajeNoResultados.remove();
+    }
+}
+
+// Función para limpiar el buscador
+function limpiarBuscadorEditor() {
+    const buscador = document.getElementById('buscadorDestinatariosEditor');
+    buscador.value = '';
+    filtrarDestinatariosEditor();
+    buscador.focus();
+}
+
+function guardarYEnviarCampana() {
+    const campanaId = document.getElementById('edit_campana_id').value;
+    const nombre = document.getElementById('edit_campana_nombre').value;
+    const asunto = document.getElementById('edit_campana_asunto').value;
+    const contenido = document.getElementById('edit_campana_contenido').value;
+    const segmento = document.getElementById('edit_campana_segmento').value;
+    
+    // Obtener destinatarios seleccionados
+    const checkboxes = document.querySelectorAll('#listaDestinatariosEditor .checkbox-destinatario:checked');
+    
+    if (checkboxes.length === 0) {
+        alert('⚠️ Debes seleccionar al menos un destinatario');
+        return;
+    }
+    
+    // Primero guardar cambios de la campaña
+    const formData = new FormData();
+    formData.append('accion', 'actualizar_campana');
+    formData.append('campana_id', campanaId);
+    formData.append('nombre', nombre);
+    formData.append('asunto', asunto);
+    formData.append('contenido', contenido);
+    formData.append('segmento', segmento);
+    
+    fetch(window.location.href, {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Abrir Gmail con los destinatarios seleccionados
+            abrirGmailConDestinatarios(asunto, contenido, checkboxes);
+        } else {
+            alert('❌ Error al guardar cambios: ' + (data.error || 'Error desconocido'));
+        }
+    })
+    .catch(error => {
+        alert('❌ Error de conexión: ' + error.message);
+    });
+}
+
+function abrirGmailConDestinatarios(asunto, contenido, checkboxes) {
+    // Recopilar todos los emails seleccionados
+    const emails = [];
+    const items = document.querySelectorAll('.item-destinatario-editor');
+    
+    checkboxes.forEach(checkbox => {
+        const item = checkbox.closest('.item-destinatario-editor');
+        if (item) {
+            const email = item.dataset.email;
+            if (email && email.trim() !== '') {
+                emails.push(email.trim());
+            }
+        }
+    });
+    
+    if (emails.length === 0) {
+        alert('⚠️ No se encontraron emails válidos en los destinatarios seleccionados');
+        return;
+    }
+    
+    // Convertir HTML a texto plano
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = contenido;
+    const contenidoTexto = tempDiv.textContent || tempDiv.innerText || contenido;
+    
+    // Crear enlace de Gmail con CCO (BCC)
+    const bccEmails = emails.join(',');
+    const asuntoEncoded = encodeURIComponent(asunto);
+    const cuerpoEncoded = encodeURIComponent(contenidoTexto);
+    
+    // Construir URL de Gmail
+    const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&bcc=${encodeURIComponent(bccEmails)}&su=${asuntoEncoded}&body=${cuerpoEncoded}`;
+    
+    // Verificar si la URL es demasiado larga
+    if (gmailUrl.length > 2000) {
+        // Si hay muchos destinatarios, copiar emails al portapapeles
+        const emailsList = emails.join('; ');
+        
+        // Copiar al portapapeles
+        const tempInput = document.createElement('textarea');
+        tempInput.value = emailsList;
+        document.body.appendChild(tempInput);
+        tempInput.select();
+        
+        try {
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+            
+            alert(`📧 Hay ${emails.length} destinatarios.\n\n✅ Los emails se han copiado al portapapeles.\n\nPégalos en el campo CCO de Gmail que se abrirá ahora.`);
+        } catch (err) {
+            document.body.removeChild(tempInput);
+            alert(`📧 Hay ${emails.length} destinatarios.\n\nCopia estos emails y pégalos en el campo CCO de Gmail:\n\n${emailsList}`);
+        }
+        
+        // Abrir Gmail con asunto y contenido (sin destinatarios)
+        const gmailUrlSinDestinatarios = `https://mail.google.com/mail/?view=cm&fs=1&su=${asuntoEncoded}&body=${cuerpoEncoded}`;
+        window.open(gmailUrlSinDestinatarios, '_blank');
+    } else {
+        // Abrir Gmail con todos los destinatarios en CCO
+        window.open(gmailUrl, '_blank');
+        
+        alert(`✅ Se abrirá Gmail con ${emails.length} destinatarios en CCO (copia oculta).\n\nEl asunto y contenido de la campaña ya están prellenados.`);
+    }
+    
+    // Cerrar el modal
+    cerrarEditorCampana();
 }
 
 function toggleFormularioCliente() {
@@ -2044,6 +2658,98 @@ function copiarEmail(email) {
     
     // Eliminar elemento temporal
     document.body.removeChild(tempInput);
+}
+
+// Función para activar/desactivar cliente
+function toggleEstadoCliente(clienteId, estadoActual) {
+    const nuevoEstado = estadoActual === 'activo' ? 'inactivo' : 'activo';
+    const accion = nuevoEstado === 'activo' ? 'activar' : 'desactivar';
+    
+    if (!confirm(`¿Estás seguro de que quieres ${accion} este cliente?`)) {
+        return;
+    }
+    
+    const boton = document.getElementById('btn-estado-' + clienteId);
+    const estadoBadge = boton.closest('tr').querySelector('.badge');
+    
+    // Deshabilitar botón mientras se procesa
+    boton.disabled = true;
+    boton.innerHTML = '⏳ Procesando...';
+    
+    // Crear FormData
+    const formData = new FormData();
+    formData.append('accion', 'toggle_estado_cliente');
+    formData.append('cliente_id', clienteId);
+    formData.append('nuevo_estado', nuevoEstado);
+    
+    // Hacer petición AJAX
+    fetch('', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Actualizar botón
+            if (data.nuevo_estado === 'activo') {
+                boton.className = 'btn btn-warning';
+                boton.innerHTML = '🚫 Desactivar';
+                estadoBadge.className = 'badge badge-success';
+                estadoBadge.textContent = 'Activo';
+            } else {
+                boton.className = 'btn btn-success';
+                boton.innerHTML = '✅ Activar';
+                estadoBadge.className = 'badge badge-warning';
+                estadoBadge.textContent = 'Inactivo';
+            }
+            
+            // Mostrar mensaje de éxito
+            alert('✅ ' + data.message);
+        } else {
+            alert('❌ Error: ' + data.error);
+        }
+        
+        // Rehabilitar botón
+        boton.disabled = false;
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('❌ Error de conexión');
+        boton.disabled = false;
+        boton.innerHTML = estadoActual === 'activo' ? '🚫 Desactivar' : '✅ Activar';
+    });
+}
+
+// Función para eliminar campaña (solo borradores)
+function eliminarCampana(campanaId, campanaNombre) {
+    if (!confirm(`¿Estás seguro de que quieres eliminar la campaña "${campanaNombre}"?\n\nEsta acción no se puede deshacer.`)) {
+        return;
+    }
+    
+    // Crear FormData
+    const formData = new FormData();
+    formData.append('accion', 'eliminar_campana');
+    formData.append('campana_id', campanaId);
+    
+    // Hacer petición AJAX
+    fetch('', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert('✅ ' + data.message);
+            // Recargar la página para actualizar la lista
+            location.reload();
+        } else {
+            alert('❌ Error: ' + data.error);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('❌ Error de conexión al intentar eliminar la campaña');
+    });
 }
 </script>
 
