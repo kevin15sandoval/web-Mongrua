@@ -100,10 +100,10 @@ export const validateDateOfBirth = dateOfBirth => {
 /**
  * Get password strength
  * @param {string} password - Password to evaluate
- * @returns {string} Strength level: 'weak', 'medium', or 'strong'
+ * @returns {Object|null} Object with level and text, or null if no password
  */
 export const getPasswordStrength = password => {
-  if (!password) return 'weak';
+  if (!password) return null;
 
   let strength = 0;
   if (password.length >= 8) strength++;
@@ -113,9 +113,13 @@ export const getPasswordStrength = password => {
   if (/[0-9]/.test(password)) strength++;
   if (/[^a-zA-Z0-9]/.test(password)) strength++;
 
-  if (strength <= 2) return 'weak';
-  if (strength <= 4) return 'medium';
-  return 'strong';
+  if (strength <= 2) {
+    return { level: 'weak', text: 'Débil' };
+  }
+  if (strength <= 4) {
+    return { level: 'medium', text: 'Media' };
+  }
+  return { level: 'strong', text: 'Fuerte' };
 };
 
 /**

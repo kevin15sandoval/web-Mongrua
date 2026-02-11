@@ -39,7 +39,7 @@ Este plan de implementación desglosa el desarrollo de la Progressive Web App (P
   - _Requisitos: Todos_
   - _Nota: El backend ya está funcionando, solo necesita conectarse desde la PWA_
 
-- [-] 3. Implementar módulo de autenticación en la PWA
+- [x] 3. Implementar módulo de autenticación en la PWA
 
 
 
@@ -129,7 +129,7 @@ Este plan de implementación desglosa el desarrollo de la Progressive Web App (P
   - **Property 6: Envío de enlaces de recuperación**
   - **Valida: Requisitos 2.5**
 
-- [ ] 3.14 Crear páginas de autenticación en la PWA
+- [x] 3.14 Crear páginas de autenticación en la PWA
 
   - Implementar RegistrationPage con formulario responsive
   - Implementar LoginPage con diseño mobile-first
